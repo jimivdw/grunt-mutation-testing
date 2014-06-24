@@ -3,16 +3,15 @@ function add(array) {
   for (var i = 0; i < array.length; i++) {
     sum += array[i];
   }
-
   return sum;
 }
 
 function sub(array) {
   var x = array[0];
   var y = array[1];
-  var sum;
-  console.log(x);
-  sum = x - y;
+  var sum = x - y;
+  sum = sum + 0;
+  console.log(sum);
   return sum;
 }
 
