@@ -11,8 +11,8 @@ var esprima = require('esprima');
 var fs = require('fs');
 var exec = require('sync-exec');
 var path = require('path');
-var Q = require('q');
-var mutate = require('./mutations')
+var qq = require('q');
+var mutate = require('./mutations');
 
 /**
  * @param {string} srcFilename
@@ -22,7 +22,7 @@ var mutate = require('./mutations')
 function mutationTestFile(srcFilename, runTests, logMutation, log) {
   var src = fs.readFileSync(srcFilename, 'UTF8');
   var mutations = mutate.findMutations(src);
-  var q = Q({});
+  var q = qq({});
 
   log('\nMutating file ' + srcFilename + '\n');
   mutations.forEach(function (mutation) {
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
     var opts = this.options();
     var done = this.async();
 
-    var q = Q();
+    var q = qq();
 
     this.files.forEach(function (file) {
       q = q.then(function () {
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
         });
 
         function runTests() {
-          var dfd = Q.defer();
+          var dfd = qq.defer();
           if (typeof opts.test === 'string') {
             var execResult = exec(opts.test);
             dfd.resolve(execResult.status === 0);
@@ -91,7 +91,7 @@ module.exports = function (grunt) {
           grunt.log.write(msg);
         }
 
-        var q = Q();
+        var q = qq();
         validFiles.forEach(function (file) {
           q = q.then(function () {
             return mutationTestFile(path.resolve(file), runTests, logMutation, log);
