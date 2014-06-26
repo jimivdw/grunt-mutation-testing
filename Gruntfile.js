@@ -47,12 +47,12 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          //'tmp/report.txt': ['test/fixtures/script*.js']
           'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
         }
       },
       mocha: {
         options: {
+          ignore: /^log\(/,
           test: function (done) {
             //https://github.com/visionmedia/mocha/wiki/Third-party-reporters
             var mocha = new Mocha({reporter: function (runner) {
@@ -76,6 +76,7 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/mocha.txt': ['test/fixtures/mocha/script*.js']
+          //'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       karma: {

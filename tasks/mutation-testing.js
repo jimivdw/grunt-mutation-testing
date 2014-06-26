@@ -14,18 +14,22 @@ var path = require('path');
 var qq = require('q');
 var mutate = require('./mutations');
 
+
 /**
  * @param {string} srcFilename
  * @param {function} runTests
  * @param {function} logMutation
  */
-function mutationTestFile(srcFilename, runTests, logMutation, log) {
+function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   var src = fs.readFileSync(srcFilename, 'UTF8');
   var mutations = mutate.findMutations(src);
   var q = qq({});
 
   log('\nMutating file ' + srcFilename + '\n');
   mutations.forEach(function (mutation) {
+    if (opts.ignore && opts.ignore.test(src.substring(mutation.begin, mutation.end))) {
+      return;
+    }
     q = q.then(function () {
       var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
       log(mutation.line + ',');
@@ -99,7 +103,7 @@ module.exports = function (grunt) {
         var q2 = qq();
         validFiles.forEach(function (file) {
           q2 = q2.then(function () {
-            return mutationTestFile(path.resolve(file), runTests, logMutation, log);
+            return mutationTestFile(path.resolve(file), runTests, logMutation, log, opts);
           });
         });
 
