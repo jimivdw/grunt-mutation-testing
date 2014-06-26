@@ -46,7 +46,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log) {
 
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('mutation_testing', 'Test your tests by mutate the code.', function () {
+  grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
     var opts = this.options();
     var done = this.async();
 
@@ -62,6 +62,11 @@ module.exports = function (grunt) {
             return true;
           }
         });
+
+        if (validFiles.length === 0) {
+          grunt.log.warn('Found no valid files in ' + JSON.stringify(file.orig.src));
+          return false;
+        }
 
         function runTests() {
           var dfd = qq.defer();
@@ -91,14 +96,14 @@ module.exports = function (grunt) {
           grunt.log.write(msg);
         }
 
-        var q = qq();
+        var q2 = qq();
         validFiles.forEach(function (file) {
-          q = q.then(function () {
+          q2 = q2.then(function () {
             return mutationTestFile(path.resolve(file), runTests, logMutation, log);
           });
         });
 
-        return q;
+        return q2;
       });
     });
     q.done(done);

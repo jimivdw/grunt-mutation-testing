@@ -10,21 +10,22 @@
 
 module.exports = function (grunt) {
   var Mocha = require('mocha');
+
+  var runner = require('karma').runner;
+  var server = require('karma').server;
+  var path = require('path');
+
   var requireUncache = require('require-uncache');
 
   // load all npm grunt tasks
   require('load-grunt-tasks')(grunt);
-
-  function MyReporter(runner) {
-  }
 
   // Project configuration.
   grunt.initConfig({
     jshint: {
       all: [
         'Gruntfile.js',
-        'tasks/*.js',
-        '<%= nodeunit.tests %>'
+        'tasks/*.js'
       ],
       options: {
         jshintrc: '.jshintrc',
@@ -38,8 +39,8 @@ module.exports = function (grunt) {
     },
 
     // Configuration to be run (and then tested).
-    mutation_testing: {
-      toFile: {
+    mutationTest: {
+      flagAllMutations: {
         options: {
           test: function (done) {
             done(true);
@@ -47,10 +48,10 @@ module.exports = function (grunt) {
         },
         files: {
           //'tmp/report.txt': ['test/fixtures/script*.js']
-          'LOG': ['test/fixtures/script*.js']
+          'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
         }
       },
-      mochaToFile: {
+      mocha: {
         options: {
           test: function (done) {
             //https://github.com/visionmedia/mocha/wiki/Third-party-reporters
@@ -58,11 +59,11 @@ module.exports = function (grunt) {
               //dummyReporter
             }});
 
-            mocha.suite.on('pre-require', function(context, file) {
+            mocha.suite.on('pre-require', function (context, file) {
               requireUncache(file);
             });
 
-            mocha.addFile('test/fixtures/mocha-test.js');
+            mocha.addFile('test/fixtures/mocha/mocha-test.js');
             try {
               mocha.run(function (errCount) {
                 var withoutErrors = (errCount === 0);
@@ -74,25 +75,21 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          //'tmp/report.txt': ['test/fixtures/script*.js']
-          'LOG': ['test/fixtures/script*.js']
+          'tmp/mocha.txt': ['test/fixtures/mocha/script*.js']
         }
       },
-      toLog: {
+      karma: {
         options: {
-          //test: 'grunt nodeunit:fixture'
-          test: 'grunt mochaTest:fixtures'
+          test: function (done) {
+            runner.run({}, function (numberOfCFailingTests) {
+              done(numberOfCFailingTests === 0);
+            });
+          }
         },
         files: {
-          'LOG': ['test/fixtures/script*.js']
+          'tmp/karma.txt': ['test/fixtures/karma-mocha/script*.js']
         }
       }
-    },
-
-    // Unit tests.
-    nodeunit: {
-      tests: ['test/*_test.js'],
-      fixture: ['test/fixtures/test.js']
     },
 
     mochaTest: {
@@ -106,24 +103,74 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['test/fixtures/*-test.js']
+        src: ['test/fixtures/mocha/*-test.js']
+      },
+      itest: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['test/**/*-itest.js']
+      }
+    },
+
+    karma: {
+      options: {
+        configFile: 'test/fixtures/karma-mocha/karma.conf.js'
+      },
+      fixtures: {
+        singleRun: true,
+        browsers: ['PhantomJS']
+      }
+    },
+
+    shell: {
+      stopKarmaPhantomJS: {
+        command: 'killall phantomjs'
       }
     }
+  });
+
+  grunt.task.registerTask('startKarma', 'Starts Karma for mutation testing', function () {
+    var done = this.async();
+    server.start({
+      background: false,
+      singleRun: false,
+      browsers: ['PhantomJS'],
+      reporters: [],
+      logLevel: 'OFF',
+      autoWatch: false,
+      configFile: path.resolve('test/fixtures/karma-mocha/karma.conf.js')
+    });
+    // Better: https://github.com/karma-runner/karma/issues/1037
+    // https://github.com/karma-runner/karma/issues/535
+    setTimeout(function () {
+      done();
+    }, 2000);
+    // Stopping is also an problem
+    // https://github.com/karma-runner/karma/issues/509
+    // https://github.com/karma-runner/karma/issues/136
+    // killall phantomjs
 
   });
 
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 
+  grunt.registerTask('mutationTestKarma', ['startKarma','mutationTest:karma']);
 
-  // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-  // plugin's task(s), then test the result.
-  //grunt.registerTask('test', ['clean', 'mutation_testing', 'nodeunit:tests']);
-  //grunt.registerTask('test', ['clean', 'mutation_testing:toFile']);
-  //grunt.registerTask('test', ['mutation_testing:toFile']);
-  grunt.registerTask('test', ['mutation_testing:mochaToFile']);
+  grunt.registerTask('test', [
+    'clean',
+    'mochaTest:fixtures',
+    'karma',
+    'mutationTest:flagAllMutations',
+    'mutationTest:mocha',
+    'mutationTestKarma',
+    'mochaTest:itest',
+    'shell:stopKarmaPhantomJS'
+  ]);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
