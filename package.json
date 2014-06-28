@@ -32,7 +32,7 @@
     "grunt-shell": "~0.7.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt"
   },
   "dependencies": {
     "esprima": "~1.2.2",

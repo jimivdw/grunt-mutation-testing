@@ -1,5 +1,7 @@
-TODO:
+Working on:
 * Add CI on Travis
+
+TODO:
 * Deploy on npm
 * At Start run tests without any mutation to test if the test succeeds
 * Add statistics (4/10 Mutations are untested.)
