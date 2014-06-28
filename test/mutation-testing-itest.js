@@ -1,23 +1,18 @@
 'use strict';
 
-var assert = require("assert")
-var mutations = require("../tasks/mutations");
-var grunt = require('grunt');
+var assertExpectedReport = require('./test-utils').assertExpectedReport;
 
 describe('Mutation Testing', function () {
   it('flags all mutation if the test returns always true', function () {
-    var actual = grunt.file.read('tmp/flag-all-mutations.txt');
-    var expected = grunt.file.read('test/expected/flag-all-mutations.txt');
-    assert.equal(actual, expected);
+    assertExpectedReport('tmp/flag-all-mutations.txt', 'test/expected/flag-all-mutations.txt');
+  });
+  it('flags all mutation if the test returns always true, which is the default', function () {
+    assertExpectedReport('tmp/flag-all-mutations-default.txt', 'test/expected/flag-all-mutations.txt');
   });
   it('flags all mutations for which a mocha test returns true', function () {
-    var actual = grunt.file.read('tmp/mocha.txt');
-    var expected = grunt.file.read('test/expected/mocha.txt');
-    assert.equal(actual, expected);
+    assertExpectedReport('tmp/mocha.txt', 'test/expected/mocha.txt');
   });
   it('flags all mutations for which a karma test returns true', function () {
-    var actual = grunt.file.read('tmp/karma.txt');
-    var expected = grunt.file.read('test/expected/karma.txt');
-    assert.equal(actual, expected);
+    assertExpectedReport('tmp/karma.txt', 'test/expected/karma.txt');
   });
 });

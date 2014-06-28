@@ -50,6 +50,22 @@ module.exports = function (grunt) {
           'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
         }
       },
+      flagAllMutationsDefault: {
+        options: {
+        },
+        files: {
+          'tmp/flag-all-mutations-default.txt': ['test/fixtures/mocha/script*.js']
+        }
+      },
+      grunt: {
+        options: {
+          ignore: /^log\(/,
+          test: 'grunt mochaTest:fixtures'
+        },
+        files: {
+          'tmp/grunt.txt': ['test/fixtures/mocha/script*.js']
+        }
+      },
       mocha: {
         options: {
           ignore: /^log\(/,
@@ -106,11 +122,17 @@ module.exports = function (grunt) {
         },
         src: ['test/fixtures/mocha/*-test.js']
       },
-      itest: {
+      iTest: {
         options: {
           reporter: 'spec'
         },
         src: ['test/**/*-itest.js']
+      },
+      iTestSlow: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['test/**/*-itest-slow.js']
       }
     },
 
@@ -167,9 +189,24 @@ module.exports = function (grunt) {
     'mochaTest:fixtures',
     'karma',
     'mutationTest:flagAllMutations',
+    'mutationTest:flagAllMutationsDefault',
     'mutationTest:mocha',
     'mutationTestKarma',
-    'mochaTest:itest',
+    'mochaTest:iTest',
+    'shell:stopKarmaPhantomJS'
+  ]);
+
+  grunt.registerTask('test:all', [
+    'clean',
+    'mochaTest:fixtures',
+    'karma',
+    'mutationTest:flagAllMutations',
+    'mutationTest:flagAllMutationsDefault',
+    'mutationTest:mocha',
+    'mutationTest:grunt',
+    'mutationTestKarma',
+    'mochaTest:iTest',
+    'mochaTest:iTestSlow',
     'shell:stopKarmaPhantomJS'
   ]);
 

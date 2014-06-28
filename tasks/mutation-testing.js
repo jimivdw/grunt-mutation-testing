@@ -51,7 +51,11 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 
 module.exports = function (grunt) {
   grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
-    var opts = this.options();
+    var opts = this.options({
+      test: function (done) {
+          done(true);
+      }
+    });
     var done = this.async();
 
     var q = qq();

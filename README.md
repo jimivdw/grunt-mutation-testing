@@ -17,14 +17,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-mutation-testing');
 ```
 
-## The "mutation_testing" task
+## The "mutationTest" task
 
 ### Overview
-In your project's Gruntfile, add a section named `mutation_testing` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `mutationTest` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  mutation_testing: {
+  mutationTest: {
     options: {
       // Task-specific options go here.
     },
@@ -37,46 +37,64 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.test
+Type: `String` or `Function` 
+Default value: No Default value
 
-A string value that is used to do something with whatever.
+This test is executed for every Mutation. If it succeeds, this mutation is reported.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.ignore
+Type: `RegExp`
+Default value: undefined
 
-A string value that is used to do something else with whatever else.
+Mutated code which matches this option is ignored.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to report every possible mutation. 
 
 ```js
 grunt.initConfig({
-  mutation_testing: {
+  mutationTest: {
     options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'tmp/report.txt': ['src/*.js'],
     },
   },
 })
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example all mutations are reported, which cause no failure of the grunt script.
 
 ```js
 grunt.initConfig({
-  mutation_testing: {
+  mutationTest: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      ignore: /^log\(/,
+      test: 'grunt mochaTest:fixtures'
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'tmp/grunt.txt': ['test/fixtures/mocha/script*.js']
+    },
+  },
+})
+```
+Calling a test in this way is easy but **very slow**. It's much faster to call tests directly by providing a test function. 
+This is demonstrated in this project's Gruntfile.js.
+
+You can provide 'LOG' as files key in order to log the results to the console. 
+
+```js
+grunt.initConfig({
+  mutationTest: {
+    options: {
+      ignore: /^log\(/,
+      test: 'grunt mochaTest:fixtures'
+    },
+    files: {
+      'LOG': ['test/fixtures/mocha/script*.js']
     },
   },
 })
