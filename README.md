@@ -60,10 +60,12 @@ In this example, the default options are used to report every possible mutation.
 grunt.initConfig({
   mutationTest: {
     options: {},
-    files: {
-      'tmp/report.txt': ['src/*.js'],
-    },
-  },
+    target: {
+      files: {
+        'tmp/report.txt': ['test/fixtures/mocha/script*.js']
+      }
+    }
+  }
 })
 ```
 
@@ -77,10 +79,12 @@ grunt.initConfig({
       ignore: /^log\(/,
       test: 'grunt mochaTest:fixtures'
     },
-    files: {
-      'tmp/grunt.txt': ['test/fixtures/mocha/script*.js']
-    },
-  },
+    target: {
+      files: {
+        'tmp/grunt.txt': ['test/fixtures/mocha/script*.js']
+      }
+    }
+  }
 })
 ```
 Calling a test in this way is easy but **very slow**. It's much faster to call tests directly by providing a test function. 
@@ -95,10 +99,12 @@ grunt.initConfig({
       ignore: /^log\(/,
       test: 'grunt mochaTest:fixtures'
     },
-    files: {
-      'LOG': ['test/fixtures/mocha/script*.js']
-    },
-  },
+    target: {
+      files: {
+        'LOG': ['test/fixtures/mocha/script*.js']
+      }
+    }
+  }
 })
 ```
 

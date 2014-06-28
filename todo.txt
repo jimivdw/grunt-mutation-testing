@@ -1,5 +1,5 @@
 Working on:
-* Deploy on npm
+
 
 TODO:
 * At Start run tests without any mutation to test if the test succeeds
@@ -11,5 +11,6 @@ TODO:
 * Extract plugins for mocha and karma mutation testing
 
 Done:
-* Tests should work on other computers
+* Deploy on npm
 * Add CI on Travis
+* Tests should work on other computers
