@@ -1,8 +1,7 @@
 Working on:
-* Add CI on Travis
+* Deploy on npm
 
 TODO:
-* Deploy on npm
 * At Start run tests without any mutation to test if the test succeeds
 * Add statistics (4/10 Mutations are untested.)
 * Add "Remove Attribute" mutations
@@ -13,3 +12,4 @@ TODO:
 
 Done:
 * Tests should work on other computers
+* Add CI on Travis
