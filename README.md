@@ -2,6 +2,8 @@
 
 > Test your tests by mutate the code.
 
+[![Build Status](https://travis-ci.org/shybyte/grunt-mutation-testing.svg?branch=master)](https://travis-ci.org/shybyte/grunt-mutation-testing)
+
 ## Getting Started
 This plugin requires Grunt.
 
