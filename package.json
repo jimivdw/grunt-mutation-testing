@@ -1,6 +1,6 @@
 {
   "name": "grunt-mutation-testing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Test your tests by mutate the code.",
   "repository": "https://github.com/shybyte/grunt-mutation-testing",
   "author": {
