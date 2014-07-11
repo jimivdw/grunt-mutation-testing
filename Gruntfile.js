@@ -10,15 +10,16 @@
 
 module.exports = function (grunt) {
   var Mocha = require('mocha');
-
-  var runner = require('karma').runner;
-  var server = require('karma').server;
   var path = require('path');
 
   var requireUncache = require('require-uncache');
 
   // load all npm grunt tasks
   require('load-grunt-tasks')(grunt);
+
+  var karmaOptions = {
+    configFile: 'test/fixtures/karma-mocha/karma.conf.js'
+  };
 
   // Project configuration.
   grunt.initConfig({
@@ -58,7 +59,7 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/test-is-failing-without-mutation.txt': ['test/fixtures/mocha/script*.js']
-          //'LOG': ['test/fixtures/mocha/script*.js']
+//          'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       flagAllMutationsDefault: {
@@ -66,6 +67,7 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/flag-all-mutations-default.txt': ['test/fixtures/mocha/script*.js']
+//          'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       grunt: {
@@ -108,14 +110,11 @@ module.exports = function (grunt) {
       },
       karma: {
         options: {
-          test: function (done) {
-            runner.run({}, function (numberOfCFailingTests) {
-              done(numberOfCFailingTests === 0);
-            });
-          }
+          karma: karmaOptions
         },
         files: {
           'tmp/karma.txt': ['test/fixtures/karma-mocha/script*.js']
+//          'LOG': ['test/fixtures/karma-mocha/script*.js']
         }
       }
     },
@@ -148,52 +147,18 @@ module.exports = function (grunt) {
     },
 
     karma: {
-      options: {
-        configFile: 'test/fixtures/karma-mocha/karma.conf.js'
-      },
+      options: karmaOptions,
       fixtures: {
-        singleRun: true,
-        browsers: ['PhantomJS']
-      }
-    },
-
-    shell: {
-      stopKarmaPhantomJS: {
-        command: 'killall phantomjs'
+        singleRun: true
       }
     }
   });
 
-  grunt.task.registerTask('startKarma', 'Starts Karma for mutation testing', function () {
-    var done = this.async();
-    server.start({
-      background: false,
-      singleRun: false,
-      browsers: ['PhantomJS'],
-      reporters: [],
-      logLevel: 'OFF',
-      autoWatch: false,
-      configFile: path.resolve('test/fixtures/karma-mocha/karma.conf.js')
-    });
-    // Better: https://github.com/karma-runner/karma/issues/1037
-    // https://github.com/karma-runner/karma/issues/535
-    setTimeout(function () {
-      done();
-    }, 2000);
-    // Stopping is also an problem
-    // https://github.com/karma-runner/karma/issues/509
-    // https://github.com/karma-runner/karma/issues/136
-    // killall phantomjs
-
-  });
 
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-shell');
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
-
-  grunt.registerTask('mutationTestKarma', ['startKarma','mutationTest:karma']);
 
   grunt.registerTask('test', [
     'clean',
@@ -203,9 +168,8 @@ module.exports = function (grunt) {
     'mutationTest:flagAllMutationsDefault',
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
-    'mutationTestKarma',
-    'mochaTest:iTest',
-    'shell:stopKarmaPhantomJS'
+    'mutationTest:karma',
+    'mochaTest:iTest'
   ]);
 
   grunt.registerTask('test:all', [
@@ -217,11 +181,17 @@ module.exports = function (grunt) {
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
     'mutationTest:grunt',
-    'mutationTestKarma',
+    'mutationTest:karma',
     'mochaTest:iTest',
-    'mochaTest:iTestSlow',
-    'shell:stopKarmaPhantomJS'
+    'mochaTest:iTestSlow'
   ]);
+
+  grunt.registerTask('test:karma', [
+    'jshint',
+    'mutationTest:karma'
+  ]);
+
+
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
