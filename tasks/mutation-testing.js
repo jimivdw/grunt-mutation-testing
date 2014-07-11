@@ -13,6 +13,7 @@ var exec = require('sync-exec');
 var path = require('path');
 var qq = require('q');
 var mutate = require('./mutations');
+var _ = require('lodash');
 
 
 /**
@@ -50,70 +51,82 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 
 
 module.exports = function (grunt) {
+  function logToMutationReport(fileDest, msg) {
+    if (fileDest === 'LOG') {
+      grunt.log.writeln('\n' + msg);
+      return;
+    }
+    if (!grunt.file.exists(fileDest)) {
+      grunt.file.write(fileDest, '');
+    }
+    fs.appendFileSync(fileDest, msg + '\n');
+  }
+
   grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
     var opts = this.options({
       test: function (done) {
-          done(true);
+        done(true);
       }
     });
     var done = this.async();
 
     var q = qq();
 
-    this.files.forEach(function (file) {
-      q = q.then(function () {
-        var validFiles = file.src.filter(function (filepath) {
-          if (!grunt.file.exists(filepath)) {
-            grunt.log.warn('Source file "' + filepath + '" not found.');
-            return false;
-          } else {
-            return true;
-          }
+    function runTests() {
+      var dfd = qq.defer();
+      if (typeof opts.test === 'string') {
+        var execResult = exec(opts.test);
+        dfd.resolve(execResult.status === 0);
+      } else {
+        opts.test(function (ok) {
+          dfd.resolve(ok);
         });
+      }
+      return dfd.promise;
+    }
 
-        if (validFiles.length === 0) {
-          grunt.log.warn('Found no valid files in ' + JSON.stringify(file.orig.src));
-          return false;
-        }
+    var files = this.files;
 
-        function runTests() {
-          var dfd = qq.defer();
-          if (typeof opts.test === 'string') {
-            var execResult = exec(opts.test);
-            dfd.resolve(execResult.status === 0);
-          } else {
-            opts.test(function (ok) {
-              dfd.resolve(ok);
+    // run first without mutations
+    runTests().done(function (testOk) {
+      if (!testOk) {
+        files.forEach(function (file) {
+          logToMutationReport(file.dest, 'Tests fail without mutations.');
+        });
+      } else {
+        files.forEach(function (file) {
+          q = q.then(function () {
+            var validFiles = file.src.filter(function (filepath) {
+              if (!grunt.file.exists(filepath)) {
+                grunt.log.warn('Source file "' + filepath + '" not found.');
+                return false;
+              } else {
+                return true;
+              }
             });
-          }
-          return dfd.promise;
-        }
 
-        function logMutation(mutationPos) {
-          if (file.dest === 'LOG') {
-            grunt.log.writeln('\n' + mutationPos);
-            return;
-          }
-          if (!grunt.file.exists(file.dest)) {
-            grunt.file.write(file.dest, '');
-          }
-          fs.appendFileSync(file.dest, mutationPos + '\n');
-        }
+            if (validFiles.length === 0) {
+              grunt.log.warn('Found no valid files in ' + JSON.stringify(file.orig.src));
+              return false;
+            }
 
-        function log(msg) {
-          grunt.log.write(msg);
-        }
+            function log(msg) {
+              grunt.log.write(msg);
+            }
 
-        var q2 = qq();
-        validFiles.forEach(function (file) {
-          q2 = q2.then(function () {
-            return mutationTestFile(path.resolve(file), runTests, logMutation, log, opts);
+            var logMutationToFileDest = _.partial(logToMutationReport, file.dest);
+
+            var q2 = qq();
+            validFiles.forEach(function (srcFile) {
+              q2 = q2.then(function () {
+                return mutationTestFile(path.resolve(srcFile), runTests, logMutationToFileDest, log, opts);
+              });
+            });
+            return q2;
           });
         });
-
-        return q2;
-      });
+      }
+      q.done(done);
     });
-    q.done(done);
   });
 };

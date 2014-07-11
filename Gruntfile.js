@@ -50,6 +50,17 @@ module.exports = function (grunt) {
           'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
         }
       },
+      testIsFailingWithoutMutation: {
+        options: {
+          test: function (done) {
+            done(false);
+          }
+        },
+        files: {
+          'tmp/test-is-failing-without-mutation.txt': ['test/fixtures/mocha/script*.js']
+          //'LOG': ['test/fixtures/mocha/script*.js']
+        }
+      },
       flagAllMutationsDefault: {
         options: {
         },
@@ -190,6 +201,7 @@ module.exports = function (grunt) {
     'karma',
     'mutationTest:flagAllMutations',
     'mutationTest:flagAllMutationsDefault',
+    'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
     'mutationTestKarma',
     'mochaTest:iTest',
@@ -202,6 +214,7 @@ module.exports = function (grunt) {
     'karma',
     'mutationTest:flagAllMutations',
     'mutationTest:flagAllMutationsDefault',
+    'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
     'mutationTest:grunt',
     'mutationTestKarma',

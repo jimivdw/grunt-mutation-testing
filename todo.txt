@@ -1,16 +1,16 @@
 Working on:
 
-
 TODO:
-* At Start run tests without any mutation to test if the test succeeds
+* Integrate mocha and karma mutation testing (easy configuration)
 * Add statistics (4/10 Mutations are untested.)
 * Add "Remove Attribute" mutations
-* Speedup tests
 * stopKarmaPhantomJS with pure nodejs (no shell)
+* Get rid of some dependencies
+* Speedup tests
 * Documentation
-* Extract plugins for mocha and karma mutation testing
 
 Done:
+* At Start run tests without any mutation to test if the test succeeds
 * Deploy on npm
 * Add CI on Travis
 * Tests should work on other computers
