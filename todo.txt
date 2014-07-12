@@ -1,16 +1,17 @@
 Working on:
-* stopKarmaPhantomJS with pure nodejs (no shell)
+
 
 TODO:
 * Configure ignore patterns in a config file
-* Integrate mocha mutation testing (easy configuration)
 * Add statistics (4/10 Mutations are untested.)
+* Integrate mocha mutation testing (easy configuration)
 * Add "Remove Attribute" mutations
 * Get rid of some dependencies
 * Speedup tests
 * Documentation
 
 Done:
+* Stop Karma (including PhantomJS) in a nice way
 * Karma mutation testing (easy configuration)
 * At Start run tests without any mutation to test if the test succeeds
 * Deploy on npm

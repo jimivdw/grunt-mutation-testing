@@ -146,7 +146,7 @@ var DEFAULT_OPTIONS = {
 module.exports = function (grunt) {
   grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
     var opts = this.options(DEFAULT_OPTIONS);
-    mutationTestingKarma.init(opts);
+    mutationTestingKarma.init(grunt, opts);
     mutationTest(grunt, this, opts);
   });
 };

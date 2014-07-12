@@ -1,33 +1,39 @@
 var path = require('path');
 var _ = require('lodash');
-var exec = require('sync-exec');
 
-exports.init = function (opts) {
+exports.init = function (grunt, opts) {
   if (!opts.karma) {
     return;
   }
 
   var runner = require('karma').runner;
   var server = require('karma').server;
+  var backgroundProcess;
 
   opts.before = function (doneBefore) {
-    server.start({
+    var karmaConfig = {
       background: false,
       singleRun: false,
       reporters: [],
       logLevel: 'OFF',
       autoWatch: false,
       configFile: path.resolve(opts.karma.configFile)
+    };
+
+    backgroundProcess = grunt.util.spawn({
+      cmd: 'node',
+      args: [path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'), JSON.stringify(karmaConfig)]
+    }, function () {
     });
-    // Better: https://github.com/karma-runner/karma/issues/1037
-    // https://github.com/karma-runner/karma/issues/535
+
+    process.on('exit', function () {
+      backgroundProcess.kill();
+    });
+
     setTimeout(function () {
       doneBefore();
     }, 2000);
-    // Stopping is also an problem
-    // https://github.com/karma-runner/karma/issues/509
-    // https://github.com/karma-runner/karma/issues/136
-    // killall phantomjs
+
   };
 
   opts.test = function (done) {
@@ -37,7 +43,7 @@ exports.init = function (opts) {
   };
 
   opts.after = function () {
-    exec('killall phantomjs');
+    backgroundProcess.kill();
   };
 
 };
