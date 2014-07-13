@@ -1,0 +1,1 @@
+exports.ignore = [/^console.log\(/, /^function/];

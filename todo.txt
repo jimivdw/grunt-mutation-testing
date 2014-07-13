@@ -1,8 +1,6 @@
 Working on:
 
-
 TODO:
-* Configure ignore patterns in a config file
 * Add statistics (4/10 Mutations are untested.)
 * Integrate mocha mutation testing (easy configuration)
 * Add "Remove Attribute" mutations
@@ -11,6 +9,7 @@ TODO:
 * Documentation
 
 Done:
+* Configure multiple ignore patterns in a config file
 * Stop Karma (including PhantomJS) in a nice way
 * Karma mutation testing (easy configuration)
 * At Start run tests without any mutation to test if the test succeeds

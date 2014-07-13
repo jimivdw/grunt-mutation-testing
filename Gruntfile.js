@@ -51,6 +51,17 @@ module.exports = function (grunt) {
           'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
         }
       },
+      ignore: {
+        options: {
+          ignore: require('./.mutation-testing-conf.js').ignore,
+          test: function (done) {
+            done(true);
+          }
+        },
+        files: {
+          'tmp/ignore.txt': ['test/fixtures/mocha/script1.js']
+        }
+      },
       testIsFailingWithoutMutation: {
         options: {
           test: function (done) {
@@ -67,7 +78,6 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/flag-all-mutations-default.txt': ['test/fixtures/mocha/script*.js']
-//          'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       grunt: {
@@ -105,7 +115,6 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/mocha.txt': ['test/fixtures/mocha/script*.js']
-          //'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       karma: {
@@ -165,6 +174,7 @@ module.exports = function (grunt) {
     'mochaTest:fixtures',
     'karma',
     'mutationTest:flagAllMutations',
+    'mutationTest:ignore',
     'mutationTest:flagAllMutationsDefault',
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
@@ -177,6 +187,7 @@ module.exports = function (grunt) {
     'mochaTest:fixtures',
     'karma',
     'mutationTest:flagAllMutations',
+    'mutationTest:ignore',
     'mutationTest:flagAllMutationsDefault',
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',

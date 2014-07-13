@@ -9,6 +9,9 @@ describe('Mutation Testing', function () {
   it('flags all mutation if the test returns always true, which is the default', function () {
     assertExpectedReport('tmp/flag-all-mutations-default.txt', 'test/expected/flag-all-mutations.txt');
   });
+  it('flags all mutation aside from the ignored ones', function () {
+    assertExpectedReport('tmp/ignore.txt', 'test/expected/ignore.txt');
+  });
   it('stops and reports warning if tests fail already without any mutation', function () {
     assertExpectedReport('tmp/test-is-failing-without-mutation.txt', 'test/expected/test-is-failing-without-mutation.txt');
   });

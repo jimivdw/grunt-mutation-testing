@@ -16,6 +16,16 @@ var mutate = require('./mutations');
 var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 
+function canBeIgnored(opts, src, mutation) {
+  if (!opts.ignore) {
+    return false;
+  }
+  var ignorePatterns = _.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
+  var affectedSrcPart = src.substring(mutation.begin, mutation.end);
+  return _.any(ignorePatterns, function (ignorePattern) {
+    return ignorePattern.test(affectedSrcPart);
+  });
+}
 
 /**
  * @param {string} srcFilename
@@ -29,7 +39,8 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 
   log('\nMutating file ' + srcFilename + '\n');
   mutations.forEach(function (mutation) {
-    if (opts.ignore && opts.ignore.test(src.substring(mutation.begin, mutation.end))) {
+    if (canBeIgnored(opts, src, mutation))
+    {
       return;
     }
     q = q.then(function () {
