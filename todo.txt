@@ -8,6 +8,7 @@ TODO:
 * Documentation
 
 Done:
+* Make Karma better configurable
 * Add statistics
 * Configure multiple ignore patterns in a config file
 * Stop Karma (including PhantomJS) in a nice way

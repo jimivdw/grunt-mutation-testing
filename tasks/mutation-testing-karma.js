@@ -11,14 +11,21 @@ exports.init = function (grunt, opts) {
   var backgroundProcess;
 
   opts.before = function (doneBefore) {
-    var karmaConfig = {
-      background: false,
-      singleRun: false,
-      reporters: [],
-      logLevel: 'OFF',
-      autoWatch: false,
-      configFile: path.resolve(opts.karma.configFile)
-    };
+    var karmaConfig = _.extend(
+      {
+        // defaults, but can be overwritten
+        reporters: [],
+        logLevel: 'OFF'
+      },
+      opts.karma,
+      {
+        // can't be overwritten, because important for us
+        configFile: path.resolve(opts.karma.configFile),
+        background: false,
+        singleRun: false,
+        autoWatch: false
+      }
+    );
 
     backgroundProcess = grunt.util.spawn({
       cmd: 'node',
