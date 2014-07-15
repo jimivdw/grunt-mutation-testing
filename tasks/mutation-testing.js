@@ -15,6 +15,7 @@ var qq = require('q');
 var mutate = require('./mutations');
 var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
+var mutationTestingMocha = require('./mutation-testing-mocha');
 
 function canBeIgnored(opts, src, mutation) {
   if (!opts.ignore) {
@@ -198,6 +199,7 @@ module.exports = function (grunt) {
   grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
     var opts = this.options(DEFAULT_OPTIONS);
     mutationTestingKarma.init(grunt, opts);
+    mutationTestingMocha.init(grunt, opts);
     mutationTest(grunt, this, opts);
   });
 };

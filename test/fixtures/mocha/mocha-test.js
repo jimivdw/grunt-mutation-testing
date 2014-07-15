@@ -15,11 +15,4 @@ describe('Fixtures', function () {
       assert.equal(actual, expected);
     });
   });
-
-  describe('Script 2', function () {
-    it('mul', function () {
-      assert.equal(6, code2.mul([2, 3]));
-      //test.equal(6, 6);
-    });
-  });
 });

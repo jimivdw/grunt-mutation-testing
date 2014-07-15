@@ -9,11 +9,6 @@
 'use strict';
 
 module.exports = function (grunt) {
-  var Mocha = require('mocha');
-  var path = require('path');
-
-  var requireUncache = require('require-uncache');
-
   // load all npm grunt tasks
   require('load-grunt-tasks')(grunt);
 
@@ -92,29 +87,13 @@ module.exports = function (grunt) {
       mocha: {
         options: {
           ignore: /^log\(/,
-          test: function (done) {
-            //https://github.com/visionmedia/mocha/wiki/Third-party-reporters
-            var mocha = new Mocha({reporter: function (runner) {
-              //dummyReporter
-            }});
-
-            mocha.suite.on('pre-require', function (context, file) {
-              requireUncache(file);
-            });
-
-            mocha.addFile('test/fixtures/mocha/mocha-test.js');
-            try {
-              mocha.run(function (errCount) {
-                var withoutErrors = (errCount === 0);
-                done(withoutErrors);
-              });
-            } catch (error) {
-              done(false);
-            }
+          mocha: {
+            testFiles: ['test/fixtures/mocha/mocha-test*.js']
           }
         },
         files: {
           'tmp/mocha.txt': ['test/fixtures/mocha/script*.js']
+//          'LOG': ['test/fixtures/mocha/script*.js']
         }
       },
       karma: {
