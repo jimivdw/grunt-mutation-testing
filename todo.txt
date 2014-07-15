@@ -2,10 +2,15 @@ Working on:
 
 TODO:
 * Integrate mocha mutation testing (easy configuration)
+* Documentation karma
+* Documentation mocha
 * Add "Remove Attribute" mutations
+* Add "Remove Function Argument" mutations
 * Get rid of some dependencies
 * Speedup tests
 * Documentation
+* Refactor Code
+
 
 Done:
 * Make Karma better configurable
