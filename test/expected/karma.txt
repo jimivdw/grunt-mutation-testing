@@ -1,2 +1,3 @@
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:14:5 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:15:5 can be removed.
+18 of 20 unignored mutations are tested (90%). 

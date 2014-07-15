@@ -27,6 +27,29 @@ function canBeIgnored(opts, src, mutation) {
   });
 }
 
+function createStats() {
+  return {
+    all: 0,
+    ignored: 0,
+    untested: 0 // if a test succeeds for mutated code, it's an untested mutation
+  };
+}
+
+function addStats(stats1, stats2) {
+  return _.mapValues(stats1, function (value, key) {
+    return value + stats2[key];
+  });
+}
+
+function createStatsMessage(stats) {
+  var ignoredMessage = ' ' + (stats.ignored ? stats.ignored + ' mutations were ignored.' : '');
+  var allUnIgnored = stats.all - stats.ignored;
+  var testedMutations = allUnIgnored - stats.untested;
+  var percentTested = Math.floor((testedMutations / allUnIgnored) * 100);
+  return testedMutations +
+    ' of ' + allUnIgnored + ' unignored mutations are tested (' + percentTested + '%).' + ignoredMessage;
+}
+
 /**
  * @param {string} srcFilename
  * @param {function} runTests
@@ -37,10 +60,13 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   var mutations = mutate.findMutations(src);
   var q = qq({});
 
+  var stats = createStats();
+
   log('\nMutating file ' + srcFilename + '\n');
   mutations.forEach(function (mutation) {
-    if (canBeIgnored(opts, src, mutation))
-    {
+    stats.all += 1;
+    if (canBeIgnored(opts, src, mutation)) {
+      stats.ignored += 1;
       return;
     }
     q = q.then(function () {
@@ -50,9 +76,14 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       return runTests().then(function (testSuccess) {
         if (testSuccess) {
           logMutation(currentMutationPosition + ' can be removed.');
+          stats.untested += 1;
         }
       });
     });
+  });
+
+  q = q.then(function () {
+    return stats;
   });
 
   return q.fin(function () {
@@ -121,17 +152,26 @@ function mutationTest(grunt, task, opts) {
             }
 
             var logMutationToFileDest = _.partial(logToMutationReport, file.dest);
+            var statsSummary = createStats();
 
             var q2 = qq();
             validFiles.forEach(function (srcFile) {
               q2 = q2.then(function () {
-                return mutationTestFile(path.resolve(srcFile), runTests, logMutationToFileDest, log, opts);
+                return mutationTestFile(path.resolve(srcFile), runTests, logMutationToFileDest, log, opts).then(function (stats) {
+                  statsSummary = addStats(statsSummary, stats);
+                });
               });
             });
+
+            q2 = q2.then(function () {
+              logMutationToFileDest(createStatsMessage(statsSummary));
+            });
+
             return q2;
           });
         });
       }
+
       q.then(function () {
         var dfd = qq.defer();
         opts.after(function () {
