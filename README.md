@@ -1,6 +1,6 @@
 # grunt-mutation-testing
 
-> Test your tests by mutate the code.
+> JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
 
 [![Build Status](https://travis-ci.org/shybyte/grunt-mutation-testing.svg?branch=master)](https://travis-ci.org/shybyte/grunt-mutation-testing)
 

@@ -1,7 +1,7 @@
 {
   "name": "grunt-mutation-testing",
-  "version": "0.1.1",
-  "description": "Test your tests by mutate the code.",
+  "version": "0.1.2",
+  "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
   "repository": "https://github.com/shybyte/grunt-mutation-testing",
   "author": {
     "name": "Marco Stahl",
