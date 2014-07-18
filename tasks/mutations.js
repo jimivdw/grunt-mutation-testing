@@ -9,6 +9,15 @@
 var esprima = require('esprima');
 var _ = require('lodash');
 
+function createMutation(astNode, endOffset) {
+  return {
+    begin: astNode.range[0],
+    end: endOffset,
+    line: astNode.loc.start.line,
+    col: astNode.loc.start.column
+  };
+}
+
 function findMutations(src) {
   var ast = esprima.parse(src, {range: true, loc: true});
 
@@ -19,14 +28,20 @@ function findMutations(src) {
     var body = astNode.body;
     if (body && _.isArray(body)) {
       body.forEach(function (childNode) {
-        var mutation = {
-          begin: childNode.range[0],
-          end: childNode.range[1],
-          line: childNode.loc.start.line,
-          col: childNode.loc.start.column
-        };
-        fun(mutation);
+        fun(createMutation(childNode, childNode.range[1]));
         forEachMutation(childNode, fun);
+      });
+    } else if (astNode.type === 'ObjectExpression') {
+      var properties = astNode.properties;
+      properties.forEach(function (property, i) {
+        if (property.kind === 'init') {
+          fun(createMutation(property,
+            (i === properties.length - 1) ? // is last property ?
+              property.range[1] :           // handle last property
+              properties[i + 1].range[0]    // care for commas by extending to start of next property
+          ));
+        }
+        forEachMutation(property.value, fun);
       });
     } else if (_.isObject(astNode)) {
       _.forOwn(astNode, function (child) {

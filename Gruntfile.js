@@ -104,6 +104,17 @@ module.exports = function (grunt) {
           'tmp/karma.txt': ['test/fixtures/karma-mocha/script*.js']
 //          'LOG': ['test/fixtures/karma-mocha/script*.js']
         }
+      },
+      attributes: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/attribute-test.js']
+          }
+        },
+        files: {
+          'tmp/attributes.txt': ['test/fixtures/mocha/attribute.js']
+//          'LOG': ['test/fixtures/mocha/attribute.js']
+        }
       }
     },
 
@@ -119,6 +130,12 @@ module.exports = function (grunt) {
           reporter: 'spec'
         },
         src: ['test/fixtures/mocha/*-test.js']
+      },
+      mutations: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['test/mutations-test.js']
       },
       iTest: {
         options: {
@@ -151,12 +168,14 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean',
     'mochaTest:fixtures',
+    'mochaTest:mutations',
     'karma',
     'mutationTest:flagAllMutations',
     'mutationTest:ignore',
     'mutationTest:flagAllMutationsDefault',
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
+    'mutationTest:attributes',
     'mutationTest:karma',
     'mochaTest:iTest'
   ]);
@@ -164,12 +183,14 @@ module.exports = function (grunt) {
   grunt.registerTask('test:all', [
     'clean',
     'mochaTest:fixtures',
+    'mochaTest:mutations',
     'karma',
     'mutationTest:flagAllMutations',
     'mutationTest:ignore',
     'mutationTest:flagAllMutationsDefault',
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
+    'mutationTest:attributes',
     'mutationTest:grunt',
     'mutationTest:karma',
     'mochaTest:iTest',

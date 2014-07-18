@@ -21,4 +21,7 @@ describe('Mutation Testing', function () {
   it('flags all mutations for which a karma test returns true', function () {
     assertExpectedReport('tmp/karma.txt', 'test/expected/karma.txt');
   });
+  it('flags all mutations of object literals', function () {
+    assertExpectedReport('tmp/attributes.txt', 'test/expected/attributes.txt');
+  });
 });

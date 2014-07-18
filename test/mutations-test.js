@@ -41,5 +41,40 @@ describe('Mutations', function () {
     });
 
 
+    function createSimplePerson(name) {
+      return {
+        name: name
+      }
+    }
+
+    var createSimplePersonSrc = createSimplePerson.toString();
+    it('find mutations in simple object literals', function () {
+      var foundMutations = mutations.findMutations(createSimplePersonSrc);
+      assert.equal(foundMutations.length, 3);
+      var attributeMutation = foundMutations[2];
+      assert.deepEqual(attributeMutation, {
+        begin: 59, end: 69, line: 3, col: 8
+      });
+    });
+
+    function createPerson(name, age) {
+      return {
+        name: name,
+        age: age
+      }
+    }
+
+    var createPersonSrc = createPerson.toString();
+    it('find mutations in object literals', function () {
+      var foundMutations = mutations.findMutations(createPersonSrc);
+      assert.equal(foundMutations.length, 4);
+      var attributeMutation = foundMutations[2];
+      // take care for the comma
+      assert.deepEqual(attributeMutation, {
+        begin: 58, end: 78, line: 3, col: 8
+      });
+    });
+
+
   })
 })

@@ -1,15 +1,19 @@
 Working on:
 
 TODO:
-* Add "Remove Attribute" mutations
+* Make timeout at startup of karma configurable
 * Add "Remove Function Argument" mutations
+* Add "Remove Array Argument" mutations
+* Add "Remove Function Call" mutations
 * Get rid of some dependencies
 * Speedup tests
 * Better Documentation
+* Document or fix issue of non terminating loops introduced by mutations
 * Refactor Code
 
 
 Done:
+* Add "Remove Attribute" (in Object Literals) mutations
 * Integrate mocha mutation testing (easy configuration)
 * Make Karma better configurable
 * Add statistics
