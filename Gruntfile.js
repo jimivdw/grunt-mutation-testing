@@ -115,7 +115,19 @@ module.exports = function (grunt) {
           'tmp/attributes.txt': ['test/fixtures/mocha/attribute.js']
 //          'LOG': ['test/fixtures/mocha/attribute.js']
         }
+      },
+      args: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/arguments-test.js']
+          }
+        },
+        files: {
+//          'LOG': ['test/fixtures/mocha/arguments.js']
+          'tmp/arguments.txt': ['test/fixtures/mocha/arguments.js']
+        }
       }
+
     },
 
     mochaTest: {
@@ -176,6 +188,7 @@ module.exports = function (grunt) {
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
     'mutationTest:attributes',
+    'mutationTest:args',
     'mutationTest:karma',
     'mochaTest:iTest'
   ]);
@@ -191,6 +204,7 @@ module.exports = function (grunt) {
     'mutationTest:testIsFailingWithoutMutation',
     'mutationTest:mocha',
     'mutationTest:attributes',
+    'mutationTest:args',
     'mutationTest:grunt',
     'mutationTest:karma',
     'mochaTest:iTest',

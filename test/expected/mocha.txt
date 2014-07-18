@@ -1,4 +1,6 @@
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:13:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:15 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script2.js:4:3 can be removed.
-17 of 20 unignored mutations are tested (85%). 1 mutations were ignored.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script2.js:5:7 can be removed.
+18 of 23 unignored mutations are tested (78%). 1 mutations were ignored.

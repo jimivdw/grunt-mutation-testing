@@ -9,18 +9,20 @@
 var esprima = require('esprima');
 var _ = require('lodash');
 
-function createMutation(astNode, endOffset) {
+function createMutation(astNode, endOffset, replacement) {
+  replacement = replacement || '';
   return {
     begin: astNode.range[0],
     end: endOffset,
     line: astNode.loc.start.line,
-    col: astNode.loc.start.column
+    col: astNode.loc.start.column,
+    replacement: replacement
   };
 }
 
 function findMutations(src) {
   var ast = esprima.parse(src, {range: true, loc: true});
-
+  //  console.log(JSON.stringify(ast));
   function forEachMutation(astNode, fun) {
     if (!astNode) {
       return;
@@ -31,6 +33,13 @@ function findMutations(src) {
         fun(createMutation(childNode, childNode.range[1]));
         forEachMutation(childNode, fun);
       });
+    } else if (astNode.type === 'CallExpression') {
+      var args = astNode.arguments;
+      args.forEach(function (arg, i) {
+        fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
+        forEachMutation(arg, fun);
+      });
+      forEachMutation(astNode.callee, fun);
     } else if (astNode.type === 'ObjectExpression') {
       var properties = astNode.properties;
       properties.forEach(function (property, i) {
@@ -59,7 +68,7 @@ function findMutations(src) {
 }
 
 function applyMutation(src, mutation) {
-  return src.substr(0, mutation.begin) + src.substr(mutation.end);
+  return src.substr(0, mutation.begin) + mutation.replacement + src.substr(mutation.end);
 }
 
 exports.findMutations = findMutations;

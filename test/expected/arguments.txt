@@ -1,0 +1,5 @@
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:21 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:29 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:38 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:47 can be removed.
+5 of 9 unignored mutations are tested (55%). 

@@ -2,10 +2,13 @@ Working on:
 
 TODO:
 * Make timeout at startup of karma configurable
-* Add "Remove Function Argument" mutations
-* Add "Remove Array Argument" mutations
+* Add "Remove Array Item" mutations
 * Add "Remove Function Call" mutations
+* "Mutate Function Argument" mutations should try to keep data type (possible?)
+* untested "Mutate Function Argument" should get better log message
 * Get rid of some dependencies
+* Make types of mutations configurable
+* Don't check mutations which are part of untested mutations (option)
 * Speedup tests
 * Better Documentation
 * Document or fix issue of non terminating loops introduced by mutations
@@ -13,6 +16,7 @@ TODO:
 
 
 Done:
+* Add "Mutate Function Argument" mutations
 * Add "Remove Attribute" (in Object Literals) mutations
 * Integrate mocha mutation testing (easy configuration)
 * Make Karma better configurable
