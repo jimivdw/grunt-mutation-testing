@@ -15,7 +15,8 @@ exports.init = function (grunt, opts) {
       {
         // defaults, but can be overwritten
         reporters: [],
-        logLevel: 'OFF'
+        logLevel: 'OFF',
+        waitForServerTime: 5
       },
       opts.karma,
       {
@@ -39,7 +40,7 @@ exports.init = function (grunt, opts) {
 
     setTimeout(function () {
       doneBefore();
-    }, 2000);
+    }, karmaConfig.waitForServerTime * 1000);
 
   };
 

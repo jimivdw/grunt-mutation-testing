@@ -53,6 +53,10 @@ Karma configuration
 Type: `String`
 Karma config file
 
+#### options.karma.waitForServerTime
+Type: `Number`
+Default value: 5 (seconds)
+
 #### options.mocha.testFiles
 Type: `[String]`
 Mocha configuration 
@@ -131,7 +135,8 @@ For your convenience you can easily configure fast mocha and karma tests:
       karma: {
         options: {
           karma: {
-            configFile: 'test/fixtures/karma-mocha/karma.conf.js'
+            configFile: 'test/fixtures/karma-mocha/karma.conf.js',
+            waitForServerTime: 5 // optional, default = 5s
           }
         },
         files: {

@@ -1,7 +1,6 @@
 Working on:
 
 TODO:
-* Make timeout at startup of karma configurable
 * Add "Remove Array Item" mutations
 * Add "Remove Function Call" mutations
 * "Mutate Function Argument" mutations should try to keep data type (possible?)
@@ -16,6 +15,7 @@ TODO:
 
 
 Done:
+* Make timeout at startup of karma configurable
 * Add "Mutate Function Argument" mutations
 * Add "Remove Attribute" (in Object Literals) mutations
 * Integrate mocha mutation testing (easy configuration)
