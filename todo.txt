@@ -1,20 +1,21 @@
 Working on:
 
 TODO:
-* Add "Remove Array Item" mutations
 * Add "Remove Function Call" mutations
+* Add "Mutate Literals (Number, String)" mutations
 * "Mutate Function Argument" mutations should try to keep data type (possible?)
-* untested "Mutate Function Argument" should get better log message
-* Get rid of some dependencies
+* Untested "Mutate Function Argument" Mutations should get better log message
 * Make types of mutations configurable
-* Don't check mutations which are part of untested mutations (option)
+* Get rid of some dependencies
+* Don't check mutations which are part of untested mutations (optional)
 * Speedup tests
 * Better Documentation
 * Document or fix issue of non terminating loops introduced by mutations
-* Refactor Code
+* Cleanup and Refactor Code
 
 
 Done:
+* Add "Remove Array Item" mutations
 * Make timeout at startup of karma configurable
 * Add "Mutate Function Argument" mutations
 * Add "Remove Attribute" (in Object Literals) mutations
