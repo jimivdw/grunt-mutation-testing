@@ -2,7 +2,6 @@ var _ = require('lodash');
 var assert = require("assert")
 var mutations = require("../tasks/mutations");
 
-
 describe('Mutations', function () {
   describe('findMutation', function () {
 
@@ -82,7 +81,7 @@ describe('Mutations', function () {
     }
 
     var containsNameSrc = containsName.toString();
-    it('find mutations in  literals', function () {
+    it('find mutations in function arguments', function () {
       var foundMutations = mutations.findMutations(containsNameSrc);
       //console.log(JSON.stringify(foundMutations));
       assert.deepEqual(foundMutations, [
@@ -92,6 +91,24 @@ describe('Mutations', function () {
         {"begin": 71, "end": 78, "line": 2, "col": 32, "replacement": "\"MUTATION!\""},
         {"begin": 80, "end": 86, "line": 2, "col": 41, "replacement": "\"MUTATION!\""},
         {"begin": 89, "end": 93, "line": 2, "col": 50, "replacement": "\"MUTATION!\""}
+      ]);
+    });
+
+    function createArray() {
+      var el = {};
+      return [el, 'string', 123];
+    }
+
+    var createArraySrc = createArray.toString();
+    it('find mutations in array literals', function () {
+      var foundMutations = mutations.findMutations(createArraySrc);
+      assert.deepEqual(foundMutations, [
+        { begin: 0, end: 83, line: 1, col: 0, replacement: '' },
+        { begin: 31, end: 43, line: 2, col: 6, replacement: '' },
+        { begin: 50, end: 77, line: 3, col: 6, replacement: '' },
+        { begin: 58, end: 62, line: 3, col: 14, replacement: '' },
+        { begin: 62, end: 72, line: 3, col: 18, replacement: '' },
+        { begin: 72, end: 75, line: 3, col: 28, replacement: '' }
       ]);
     });
 

@@ -27,4 +27,7 @@ describe('Mutation Testing', function () {
   it('flags all mutations of arguments', function () {
     assertExpectedReport('tmp/arguments.txt', 'test/expected/arguments.txt');
   });
+  it('flags all mutations of array literals', function () {
+    assertExpectedReport('tmp/array.txt', 'test/expected/array.txt');
+  });
 });

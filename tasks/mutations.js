@@ -20,9 +20,17 @@ function createMutation(astNode, endOffset, replacement) {
   };
 }
 
+function createAstArrayElementDeletionMutation(astArray, element, elementIndex) {
+  return createMutation(element,
+    (elementIndex === astArray.length - 1) ? // is last element ?
+      element.range[1] :                     // handle last element
+      astArray[elementIndex + 1].range[0]    // care for commas by extending to start of next element
+  );
+}
+
 function findMutations(src) {
   var ast = esprima.parse(src, {range: true, loc: true});
-  //  console.log(JSON.stringify(ast));
+  // console.log(JSON.stringify(ast));
   function forEachMutation(astNode, fun) {
     if (!astNode) {
       return;
@@ -44,13 +52,15 @@ function findMutations(src) {
       var properties = astNode.properties;
       properties.forEach(function (property, i) {
         if (property.kind === 'init') {
-          fun(createMutation(property,
-            (i === properties.length - 1) ? // is last property ?
-              property.range[1] :           // handle last property
-              properties[i + 1].range[0]    // care for commas by extending to start of next property
-          ));
+          fun(createAstArrayElementDeletionMutation(properties, property, i));
         }
         forEachMutation(property.value, fun);
+      });
+    } else if (astNode.type === 'ArrayExpression') {
+      var elements = astNode.elements;
+      elements.forEach(function (element, i) {
+        fun(createAstArrayElementDeletionMutation(elements, element, i));
+        forEachMutation(element, fun);
       });
     } else if (_.isObject(astNode)) {
       _.forOwn(astNode, function (child) {
