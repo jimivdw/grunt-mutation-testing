@@ -136,6 +136,17 @@ module.exports = function (grunt) {
         files: {
           'tmp/array.txt': ['test/fixtures/mocha/array.js']
         }
+      },
+      functionCalls: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/function-calls-test.js']
+          }
+        },
+        files: {
+//          'LOG': ['test/fixtures/mocha/function-calls.js']
+          'tmp/function-calls.txt': ['test/fixtures/mocha/function-calls.js']
+        }
       }
 
     },
@@ -200,6 +211,7 @@ module.exports = function (grunt) {
     'mutationTest:attributes',
     'mutationTest:args',
     'mutationTest:array',
+    'mutationTest:functionCalls',
     'mutationTest:karma',
     'mochaTest:iTest'
   ]);
@@ -216,6 +228,7 @@ module.exports = function (grunt) {
     'mutationTest:mocha',
     'mutationTest:attributes',
     'mutationTest:array',
+    'mutationTest:functionCalls',
     'mutationTest:args',
     'mutationTest:grunt',
     'mutationTest:karma',

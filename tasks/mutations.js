@@ -28,9 +28,13 @@ function createAstArrayElementDeletionMutation(astArray, element, elementIndex) 
   );
 }
 
+function createReplaceMutationWithOtherAstNode(src, astNode, replacementAstNode) {
+  return createMutation(astNode, astNode.range[1], src.substring(replacementAstNode.range[0], replacementAstNode.range[1]));
+}
+
 function findMutations(src) {
   var ast = esprima.parse(src, {range: true, loc: true});
-  // console.log(JSON.stringify(ast));
+  //console.log(JSON.stringify(ast));
   function forEachMutation(astNode, fun) {
     if (!astNode) {
       return;
@@ -47,6 +51,15 @@ function findMutations(src) {
         fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
         forEachMutation(arg, fun);
       });
+
+      if (args.length === 1) {
+        fun(createReplaceMutationWithOtherAstNode(src, astNode, args[0]));
+      }
+
+      if (astNode.callee.type === 'MemberExpression') {
+        fun(createReplaceMutationWithOtherAstNode(src, astNode, astNode.callee.object));
+      }
+
       forEachMutation(astNode.callee, fun);
     } else if (astNode.type === 'ObjectExpression') {
       var properties = astNode.properties;

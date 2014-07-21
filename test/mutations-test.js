@@ -36,9 +36,8 @@ describe('Mutations', function () {
     var mulSrc = mul.toString();
     it('find mutations in functions used as argument', function () {
       var foundMutations = mutations.findMutations(mulSrc);
-      assert.equal(foundMutations.length, 4);
       var innerReturnMutation = foundMutations[3];
-      assert.equal(innerReturnMutation.line, 3);
+      assert.deepEqual(innerReturnMutation, { begin: 74, end: 87, line: 3, col: 8, replacement: '' });
     });
 
 
@@ -90,7 +89,9 @@ describe('Mutations', function () {
         {"begin": 63, "end": 87, "line": 2, "col": 24, "replacement": "\"MUTATION!\""},
         {"begin": 71, "end": 78, "line": 2, "col": 32, "replacement": "\"MUTATION!\""},
         {"begin": 80, "end": 86, "line": 2, "col": 41, "replacement": "\"MUTATION!\""},
-        {"begin": 89, "end": 93, "line": 2, "col": 50, "replacement": "\"MUTATION!\""}
+        {"begin": 63, "col": 24, "end": 87, "line": 2, "replacement": "_"},
+        {"begin": 89, "end": 93, "line": 2, "col": 50, "replacement": "\"MUTATION!\""},
+        {"begin": 52, "col": 13, "end": 94, "line": 2, "replacement": "_"}
       ]);
     });
 
@@ -110,6 +111,27 @@ describe('Mutations', function () {
         { begin: 62, end: 72, line: 3, col: 18, replacement: '' },
         { begin: 72, end: 75, line: 3, col: 28, replacement: '' }
       ]);
+    });
+
+
+    function encodeUrl(url) {
+      return encodeURI(url);
+    }
+
+    var encodeUrlSrc = encodeUrl.toString();
+    it("find mutations by replacing function call with it's argument", function () {
+      var foundMutations = mutations.findMutations(encodeUrlSrc);
+      assert.deepEqual(foundMutations[3], { begin: 39, end: 53, line: 2, col: 13, replacement: 'url' });
+    });
+
+    function trim(string) {
+      return string.trim();
+    }
+
+    var trimSrc = trim.toString();
+    it("find mutations by replacing method calls with object", function () {
+      var foundMutations = mutations.findMutations(trimSrc);
+      assert.deepEqual(foundMutations[2], { begin: 37, end: 50, line: 2, col: 13, replacement: 'string' });
     });
 
   })

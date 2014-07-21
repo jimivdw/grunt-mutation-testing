@@ -76,7 +76,10 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
       return runTests().then(function (testSuccess) {
         if (testSuccess) {
-          logMutation(currentMutationPosition + ' can be removed.');
+          logMutation(currentMutationPosition + (
+            mutation.replacement ?
+            ' can be replaced with "' + mutation.replacement +'".' :
+            ' can be removed.'));
           stats.untested += 1;
         }
       });
