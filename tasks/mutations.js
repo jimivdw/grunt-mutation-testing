@@ -32,6 +32,24 @@ function createReplaceMutationWithOtherAstNode(src, astNode, replacementAstNode)
   return createMutation(astNode, astNode.range[1], src.substring(replacementAstNode.range[0], replacementAstNode.range[1]));
 }
 
+function mutateLiteral(astNode, fun) {
+  var literalValue = astNode.value;
+  var replacement;
+  if (_.isString(literalValue)) {
+    replacement = '"MUTATION!"';
+  } else if (_.isNumber(literalValue)) {
+    replacement = (literalValue + 1) + "";
+  } else if (_.isBoolean(literalValue)) {
+    replacement = (!literalValue) + '';
+  }
+  if (replacement) {
+    fun(createMutation(astNode, astNode.range[1], replacement));
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function findMutations(src) {
   var ast = esprima.parse(src, {range: true, loc: true});
   //console.log(JSON.stringify(ast));
@@ -47,11 +65,14 @@ function findMutations(src) {
       });
     } else if (astNode.type === 'CallExpression') {
       var args = astNode.arguments;
+
       args.forEach(function (arg, i) {
-        fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
-        if (arg.type !== 'Literal') {
-          forEachMutation(arg, fun);
+        if (arg.type === 'Literal' && mutateLiteral(arg, fun)) {
+          // we have found a literal mutation for this argument, so we don't need to mutate more
+          return;
         }
+        fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
+        forEachMutation(arg, fun);
       });
 
       if (args.length === 1) {
@@ -78,18 +99,7 @@ function findMutations(src) {
         forEachMutation(element, fun);
       });
     } else if (astNode.type === 'Literal') {
-      var literalValue = astNode.value;
-      var replacement;
-      if (_.isString(literalValue)) {
-        replacement = '"MUTATION!"';
-      } else if (_.isNumber(literalValue)) {
-        replacement = (literalValue + 1) + "";
-      } else if (_.isBoolean(literalValue)) {
-        replacement = (!literalValue) + '';
-      }
-      if (replacement) {
-        fun(createMutation(astNode, astNode.range[1], replacement));
-      }
+      mutateLiteral(astNode, fun);
     } else if (_.isObject(astNode)) {
       _.forOwn(astNode, function (child) {
         forEachMutation(child, fun);

@@ -1,7 +1,6 @@
 Working on:
 
 TODO:
-* "Mutate Function Argument" mutations should try to keep data type (possible?)
 * Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * Untested "Mutate Function Argument" Mutations should get better log message
 * Make types of mutations configurable
@@ -14,6 +13,7 @@ TODO:
 
 
 Done:
+* "Mutate Function Argument" mutations should keep data type for literals
 * Add "Mutate Literals (Number, String, Boolean)" mutations
 * Add "Remove Function Call" mutations
 * Add "Remove Array Item" mutations
