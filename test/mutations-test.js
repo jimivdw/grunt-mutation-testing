@@ -20,9 +20,12 @@ describe('Mutations', function () {
       assert.deepEqual(mutations.findMutations(addSrc), [
         { begin: 0, end: 160, line: 1, col: 0, replacement: ''},
         { begin: 28, end: 40, line: 2, col: 6, replacement: ''},
+        {"begin": 38,"col": 16,"end": 39,"line": 2,"replacement": "1"},
         { begin: 47, end: 120, line: 3, col: 6, replacement: '' },
+        {"begin": 60,"col": 19,"end": 61,"line": 3,"replacement": "1"},
         { begin: 96, end: 112, line: 4, col: 8, replacement: ''},
         { begin: 127, end: 136, line: 6, col: 6, replacement: ''},
+        {"begin": 134,"col": 13,"end": 135,"line": 6,"replacement": "1"},
         { begin: 143, end: 154, line: 7, col: 6, replacement: ''}
       ])
     });
@@ -109,7 +112,9 @@ describe('Mutations', function () {
         { begin: 50, end: 77, line: 3, col: 6, replacement: '' },
         { begin: 58, end: 62, line: 3, col: 14, replacement: '' },
         { begin: 62, end: 72, line: 3, col: 18, replacement: '' },
-        { begin: 72, end: 75, line: 3, col: 28, replacement: '' }
+        {"begin": 62, "col": 18, "end": 70, "line": 3, "replacement": "\"MUTATION!\""},
+        { begin: 72, end: 75, line: 3, col: 28, replacement: '' },
+        {"begin": 72, "col": 28, "end": 75, "line": 3, "replacement": "124"}
       ]);
     });
 
@@ -132,6 +137,22 @@ describe('Mutations', function () {
     it("find mutations by replacing method calls with object", function () {
       var foundMutations = mutations.findMutations(trimSrc);
       assert.deepEqual(foundMutations[2], { begin: 37, end: 50, line: 2, col: 13, replacement: 'string' });
+    });
+
+    function getLiterals() {
+      return {
+        string: "string",
+        number: 42,
+        boolean: true
+      };
+    }
+
+    var getLiteralsSrc = getLiterals.toString();
+    it("find mutations by replacing literals", function () {
+      var foundMutations = mutations.findMutations(getLiteralsSrc);
+      assert.deepEqual(foundMutations[3], { begin: 56, end: 64, line: 3, col: 16, replacement: '"MUTATION!"' });
+      assert.deepEqual(foundMutations[5], { begin: 82, end: 84, line: 4, col: 16, replacement: '43' });
+      assert.deepEqual(foundMutations[7], { begin: 103, end: 107, line: 5, col: 17, replacement: 'false' });
     });
 
   })

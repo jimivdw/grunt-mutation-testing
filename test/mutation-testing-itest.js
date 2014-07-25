@@ -33,4 +33,7 @@ describe('Mutation Testing', function () {
   it('flags all mutations of replacing function calls with argument', function () {
     assertExpectedReport('tmp/function-calls.txt', 'test/expected/function-calls.txt');
   });
+  it('flags all literal mutations', function () {
+    assertExpectedReport('tmp/literals.txt', 'test/expected/literals.txt');
+  });
 });

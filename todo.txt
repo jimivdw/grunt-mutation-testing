@@ -1,7 +1,6 @@
 Working on:
 
 TODO:
-* Add "Mutate Literals (Number, String)" mutations
 * "Mutate Function Argument" mutations should try to keep data type (possible?)
 * Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * Untested "Mutate Function Argument" Mutations should get better log message
@@ -15,6 +14,7 @@ TODO:
 
 
 Done:
+* Add "Mutate Literals (Number, String, Boolean)" mutations
 * Add "Remove Function Call" mutations
 * Add "Remove Array Item" mutations
 * Make timeout at startup of karma configurable

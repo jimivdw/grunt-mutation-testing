@@ -91,7 +91,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   });
 
   return q.fin(function () {
-    console.log('Restore ', srcFilename);
+    console.log('\nRestore ', srcFilename);
     fs.writeFileSync(srcFilename, src);
   });
 }

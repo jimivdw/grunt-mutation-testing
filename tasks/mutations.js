@@ -49,7 +49,9 @@ function findMutations(src) {
       var args = astNode.arguments;
       args.forEach(function (arg, i) {
         fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
-        forEachMutation(arg, fun);
+        if (arg.type !== 'Literal') {
+          forEachMutation(arg, fun);
+        }
       });
 
       if (args.length === 1) {
@@ -75,6 +77,19 @@ function findMutations(src) {
         fun(createAstArrayElementDeletionMutation(elements, element, i));
         forEachMutation(element, fun);
       });
+    } else if (astNode.type === 'Literal') {
+      var literalValue = astNode.value;
+      var replacement;
+      if (_.isString(literalValue)) {
+        replacement = '"MUTATION!"';
+      } else if (_.isNumber(literalValue)) {
+        replacement = (literalValue + 1) + "";
+      } else if (_.isBoolean(literalValue)) {
+        replacement = (!literalValue) + '';
+      }
+      if (replacement) {
+        fun(createMutation(astNode, astNode.range[1], replacement));
+      }
     } else if (_.isObject(astNode)) {
       _.forOwn(astNode, function (child) {
         forEachMutation(child, fun);

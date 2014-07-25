@@ -147,6 +147,17 @@ module.exports = function (grunt) {
 //          'LOG': ['test/fixtures/mocha/function-calls.js']
           'tmp/function-calls.txt': ['test/fixtures/mocha/function-calls.js']
         }
+      },
+      literals: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/literals-test.js']
+          }
+        },
+        files: {
+          'tmp/literals.txt': ['test/fixtures/mocha/literals.js']
+//          'LOG': ['test/fixtures/mocha/literals.js']
+        }
       }
 
     },
@@ -210,6 +221,7 @@ module.exports = function (grunt) {
     'mutationTest:mocha',
     'mutationTest:attributes',
     'mutationTest:args',
+    'mutationTest:literals',
     'mutationTest:array',
     'mutationTest:functionCalls',
     'mutationTest:karma',
@@ -230,6 +242,7 @@ module.exports = function (grunt) {
     'mutationTest:array',
     'mutationTest:functionCalls',
     'mutationTest:args',
+    'mutationTest:literals',
     'mutationTest:grunt',
     'mutationTest:karma',
     'mochaTest:iTest',

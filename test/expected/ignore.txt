@@ -1,13 +1,18 @@
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:2:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:2:13 can be replaced with "1".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:3:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:3:16 can be replaced with "1".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:4:5 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:6:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:10:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:10:17 can be replaced with "1".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:11:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:11:17 can be replaced with "2".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:12:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:13:3 can be removed.
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:13:15 can be replaced with "1".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:15 can be replaced with ""MUTATION!"".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:15:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:18:1 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:19:1 can be removed.
-0 of 12 unignored mutations are tested (0%). 5 mutations were ignored.
+0 of 17 unignored mutations are tested (0%). 5 mutations were ignored.
