@@ -17,14 +17,31 @@ var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
 
+function ensureRegExpArray(value) {
+  var array = _.isArray(value) ? value : [value];
+  return array.map(function (stringOrRegExp) {
+    return _.isString(stringOrRegExp) ? new RegExp('^' + stringOrRegExp + '$') : stringOrRegExp;
+  });
+}
+
 function canBeIgnored(opts, src, mutation) {
   if (!opts.ignore) {
     return false;
   }
-  var ignorePatterns = _.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
+  var ignorePatterns = ensureRegExpArray(opts.ignore);
   var affectedSrcPart = src.substring(mutation.begin, mutation.end);
   return _.any(ignorePatterns, function (ignorePattern) {
     return ignorePattern.test(affectedSrcPart);
+  });
+}
+
+function canBeDiscarded(opts, mutation) {
+  if (!opts.discardReplacements) {
+    return false;
+  }
+  var discardPatterns = ensureRegExpArray(opts.discardReplacements);
+  return _.any(discardPatterns, function (discardPattern) {
+    return discardPattern.test(mutation.replacement);
   });
 }
 
@@ -66,6 +83,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   log('\nMutating file ' + srcFilename + '\n');
   mutations.forEach(function (mutation) {
     stats.all += 1;
+    if (canBeDiscarded(opts, mutation)) {
+      return;
+    }
     if (canBeIgnored(opts, src, mutation)) {
       stats.ignored += 1;
       return;
@@ -78,8 +98,8 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
         if (testSuccess) {
           logMutation(currentMutationPosition + (
             mutation.replacement ?
-            ' can be replaced with "' + mutation.replacement +'".' :
-            ' can be removed.'));
+              ' can be replaced with "' + mutation.replacement + '".' :
+              ' can be removed.'));
           stats.untested += 1;
         }
       });

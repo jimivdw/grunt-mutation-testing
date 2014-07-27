@@ -87,6 +87,7 @@ module.exports = function (grunt) {
       mocha: {
         options: {
           ignore: /^log\(/,
+          discardReplacements: [/^console$/],
           mocha: {
             testFiles: ['test/fixtures/mocha/mocha-test*.js']
           }
@@ -98,6 +99,7 @@ module.exports = function (grunt) {
       },
       karma: {
         options: {
+          discardReplacements: ['console'],
           karma: karmaOptions
         },
         files: {
@@ -118,6 +120,7 @@ module.exports = function (grunt) {
       },
       args: {
         options: {
+          discardReplacements: /^_$/,
           mocha: {
             testFiles: ['test/fixtures/mocha/arguments-test.js']
           }

@@ -1,6 +1,5 @@
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:21 can be replaced with ""MUTATION!"".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:29 can be replaced with ""MUTATION!"".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:38 can be replaced with ""MUTATION!"".
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:21 can be replaced with "_".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/arguments.js:4:47 can be replaced with ""MUTATION!"".
-7 of 12 unignored mutations are tested (58%). 
+8 of 12 unignored mutations are tested (66%). 

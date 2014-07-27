@@ -2,7 +2,6 @@
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:15 can be replaced with ""MUTATION!"".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:3 can be replaced with "sum".
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script1.js:14:3 can be replaced with "console".
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script2.js:4:3 can be removed.
 /home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/script2.js:5:7 can be replaced with ""MUTATION!"".
-25 of 32 unignored mutations are tested (78%). 2 mutations were ignored.
+26 of 32 unignored mutations are tested (81%). 2 mutations were ignored.

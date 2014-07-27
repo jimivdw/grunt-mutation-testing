@@ -1,7 +1,6 @@
 Working on:
 
 TODO:
-* Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * Untested "Mutate Function Argument" Mutations should get better log message
 * Make types of mutations configurable
 * Get rid of some dependencies
@@ -13,6 +12,7 @@ TODO:
 
 
 Done:
+* Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * "Mutate Function Argument" mutations should keep data type for literals
 * Add "Mutate Literals (Number, String, Boolean)" mutations
 * Add "Remove Function Call" mutations
