@@ -36,4 +36,7 @@ describe('Mutation Testing', function () {
   it('flags all literal mutations', function () {
     assertExpectedReport('tmp/literals.txt', 'test/expected/literals.txt');
   });
+  it('dont test inside of not failing mutations', function () {
+    assertExpectedReport('tmp/dont-test-inside-not-failing-mutations.txt', 'test/expected/dont-test-inside-not-failing-mutations.txt');
+  });
 });

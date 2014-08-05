@@ -16,9 +16,13 @@ exports.init = function (grunt, opts) {
     //https://github.com/visionmedia/mocha/wiki/Third-party-reporters
     var mocha = new Mocha({reporter: function (runner) {
       //dummyReporter
+      //runner.on('fail', function(test, err){
+      //console.log('fail: %s -- error: %s', test.fullTitle(), err.message);
+      //});
     }});
 
     mocha.suite.on('pre-require', function (context, file) {
+      for (var key in require.cache) {delete require.cache[key];}
       requireUncache(file);
     });
 

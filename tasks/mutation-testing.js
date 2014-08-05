@@ -83,6 +83,17 @@ function createMutationLogMessage(srcFilename, mutation) {
       ' can be replaced with "' + truncateReplacement(mutation.replacement) + '".' :
       ' can be removed.');
 }
+
+function createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation) {
+  var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
+  return currentMutationPosition + ' is inside a not failing mutation.';
+}
+
+function isInside(innerMutation, outerMutation) {
+  return innerMutation.begin >= outerMutation.begin &&
+    innerMutation.end <= outerMutation.end;
+}
+
 /**
  * @param {string} srcFilename
  * @param {function} runTests
@@ -96,6 +107,8 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   var stats = createStats();
 
   log('\nMutating file ' + srcFilename + '\n');
+
+  var prevNotFailingMutation;
   mutations.forEach(function (mutation) {
     stats.all += 1;
     if (canBeDiscarded(opts, mutation)) {
@@ -107,11 +120,17 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
     }
     q = q.then(function () {
       log(mutation.line + ',');
+      if (opts.dontTestInsideNotFailingMutations && prevNotFailingMutation && isInside(mutation, prevNotFailingMutation)) {
+        stats.untested += 1;
+        logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
+        return;
+      }
       fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
       return runTests().then(function (testSuccess) {
         if (testSuccess) {
           logMutation(createMutationLogMessage(srcFilename, mutation));
           stats.untested += 1;
+          prevNotFailingMutation = mutation;
         }
       });
     });

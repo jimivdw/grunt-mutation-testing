@@ -1,7 +1,7 @@
 Working on:
 
 TODO:
-* Don't check mutations which are part of untested mutations (optional)
+* Make unCaching of mocha tests more efficient
 * Make types of mutations configurable
 * Get rid of some dependencies
 * Speedup tests
@@ -11,6 +11,8 @@ TODO:
 
 
 Done:
+* fix multiple mocha mutation tests targets for same files bug
+* Don't check mutations which are part of untested mutations (optional)
 * Untested "Mutate Function Argument" Mutations should get better log message
 * Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * "Mutate Function Argument" mutations should keep data type for literals
