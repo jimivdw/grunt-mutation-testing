@@ -68,6 +68,21 @@ function createStatsMessage(stats) {
     ' of ' + allUnIgnored + ' unignored mutations are tested (' + percentTested + '%).' + ignoredMessage;
 }
 
+function truncateReplacement(replacementArg) {
+  var replacement = replacementArg.replace(/\s+/g, ' ');
+  if (replacement.length > 20) {
+    return replacement.slice(0, 10) + ' ... ' + replacement.slice(-10);
+  }
+  return replacement;
+}
+
+function createMutationLogMessage(srcFilename, mutation) {
+  var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
+  return currentMutationPosition + (
+    mutation.replacement ?
+      ' can be replaced with "' + truncateReplacement(mutation.replacement) + '".' :
+      ' can be removed.');
+}
 /**
  * @param {string} srcFilename
  * @param {function} runTests
@@ -91,15 +106,11 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       return;
     }
     q = q.then(function () {
-      var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
       log(mutation.line + ',');
       fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
       return runTests().then(function (testSuccess) {
         if (testSuccess) {
-          logMutation(currentMutationPosition + (
-            mutation.replacement ?
-              ' can be replaced with "' + mutation.replacement + '".' :
-              ' can be removed.'));
+          logMutation(createMutationLogMessage(srcFilename, mutation));
           stats.untested += 1;
         }
       });

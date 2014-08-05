@@ -1,17 +1,17 @@
 Working on:
 
 TODO:
-* Untested "Mutate Function Argument" Mutations should get better log message
+* Don't check mutations which are part of untested mutations (optional)
 * Make types of mutations configurable
 * Get rid of some dependencies
-* Don't check mutations which are part of untested mutations (optional)
 * Speedup tests
 * Better Documentation
-* Document or fix issue of non terminating loops introduced by mutations
+* Document or fix issue c of non terminating loops introduced by mutations
 * Cleanup and Refactor Code
 
 
 Done:
+* Untested "Mutate Function Argument" Mutations should get better log message
 * Configuration of ignored replacements (e.g. to avoid replacements with _, console)
 * "Mutate Function Argument" mutations should keep data type for literals
 * Add "Mutate Literals (Number, String, Boolean)" mutations
