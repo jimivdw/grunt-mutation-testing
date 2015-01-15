@@ -1,11 +1,13 @@
 {
   "name": "grunt-mutation-testing",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
-  "repository": "https://github.com/shybyte/grunt-mutation-testing",
+  "repository": {
+    "type": "git",
+    "url": "https://stash.europe.intranet/projects/ZEL/repos/grunt-mutation-testing"
+  },
   "author": {
     "name": "Marco Stahl",
-    "email": "",
     "url": "https://github.com/shybyte"
   },
   "keywords": [

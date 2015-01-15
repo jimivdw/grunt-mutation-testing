@@ -68,25 +68,26 @@ function createStatsMessage(stats) {
     ' of ' + allUnIgnored + ' unignored mutations are tested (' + percentTested + '%).' + ignoredMessage;
 }
 
-function truncateReplacement(replacementArg) {
+function truncateReplacement(opts, replacementArg) {
+  var maxLength = opts.maxReplacementLength !== undefined ? opts.maxReplacementLength : 20;
   var replacement = replacementArg.replace(/\s+/g, ' ');
-  if (replacement.length > 20) {
-    return replacement.slice(0, 10) + ' ... ' + replacement.slice(-10);
+  if (maxLength > 0 && replacement.length > maxLength) {
+    return replacement.slice(0, maxLength / 2) + ' ... ' + replacement.slice(-maxLength / 2);
   }
   return replacement;
 }
 
-function createMutationLogMessage(srcFilename, mutation) {
+function createMutationLogMessage(opts, srcFilename, mutation) {
   var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
   return currentMutationPosition + (
     mutation.replacement ?
-      ' can be replaced with "' + truncateReplacement(mutation.replacement) + '".' :
-      ' can be removed.');
+      ' can be replaced with: ' + truncateReplacement(opts, mutation.replacement) + '' :
+      ' can be removed');
 }
 
 function createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation) {
   var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
-  return currentMutationPosition + ' is inside a not failing mutation.';
+  return currentMutationPosition + ' is inside a not failing mutation';
 }
 
 function isInside(innerMutation, outerMutation) {
@@ -118,8 +119,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       stats.ignored += 1;
       return;
     }
+    var perc = Math.round((stats.all / mutations.length) * 100);
     q = q.then(function () {
-      log(mutation.line + ',');
+      log('Line ' + mutation.line + ' (' + perc + '%)');
       if (opts.dontTestInsideNotFailingMutations && prevNotFailingMutation && isInside(mutation, prevNotFailingMutation)) {
         stats.untested += 1;
         logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
@@ -128,7 +130,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
       return runTests().then(function (testSuccess) {
         if (testSuccess) {
-          logMutation(createMutationLogMessage(srcFilename, mutation));
+          logMutation(createMutationLogMessage(opts, srcFilename, mutation));
           stats.untested += 1;
           prevNotFailingMutation = mutation;
         }
@@ -202,7 +204,7 @@ function mutationTest(grunt, task, opts) {
             }
 
             function log(msg) {
-              grunt.log.write(msg);
+              grunt.log.write('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + msg);
             }
 
             var logMutationToFileDest = _.partial(logToMutationReport, file.dest);

@@ -16,7 +16,12 @@ exports.init = function (grunt, opts) {
         // defaults, but can be overwritten
         reporters: [],
         logLevel: 'OFF',
-        waitForServerTime: 5
+        waitForServerTime: 5,
+        test: function (done) {
+          runner.run({}, function (numberOfCFailingTests) {
+            done(numberOfCFailingTests === 0);
+          });
+        }
       },
       opts.karma,
       {
@@ -42,12 +47,6 @@ exports.init = function (grunt, opts) {
       doneBefore();
     }, karmaConfig.waitForServerTime * 1000);
 
-  };
-
-  opts.test = function (done) {
-    runner.run({}, function (numberOfCFailingTests) {
-      done(numberOfCFailingTests === 0);
-    });
   };
 
   opts.after = function () {
