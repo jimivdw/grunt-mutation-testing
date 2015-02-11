@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var assert = require("assert")
+var assert = require("assert");
 var mutations = require("../tasks/mutations");
 
 describe('Mutations', function () {
@@ -20,12 +20,14 @@ describe('Mutations', function () {
       assert.deepEqual(mutations.findMutations(addSrc), [
         { begin: 0, end: 160, line: 1, col: 0, replacement: ''},
         { begin: 28, end: 40, line: 2, col: 6, replacement: ''},
-        {"begin": 38,"col": 16,"end": 39,"line": 2,"replacement": "1"},
+        { begin: 38, col : 16, end : 39, line : 2, replacement : '1'},
         { begin: 47, end: 120, line: 3, col: 6, replacement: '' },
-        {"begin": 60,"col": 19,"end": 61,"line": 3,"replacement": "1"},
+        { begin: 60, col : 19, end : 61, line : 3, replacement : '1'},
+        { begin: 64, col : 23, end : 67, line : 3, replacement : '<='},
+        { begin: 64, col : 23, end : 67, line : 3, replacement : '>='},
         { begin: 96, end: 112, line: 4, col: 8, replacement: ''},
         { begin: 127, end: 136, line: 6, col: 6, replacement: ''},
-        {"begin": 134,"col": 13,"end": 135,"line": 6,"replacement": "1"},
+        { begin: 134, col : 13, end : 135, line : 6, replacement : '1'},
         { begin: 143, end: 154, line: 7, col: 6, replacement: ''}
       ])
     });
@@ -156,4 +158,4 @@ describe('Mutations', function () {
     });
 
   })
-})
+});

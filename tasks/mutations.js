@@ -103,24 +103,45 @@ function findMutations(src) {
             });
         }
         else if (astNode.type === 'BinaryExpression') {
-            var mathOperators = {
-                '+': '-',
-                '-': '+',
-                '*': '/',
-                '/': '*',
-                '%': '*'
+            var operators = {
+              '+': {negation:'-'},
+              '-': {negation:'+'},
+              '*': {negation:'/'},
+              '/': {negation:'*'},
+              '%': {negation:'*'},
+              '<': {boundary: '<=', negation:'>='},
+              '<=': {boundary: '<', negation:'>'},
+              '>': {boundary: '>=', negation:'<='},
+              '>=': {boundary: '>', negation:'<'},
+              '===': {boundary: '==', negation:'!=='},
+              '==': {boundary: '===', negation:'!='},
+              '!==': {boundary: '!=', negation:'==='},
+              '!=': {boundary: '!==', negation:'=='}
             };
-            if(mathOperators.hasOwnProperty(astNode.operator)) {
-                var mathOperatorMutation = {
-                    begin: astNode.left.range[1],
-                    end: astNode.right.range[0],
-                    line: astNode.left.loc.end.line,
-                    col: astNode.left.loc.end.column,
-                    replacement:  mathOperators[astNode.operator]
-                };
+            var createOperatorMutation = function (replacement) {
+              return {
+                begin: astNode.left.range[1],
+                end: astNode.right.range[0],
+                line: astNode.left.loc.end.line,
+                col: astNode.left.loc.end.column,
+                replacement: replacement
+              };
+            };
 
-                fun(mathOperatorMutation);
+            if(operators.hasOwnProperty(astNode.operator)) {
+                var boundaryOperator = operators[astNode.operator].boundary;
+                var negationOperator = operators[astNode.operator].negation;
+
+                if (!!boundaryOperator) {
+                  fun(createOperatorMutation(boundaryOperator));
+                }
+
+                if (!!negationOperator) {
+                  fun(createOperatorMutation(negationOperator));
+                }
             }
+          forEachMutation(astNode.left, fun);
+          forEachMutation(astNode.right, fun);
         }
         else if (astNode.type === 'Literal') {
             mutateLiteral(astNode, fun);

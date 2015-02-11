@@ -1,17 +1,18 @@
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:53:65 can be replaced with: <=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:130:143 can be replaced with: <
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:205:217 can be replaced with: >=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:279:292 can be replaced with: >
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:355:369 can be replaced with: ==
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:433:446 can be replaced with: ===
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:511:525 can be replaced with: !=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:591:604 can be replaced with: !==
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:53:65 can be replaced with: >=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:130:143 can be replaced with: >
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:205:217 can be replaced with: <=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:279:292 can be replaced with: <
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:355:369 can be replaced with: !==
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:433:446 can be replaced with: !=
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:511:525 can be replaced with: ===
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:591:604 can be replaced with: ==
-16 of 16 unignored mutations are tested (100%).
+test/fixtures/mocha/comparisons.js:2:3 can be removed
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:2:14 can be replaced with: <=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:2:14 can be replaced with: >=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:6:14 can be replaced with: <
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:6:14 can be replaced with: >
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:10:14 can be replaced with: >=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:10:14 can be replaced with: <=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:14:14 can be replaced with: >
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:14:14 can be replaced with: <
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:18:14 can be replaced with: ==
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:18:14 can be replaced with: !==
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:22:14 can be replaced with: ===
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:22:14 can be replaced with: !=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:26:14 can be replaced with: !=
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:26:14 can be replaced with: ===
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:30:14 can be replaced with: !==
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/comparisons.js:30:14 can be replaced with: ==
+15 of 32 unignored mutations are tested (46%).
