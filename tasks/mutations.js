@@ -94,10 +94,41 @@ function findMutations(src) {
       });
     } else if (astNode.type === 'ArrayExpression') {
       var elements = astNode.elements;
-      elements.forEach(function (element, i) {
+      elements.forEach(function(element, i) {
         fun(createAstArrayElementDeletionMutation(elements, element, i));
         forEachMutation(element, fun);
       });
+    } else if (astNode.type === 'UpdateExpression') {
+      var updateOperatorReplacements = {
+        '++': '--',
+        '--': '++'
+      };
+
+      if(updateOperatorReplacements.hasOwnProperty(astNode.operator)) {
+        var replacement = updateOperatorReplacements[astNode.operator];
+
+        if(astNode.prefix) {
+          // e.g. ++x
+          var updateOperatorMutation = {
+            begin: astNode.range[0],
+            end: astNode.argument.range[0],
+            line: astNode.loc.start.line,
+            col: astNode.loc.start.column,
+            replacement: replacement
+          };
+        } else {
+          // e.g. x++
+          var updateOperatorMutation = {
+            begin: astNode.argument.range[1],
+            end: astNode.range[1],
+            line: astNode.loc.end.line,
+            col: astNode.argument.loc.end.column,
+            replacement: replacement
+          };
+        }
+
+        fun(updateOperatorMutation);
+      }
     } else if (astNode.type === 'Literal') {
       mutateLiteral(astNode, fun);
     } else if (_.isObject(astNode)) {
