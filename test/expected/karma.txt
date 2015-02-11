@@ -1,5 +1,5 @@
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:14:5 can be removed
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:15:5 can be removed
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:15:17 can be replaced with: "MUTATION!"
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/karma-mocha/script1.js:15:5 can be replaced with: sum
+test/fixtures/karma-mocha/script1.js:14:5 can be removed
+test/fixtures/karma-mocha/script1.js:15:5 can be removed
+test/fixtures/karma-mocha/script1.js:15:17 can be replaced with: "MUTATION!"
+test/fixtures/karma-mocha/script1.js:15:5 can be replaced with: sum
 31 of 35 unignored mutations are tested (88%).
