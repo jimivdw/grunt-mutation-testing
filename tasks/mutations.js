@@ -8,6 +8,9 @@
 'use strict';
 var esprima = require('esprima');
 var _ = require('lodash');
+var CommandExecutor = require('../mutationCommands/CommandExecutor');
+var MutateComparisonOperatorCommand = require('../mutationCommands/MutateComparisonOperatorCommand');
+var MutateArithmeticOperatorCommand = require('../mutationCommands/MutateArithmeticOperatorCommand');
 
 function createMutation(astNode, endOffset, replacement) {
     replacement = replacement || '';
@@ -21,8 +24,7 @@ function createMutation(astNode, endOffset, replacement) {
 }
 
 function createAstArrayElementDeletionMutation(astArray, element, elementIndex) {
-    return createMutation(
-        element,
+    return createMutation(element,
         (elementIndex === astArray.length - 1) ? // is last element ?
             element.range[1] :                     // handle last element
             astArray[elementIndex + 1].range[0]    // care for commas by extending to start of next element
@@ -30,24 +32,20 @@ function createAstArrayElementDeletionMutation(astArray, element, elementIndex) 
 }
 
 function createReplaceMutationWithOtherAstNode(src, astNode, replacementAstNode) {
-    return createMutation(
-        astNode,
-        astNode.range[1],
-        src.substring(replacementAstNode.range[0], replacementAstNode.range[1])
-    );
+    return createMutation(astNode, astNode.range[1], src.substring(replacementAstNode.range[0], replacementAstNode.range[1]));
 }
 
 function mutateLiteral(astNode, fun) {
     var literalValue = astNode.value;
     var replacement;
-    if(_.isString(literalValue)) {
+    if (_.isString(literalValue)) {
         replacement = '"MUTATION!"';
-    } else if(_.isNumber(literalValue)) {
+    } else if (_.isNumber(literalValue)) {
         replacement = (literalValue + 1) + "";
-    } else if(_.isBoolean(literalValue)) {
+    } else if (_.isBoolean(literalValue)) {
         replacement = (!literalValue) + '';
     }
-    if(replacement) {
+    if (replacement) {
         fun(createMutation(astNode, astNode.range[1], replacement));
         return true;
     } else {
@@ -56,158 +54,80 @@ function mutateLiteral(astNode, fun) {
 }
 
 function findMutations(src) {
-    var ast = esprima.parse(src, { range: true, loc: true });
+    var ast = esprima.parse(src, {range: true, loc: true});
     //console.log(JSON.stringify(ast));
     function forEachMutation(astNode, fun) {
-        if(!astNode) {
+        if (!astNode) {
             return;
         }
         var body = astNode.body;
-        if(body && _.isArray(body)) {
-            body.forEach(
-                function(childNode) {
-                    fun(createMutation(childNode, childNode.range[1]));
-                    forEachMutation(childNode, fun);
-                }
-            );
+        if (body && _.isArray(body)) {
+            body.forEach(function (childNode) {
+                fun(createMutation(childNode, childNode.range[1]));
+                forEachMutation(childNode, fun);
+            });
         }
-        else if(astNode.type === 'CallExpression') {
+        else if (astNode.type === 'CallExpression') {
             var args = astNode.arguments;
 
-            args.forEach(
-                function(arg, i) {
-                    if(arg.type === 'Literal' && mutateLiteral(arg, fun)) {
-                        // we have found a literal mutation for this argument, so we don't need to mutate more
-                        return;
-                    }
-                    fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
-                    forEachMutation(arg, fun);
+            args.forEach(function (arg, i) {
+                if (arg.type === 'Literal' && mutateLiteral(arg, fun)) {
+                    // we have found a literal mutation for this argument, so we don't need to mutate more
+                    return;
                 }
-            );
+                fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
+                forEachMutation(arg, fun);
+            });
 
-            if(args.length === 1) {
+            if (args.length === 1) {
                 fun(createReplaceMutationWithOtherAstNode(src, astNode, args[0]));
             }
 
-            if(astNode.callee.type === 'MemberExpression') {
+            if (astNode.callee.type === 'MemberExpression') {
                 fun(createReplaceMutationWithOtherAstNode(src, astNode, astNode.callee.object));
             }
 
             forEachMutation(astNode.callee, fun);
         }
-        else if(astNode.type === 'ObjectExpression') {
+        else if (astNode.type === 'ObjectExpression') {
             var properties = astNode.properties;
-            properties.forEach(
-                function(property, i) {
-                    if(property.kind === 'init') {
-                        fun(createAstArrayElementDeletionMutation(properties, property, i));
-                    }
-                    forEachMutation(property.value, fun);
+            properties.forEach(function (property, i) {
+                if (property.kind === 'init') {
+                    fun(createAstArrayElementDeletionMutation(properties, property, i));
                 }
-            );
+                forEachMutation(property.value, fun);
+            });
         }
-        else if(astNode.type === 'ArrayExpression') {
+        else if (astNode.type === 'ArrayExpression') {
             var elements = astNode.elements;
-            elements.forEach(
-                function(element, i) {
-                    fun(createAstArrayElementDeletionMutation(elements, element, i));
-                    forEachMutation(element, fun);
-                }
-            );
+            elements.forEach(function (element, i) {
+                fun(createAstArrayElementDeletionMutation(elements, element, i));
+                forEachMutation(element, fun);
+            });
         }
-        else if(astNode.type === 'BinaryExpression') {
-            // TODO: these mutations can theoretically introduce endless loops
-            var operators = {
-                '+': { negation: '-' },
-                '-': { negation: '+' },
-                '*': { negation: '/' },
-                '/': { negation: '*' },
-                '%': { negation: '*' },
-                '<': { boundary: '<=', negation: '>=' },
-                '<=': { boundary: '<', negation: '>' },
-                '>': { boundary: '>=', negation: '<=' },
-                '>=': { boundary: '>', negation: '<' },
-                '===': { boundary: '==', negation: '!==' },
-                '==': { boundary: '===', negation: '!=' },
-                '!==': { boundary: '!=', negation: '===' },
-                '!=': { boundary: '!==', negation: '==' }
-            };
-            var createOperatorMutation = function(replacement) {
-                return {
-                    begin: astNode.left.range[1],
-                    end: astNode.right.range[0],
-                    line: astNode.left.loc.end.line,
-                    col: astNode.left.loc.end.column,
-                    replacement: replacement
-                };
-            };
+        else if (astNode.type === 'BinaryExpression') {
+          var command = (_.indexOf(['+','-','*','/','%'], astNode.operator) > -1 ?
+            new MutateArithmeticOperatorCommand(astNode, fun) :
+            new MutateComparisonOperatorCommand(astNode, fun));
 
-            if(operators.hasOwnProperty(astNode.operator)) {
-                var boundaryOperator = operators[astNode.operator].boundary;
-                var negationOperator = operators[astNode.operator].negation;
-
-                if(!!boundaryOperator) {
-                    fun(createOperatorMutation(boundaryOperator));
-                }
-
-                if(!!negationOperator) {
-                    fun(createOperatorMutation(negationOperator));
-                }
-            }
-            forEachMutation(astNode.left, fun);
-            forEachMutation(astNode.right, fun);
+          _.each(CommandExecutor.executeCommand(command), function(astSubNode){
+            forEachMutation(astSubNode, fun);
+          });
         }
-        else if(astNode.type === 'UpdateExpression') {
-            // TODO: these mutations can theoretically introduce endless loops
-            var updateOperatorReplacements = {
-                '++': '--',
-                '--': '++'
-            };
-
-            if(updateOperatorReplacements.hasOwnProperty(astNode.operator)) {
-                var replacement = updateOperatorReplacements[astNode.operator];
-
-                if(astNode.prefix) {
-                    // e.g. ++x
-                    var updateOperatorMutation = {
-                        begin: astNode.range[0],
-                        end: astNode.argument.range[0],
-                        line: astNode.loc.start.line,
-                        col: astNode.loc.start.column,
-                        replacement: replacement
-                    };
-                } else {
-                    // e.g. x++
-                    var updateOperatorMutation = {
-                        begin: astNode.argument.range[1],
-                        end: astNode.range[1],
-                        line: astNode.loc.end.line,
-                        col: astNode.argument.loc.end.column,
-                        replacement: replacement
-                    };
-                }
-
-                fun(updateOperatorMutation);
-            }
-        }
-        else if(astNode.type === 'Literal') {
+        else if (astNode.type === 'Literal') {
             mutateLiteral(astNode, fun);
         }
-        else if(_.isObject(astNode)) {
-            _.forOwn(
-                astNode, function(child) {
-                    forEachMutation(child, fun);
-                }
-            );
+        else if (_.isObject(astNode)) {
+            _.forOwn(astNode, function (child) {
+                forEachMutation(child, fun);
+            });
         }
     }
 
     var mutations = [];
-    forEachMutation(
-        ast, function(mutation) {
-            mutations.push(mutation);
-        }
-    );
+    forEachMutation(ast, function (mutation) {
+        mutations.push(mutation);
+    });
 
     return mutations;
 }
