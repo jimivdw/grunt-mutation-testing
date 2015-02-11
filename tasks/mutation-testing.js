@@ -1,6 +1,6 @@
 /*
  * grunt-mutation-testing
- * 
+ *
  *
  * Copyright (c) 2014 Marco Stahl
  * Licensed under the MIT license.
@@ -60,7 +60,7 @@ function addStats(stats1, stats2) {
 }
 
 function createStatsMessage(stats) {
-  var ignoredMessage = ' ' + (stats.ignored ? stats.ignored + ' mutations were ignored.' : '');
+  var ignoredMessage = stats.ignored ? ' ' + stats.ignored + ' mutations were ignored.' : '';
   var allUnIgnored = stats.all - stats.ignored;
   var testedMutations = allUnIgnored - stats.untested;
   var percentTested = Math.floor((testedMutations / allUnIgnored) * 100);
@@ -101,6 +101,8 @@ function isInside(innerMutation, outerMutation) {
  * @param {string} srcFilename
  * @param {function} runTests
  * @param {function} logMutation
+ * @param {function} log the logger
+ * @param {object} opts the config options
  */
 function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
   var src = fs.readFileSync(srcFilename, 'UTF8');
@@ -123,7 +125,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
     }
     var perc = Math.round((stats.all / mutations.length) * 100);
     q = q.then(function () {
-      log('Line ' + mutation.line + ' (' + perc + '%)');
+      log('Line ' + mutation.line + ' (' + perc + '%), ');
       if (opts.dontTestInsideNotFailingMutations && prevNotFailingMutation && isInside(mutation, prevNotFailingMutation)) {
         stats.untested += 1;
         logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
@@ -206,7 +208,7 @@ function mutationTest(grunt, task, opts) {
             }
 
             function log(msg) {
-              grunt.log.write('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + msg);
+              grunt.log.write(msg);
             }
 
             var logMutationToFileDest = _.partial(logToMutationReport, file.dest);
@@ -253,7 +255,7 @@ var DEFAULT_OPTIONS = {
 };
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('mutationTest', 'Test your tests by mutate the code.', function () {
+  grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the production code.', function () {
     var opts = this.options(DEFAULT_OPTIONS);
     mutationTestingKarma.init(grunt, opts);
     mutationTestingMocha.init(grunt, opts);

@@ -1,6 +1,6 @@
 /*
  * grunt-mutation-testing
- * 
+ *
  *
  * Copyright (c) 2014 Marco Stahl
  * Licensed under the MIT license.
@@ -140,6 +140,16 @@ module.exports = function (grunt) {
           'tmp/array.txt': ['test/fixtures/mocha/array.js']
         }
       },
+      comparisons: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/comparisons-test.js']
+          }
+        },
+        files: {
+          'tmp/comparisons.txt': ['test/fixtures/mocha/comparisons.js']
+        }
+      },
       functionCalls: {
         options: {
           mocha: {
@@ -238,6 +248,7 @@ module.exports = function (grunt) {
     'mutationTest:mocha',
     'mutationTest:attributes',
     'mutationTest:args',
+    'mutationTest:comparisons',
     'mutationTest:literals',
     'mutationTest:array',
     'mutationTest:functionCalls',
@@ -259,6 +270,7 @@ module.exports = function (grunt) {
     'mutationTest:array',
     'mutationTest:functionCalls',
     'mutationTest:args',
+    'mutationTest:comparisons',
     'mutationTest:literals',
     'mutationTest:dontTestInsideNotFailingMutations',
     'mutationTest:grunt',

@@ -1,4 +1,4 @@
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:2:10 can be replaced with ""MUTATION!"".
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:6:10 can be replaced with "43".
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:10:10 can be replaced with "false".
-9 of 12 unignored mutations are tested (75%). 
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:2:10 can be replaced with: "MUTATION!"
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:6:10 can be replaced with: 43
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/literals.js:10:10 can be replaced with: false
+9 of 12 unignored mutations are tested (75%).

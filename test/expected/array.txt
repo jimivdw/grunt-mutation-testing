@@ -1,6 +1,6 @@
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:11 can be removed.
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:15 can be removed.
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:15 can be replaced with ""MUTATION!"".
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:25 can be removed.
-/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:25 can be replaced with "124".
-4 of 9 unignored mutations are tested (44%). 
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:11 can be removed
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:15 can be removed
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:15 can be replaced with: "MUTATION!"
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:25 can be removed
+/home/shybyte/workspace/grunt-mutation-testing/test/fixtures/mocha/array.js:3:25 can be replaced with: 124
+4 of 9 unignored mutations are tested (44%).
