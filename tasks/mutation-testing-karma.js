@@ -1,24 +1,28 @@
 var path = require('path');
 var _ = require('lodash');
 
-exports.init = function(grunt, opts) {
-  if(!opts.karma) {
+exports.init = function (grunt, opts) {
+  if (!opts.karma) {
     return;
   }
 
-  var runner = require('karma').runner;
-  var server = require('karma').server;
-  var backgroundProcesses = [];
-  var startServer;
-  var port = 12111;
+  var runner = require('karma').runner,
+    server = require('karma').server,
+    backgroundProcess,
+    defaultTestRunner = function (done) {
+      runner.run({}, function (numberOfCFailingTests) {
+        done(numberOfCFailingTests === 0);
+      });
+    };
 
-  opts.before = function(doneBefore) {
+  opts.before = function (doneBefore) {
     var karmaConfig = _.extend(
       {
         // defaults, but can be overwritten
         reporters: [],
         logLevel: 'OFF',
-        waitForServerTime: 5
+        waitForServerTime: 5,
+        test: defaultTestRunner
       },
       opts.karma,
       {
@@ -26,52 +30,30 @@ exports.init = function(grunt, opts) {
         configFile: path.resolve(opts.karma.configFile),
         background: false,
         singleRun: false,
-        autoWatch: false,
-        port: port
+        autoWatch: false
       }
     );
 
-    startServer = function(startCallback) {
-      backgroundProcesses.push(grunt.util.spawn({
-        cmd: 'node',
-        args: [path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'), JSON.stringify(karmaConfig)]
-      }, function() {
-      }));
-
-      setTimeout(function() {
-        startCallback();
-      }, karmaConfig.waitForServerTime * 1000);
-    };
-
-    process.on('exit', function() {
-      backgroundProcesses.forEach(function(bgProcess) {
-        bgProcess.kill();
-      });
+    backgroundProcess = grunt.util.spawn({
+      cmd: 'node',
+      args: [path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'), JSON.stringify(karmaConfig)]
+    }, function () {
     });
 
-    startServer(doneBefore);
-  };
-
-  opts.test = function(done) {
-    setTimeout(function() {
-      runner.run({ port: port }, function(exitCode) {
-        clearTimeout(timer);
-        done(exitCode === 0);
-      });
-
-      var timer = setTimeout(function() {
-        grunt.log.warn('Potential endless loop detected. Starting a new Karma instance...');
-        port++;
-        startServer(function() {
-          done(false);
-        });
-      }, 2000);
-    }, 100);
-  };
-
-  opts.after = function() {
-    backgroundProcesses.forEach(function(bgProcess) {
-      bgProcess.kill();
+    process.on('exit', function () {
+      backgroundProcess.kill();
     });
+
+    setTimeout(function () {
+      doneBefore();
+    }, karmaConfig.waitForServerTime * 1000);
+
   };
+
+  opts.test = opts.karma.test || defaultTestRunner;
+
+  opts.after = function () {
+    backgroundProcess.kill();
+  };
+
 };
