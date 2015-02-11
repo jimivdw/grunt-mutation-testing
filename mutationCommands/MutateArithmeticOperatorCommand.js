@@ -1,7 +1,6 @@
 /**
- * The comparison operator command creates mutations on a given comparison operator.
- * Each operator can be mutated to its boundary and its negation counterpart, e.g.
- * '<' has '<=' as boundary and '>=' as negation (opposite)
+ * The arithmetic operator command creates mutations on a given arithmetic operator.
+ * Each operator will be mutated to it's opposite
  * Created by Martin Koster on 2/11/15.
  */
 var operators = {
