@@ -1,49 +1,43 @@
 /**
- * The comparison operator command creates mutations on a given comparison operator.
+ * This command creates mutations on a given comparison operator.
  * Each operator can be mutated to its boundary and its negation counterpart, e.g.
  * '<' has '<=' as boundary and '>=' as negation (opposite)
  * Created by Martin Koster on 2/11/15.
  */
+var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
+var Utils = require('../utils/MutationUtils');
 var operators = {
-  '<': {boundary: '<=', negation: '>='},
-  '<=': {boundary: '<', negation: '>'},
-  '>': {boundary: '>=', negation: '<='},
-  '>=': {boundary: '>', negation: '<'},
-  '===': {boundary: '==', negation: '!=='},
-  '==': {boundary: '===', negation: '!='},
-  '!==': {boundary: '!=', negation: '==='},
-  '!=': {boundary: '!==', negation: '=='}
+    '<': {boundary: '<=', negation: '>='},
+    '<=': {boundary: '<', negation: '>'},
+    '>': {boundary: '>=', negation: '<='},
+    '>=': {boundary: '>', negation: '<'},
+    '===': {boundary: '==', negation: '!=='},
+    '==': {boundary: '===', negation: '!='},
+    '!==': {boundary: '!=', negation: '==='},
+    '!=': {boundary: '!==', negation: '=='}
 };
 
-var createOperatorMutation = function (replacement) {
-  return {
-    begin: this._astNode.left.range[1],
-    end: this._astNode.right.range[0],
-    line: this._astNode.left.loc.end.line,
-    col: this._astNode.left.loc.end.column,
-    replacement: replacement
-  };
-};
-
-var MutateComparisonOperatorCommand = function(astNode, callback) {
-  this._astNode = astNode;
-  this._callback = callback;
+var MutateComparisonOperatorCommand = function (src, astNode, callback, parentMutationId) {
+    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
 };
 
 MutateComparisonOperatorCommand.prototype.execute = function () {
-  if (operators.hasOwnProperty(this._astNode.operator)) {
-    var boundaryOperator = operators[this._astNode.operator].boundary;
-    var negationOperator = operators[this._astNode.operator].negation;
+    if (operators.hasOwnProperty(this._astNode.operator)) {
+        var boundaryOperator = operators[this._astNode.operator].boundary;
+        var negationOperator = operators[this._astNode.operator].negation;
 
-    if (!!boundaryOperator) {
-      this._callback(createOperatorMutation.call(this, boundaryOperator));
-    }
+        if (!!boundaryOperator) {
+            this._callback(Utils.createOperatorMutation(this._astNode, this._parentMutationId, boundaryOperator));
+        }
 
-    if (!!negationOperator) {
-      this._callback(createOperatorMutation.call(this, negationOperator));
+        if (!!negationOperator) {
+            this._callback(Utils.createOperatorMutation(this._astNode, this._parentMutationId, negationOperator));
+        }
     }
-  }
-  return [this._astNode.left, this._astNode.right];
+    return [
+        {node: this._astNode.left, parentMutationId: this._parentMutationId}, //mutations on left and right nodes aren't sub-mutations of this so use parent mutation id
+        {node: this._astNode.right, parentMutationId: this._parentMutationId}
+    ];
 };
 
 module.exports = MutateComparisonOperatorCommand;

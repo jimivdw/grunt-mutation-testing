@@ -1,21 +1,21 @@
-/test/fixtures/mocha/script1.js:2:3 var sum = 0; can be removed
-/test/fixtures/mocha/script1.js:2:13 0 can be replaced with: 1
-/test/fixtures/mocha/script1.js:3:3 array.forEach(function(elem) { sum += elem; }); can be removed
-/test/fixtures/mocha/script1.js:4:5 sum += elem; can be removed
-/test/fixtures/mocha/script1.js:3:3 array.forEach(function(elem) { sum += elem; }) can be replaced with: function(elem) { sum += elem; }
-/test/fixtures/mocha/script1.js:3:3 array.forEach(function(elem) { sum += elem; }) can be replaced with: array
-/test/fixtures/mocha/script1.js:6:3 return sum; can be removed
-/test/fixtures/mocha/script1.js:10:3 var x = array[0]; can be removed
-/test/fixtures/mocha/script1.js:10:17 0 can be replaced with: 1
-/test/fixtures/mocha/script1.js:11:3 var y = array[1]; can be removed
-/test/fixtures/mocha/script1.js:11:17 1 can be replaced with: 2
-/test/fixtures/mocha/script1.js:12:3 var sum = x - y; can be removed
-/test/fixtures/mocha/script1.js:12:14  -  can be replaced with: +
-/test/fixtures/mocha/script1.js:13:3 sum = sum + 0; can be removed
-/test/fixtures/mocha/script1.js:13:12  +  can be replaced with: -
-/test/fixtures/mocha/script1.js:13:15 0 can be replaced with: 1
-/test/fixtures/mocha/script1.js:14:15 sum can be replaced with: "MUTATION!"
-/test/fixtures/mocha/script1.js:15:3 return sum; can be removed
+/test/fixtures/mocha/script1.js:2:5 var sum = 0; can be removed
+/test/fixtures/mocha/script1.js:2:15 0 can be replaced with: 1
+/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }); can be removed
+/test/fixtures/mocha/script1.js:4:9 sum += elem; can be removed
+/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }) can be replaced with: function (elem) { sum += elem; }
+/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }) can be replaced with: array
+/test/fixtures/mocha/script1.js:6:5 return sum; can be removed
+/test/fixtures/mocha/script1.js:10:5 var x = array[0]; can be removed
+/test/fixtures/mocha/script1.js:10:19 0 can be replaced with: 1
+/test/fixtures/mocha/script1.js:11:5 var y = array[1]; can be removed
+/test/fixtures/mocha/script1.js:11:19 1 can be replaced with: 2
+/test/fixtures/mocha/script1.js:12:5 var sum = x - y; can be removed
+/test/fixtures/mocha/script1.js:12:16  -  can be replaced with: +
+/test/fixtures/mocha/script1.js:13:5 sum = sum + 0; can be removed
+/test/fixtures/mocha/script1.js:13:14  +  can be replaced with: -
+/test/fixtures/mocha/script1.js:13:17 0 can be replaced with: 1
+/test/fixtures/mocha/script1.js:14:17 sum can be replaced with: "MUTATION!"
+/test/fixtures/mocha/script1.js:15:5 return sum; can be removed
 /test/fixtures/mocha/script1.js:18:1 exports.add = add; can be removed
 /test/fixtures/mocha/script1.js:19:1 exports.sub = sub; can be removed
 0 of 20 unignored mutations are tested (0%). 6 mutations were ignored.

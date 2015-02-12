@@ -1,37 +1,30 @@
 /**
- * The arithmetic operator command creates mutations on a given arithmetic operator.
+ * This command creates mutations on a given arithmetic operator.
  * Each operator will be mutated to it's opposite
  * Created by Martin Koster on 2/11/15.
  */
+var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
+    _ = require('lodash');
+var Utils = require('../utils/MutationUtils');
 var operators = {
-  '+': '-',
-  '-': '+',
-  '*': '/',
-  '/': '*',
-  '%': '*'
+    '+': '-',
+    '-': '+',
+    '*': '/',
+    '/': '*',
+    '%': '*'
 };
 
-var createOperatorMutation = function (replacement) {
-  return {
-    begin: this._astNode.left.range[1],
-    end: this._astNode.right.range[0],
-    line: this._astNode.left.loc.end.line,
-    col: this._astNode.left.loc.end.column,
-    replacement: replacement
-  };
-};
-
-var MutateComparisonOperatorCommand = function(astNode, callback) {
-  this._astNode = astNode;
-  this._callback = callback;
+var MutateComparisonOperatorCommand = function (src, astNode, callback, parentMutationId) {
+    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
 };
 
 MutateComparisonOperatorCommand.prototype.execute = function () {
-  console.log(">>> doing arithmetic mutations");
-  if (operators.hasOwnProperty(this._astNode.operator)) {
-    this._callback(createOperatorMutation.call(this, operators[this._astNode.operator]));
-  }
-  return [this._astNode.left, this._astNode.right];
+    if (operators.hasOwnProperty(this._astNode.operator)) {
+        this._callback(Utils.createOperatorMutation(this._astNode, this._parentMutationId, operators[this._astNode.operator]));
+    }
+    return [
+        {node: this._astNode.left, parentMutationId: this._parentMutationId},
+        {node: this._astNode.right, parentMutationId: this._parentMutationId}];
 };
 
 module.exports = MutateComparisonOperatorCommand;

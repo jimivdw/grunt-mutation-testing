@@ -9,8 +9,9 @@
  * @returns {array} sub-nodes to be processed
  */
 (function (exports) {
-  function executeCommand (mutationCommand) {
-    return mutationCommand.execute();
-  }
-  exports.executeCommand = executeCommand;
+    function executeCommand(mutationCommand) {
+        return mutationCommand.execute();
+    }
+
+    exports.executeCommand = executeCommand;
 })(exports);

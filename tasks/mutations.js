@@ -6,128 +6,73 @@
  */
 
 'use strict';
-var esprima = require('esprima');
-var _ = require('lodash');
-var CommandExecutor = require('../mutationCommands/CommandExecutor');
-var MutateComparisonOperatorCommand = require('../mutationCommands/MutateComparisonOperatorCommand');
-var MutateArithmeticOperatorCommand = require('../mutationCommands/MutateArithmeticOperatorCommand');
-
-function createMutation(astNode, endOffset, replacement) {
-    replacement = replacement || '';
-    return {
-        begin: astNode.range[0],
-        end: endOffset,
-        line: astNode.loc.start.line,
-        col: astNode.loc.start.column,
-        replacement: replacement
-    };
-}
-
-function createAstArrayElementDeletionMutation(astArray, element, elementIndex) {
-    return createMutation(element,
-        (elementIndex === astArray.length - 1) ? // is last element ?
-            element.range[1] :                     // handle last element
-            astArray[elementIndex + 1].range[0]    // care for commas by extending to start of next element
-    );
-}
-
-function createReplaceMutationWithOtherAstNode(src, astNode, replacementAstNode) {
-    return createMutation(astNode, astNode.range[1], src.substring(replacementAstNode.range[0], replacementAstNode.range[1]));
-}
-
-function mutateLiteral(astNode, fun) {
-    var literalValue = astNode.value;
-    var replacement;
-    if (_.isString(literalValue)) {
-        replacement = '"MUTATION!"';
-    } else if (_.isNumber(literalValue)) {
-        replacement = (literalValue + 1) + "";
-    } else if (_.isBoolean(literalValue)) {
-        replacement = (!literalValue) + '';
-    }
-    if (replacement) {
-        fun(createMutation(astNode, astNode.range[1], replacement));
-        return true;
-    } else {
-        return false;
-    }
-}
+var esprima = require('esprima'),
+    _ = require('lodash'),
+    Utils = require('../utils/MutationUtils'),
+    CommandExecutor = require('../mutationCommands/CommandExecutor'),
+    MutateComparisonOperatorCommand = require('../mutationCommands/MutateComparisonOperatorCommand'),
+    MutateArithmeticOperatorCommand = require('../mutationCommands/MutateArithmeticOperatorCommand'),
+    MutateArrayExpressionCommand = require('../mutationCommands/MutateArrayExpressionCommand'),
+    MutateArrayCommand = require('../mutationCommands/MutateArrayCommand'),
+    MutateObjectCommand = require('../mutationCommands/MutateObjectCommand'),
+    MutateLiteralCommand = require('../mutationCommands/MutateLiteralCommand'),
+    MutateDefaultCommand = require('../mutationCommands/MutateBaseCommand'),
+    MutateCallExpressionCommand = require('../mutationCommands/MutateCallExpressionCommand'),
+    MutateDecrementIncrementOperatorCommand = require('../mutationCommands/MutateDecrementIncrementOperatorCommand');
 
 function findMutations(src) {
     var ast = esprima.parse(src, {range: true, loc: true});
     //console.log(JSON.stringify(ast));
-    function forEachMutation(astNode, fun) {
+    function forEachMutation(astNode, processMutation, parentMutationId) {
         if (!astNode) {
             return;
         }
-        var body = astNode.body;
+        var _astNode = astNode,
+            body = astNode.body,
+            Command;
+
         if (body && _.isArray(body)) {
-            body.forEach(function (childNode) {
-                fun(createMutation(childNode, childNode.range[1]));
-                forEachMutation(childNode, fun);
-            });
+            _astNode = body;
+            Command = MutateArrayCommand;
         }
         else if (astNode.type === 'CallExpression') {
-            var args = astNode.arguments;
-
-            args.forEach(function (arg, i) {
-                if (arg.type === 'Literal' && mutateLiteral(arg, fun)) {
-                    // we have found a literal mutation for this argument, so we don't need to mutate more
-                    return;
-                }
-                fun(createMutation(arg, arg.range[1], '"MUTATION!"'));
-                forEachMutation(arg, fun);
-            });
-
-            if (args.length === 1) {
-                fun(createReplaceMutationWithOtherAstNode(src, astNode, args[0]));
-            }
-
-            if (astNode.callee.type === 'MemberExpression') {
-                fun(createReplaceMutationWithOtherAstNode(src, astNode, astNode.callee.object));
-            }
-
-            forEachMutation(astNode.callee, fun);
+            Command = MutateCallExpressionCommand;
         }
         else if (astNode.type === 'ObjectExpression') {
-            var properties = astNode.properties;
-            properties.forEach(function (property, i) {
-                if (property.kind === 'init') {
-                    fun(createAstArrayElementDeletionMutation(properties, property, i));
-                }
-                forEachMutation(property.value, fun);
-            });
+            Command = MutateObjectCommand;
         }
         else if (astNode.type === 'ArrayExpression') {
-            var elements = astNode.elements;
-            elements.forEach(function (element, i) {
-                fun(createAstArrayElementDeletionMutation(elements, element, i));
-                forEachMutation(element, fun);
-            });
+            Command = MutateArrayExpressionCommand;
         }
         else if (astNode.type === 'BinaryExpression') {
-          var command = (_.indexOf(['+','-','*','/','%'], astNode.operator) > -1 ?
-            new MutateArithmeticOperatorCommand(astNode, fun) :
-            new MutateComparisonOperatorCommand(astNode, fun));
-
-          _.each(CommandExecutor.executeCommand(command), function(astSubNode){
-            forEachMutation(astSubNode, fun);
-          });
+            // TODO: these mutations can theoretically introduce endless loops
+            Command = _.indexOf(['+', '-', '*', '/', '%'], astNode.operator) > -1 ?
+                MutateArithmeticOperatorCommand : MutateComparisonOperatorCommand;
+        }
+        else if (astNode.type === 'UpdateExpression') {
+            Command = MutateDecrementIncrementOperatorCommand;
         }
         else if (astNode.type === 'Literal') {
-            mutateLiteral(astNode, fun);
+            Command = MutateLiteralCommand;
         }
         else if (_.isObject(astNode)) {
-            _.forOwn(astNode, function (child) {
-                forEachMutation(child, fun);
-            });
+            Command = MutateDefaultCommand;
+        }
+
+        if (Command) {
+            _.forEach(CommandExecutor.executeCommand(new Command(src, _astNode, processMutation, parentMutationId)),
+                function (astChildNode) {
+                    if (astChildNode.hasOwnProperty('node') && astChildNode.hasOwnProperty('parentMutationId')) {
+                        forEachMutation(astChildNode.node, processMutation, astChildNode.parentMutationId);
+                    }
+                });
         }
     }
 
     var mutations = [];
     forEachMutation(ast, function (mutation) {
         mutations.push(mutation);
-    });
+    }, _.uniqueId());
 
     return mutations;
 }

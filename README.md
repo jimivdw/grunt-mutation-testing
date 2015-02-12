@@ -2,7 +2,7 @@
 
 > JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
 
-[![Build Status](https://travis-ci.org/shybyte/grunt-mutation-testing.svg?branch=master)](https://travis-ci.org/shybyte/grunt-mutation-testing)
+[![Build Status](https://api.travis-ci.org/jimivdw/grunt-mutation-testing.svg?branch=master)](https://travis-ci.org/jimivdw/grunt-mutation-testing)
 
 ## Getting Started
 This plugin requires Grunt.
@@ -158,6 +158,7 @@ grunt.initConfig({
       ignore: /^log\(/,
       test: 'grunt mochaTest:fixtures'
     },
+    
     target: {
       files: {
         'LOG': ['test/fixtures/mocha/script*.js']
@@ -174,4 +175,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2014 Marco Stahl. Licensed under the MIT license.
+Copyright (c) 2015 Jimi van der Woning, Martin Koster. Licensed under the MIT license.

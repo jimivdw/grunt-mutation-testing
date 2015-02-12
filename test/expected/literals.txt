@@ -1,4 +1,4 @@
-/test/fixtures/mocha/literals.js:2:10 'string' can be replaced with: "MUTATION!"
-/test/fixtures/mocha/literals.js:6:10 42 can be replaced with: 43
-/test/fixtures/mocha/literals.js:10:10 true can be replaced with: false
+/test/fixtures/mocha/literals.js:2:12 'string' can be replaced with: "MUTATION!"
+/test/fixtures/mocha/literals.js:6:12 42 can be replaced with: 43
+/test/fixtures/mocha/literals.js:10:12 true can be replaced with: false
 9 of 12 unignored mutations are tested (75%).

@@ -1,13 +1,13 @@
 function getString() {
-  return 'string';
+    return 'string';
 }
 
 function getNumber() {
-  return 42;
+    return 42;
 }
 
 function getBoolean() {
-  return true;
+    return true;
 }
 
 exports.getString = getString;
