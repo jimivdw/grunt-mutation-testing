@@ -39,6 +39,9 @@ describe('Mutation Testing', function () {
   it('flags all mutations of replacing comparators within comparison', function () {
     assertExpectedReport('tmp/comparisons.txt', 'test/expected/comparisons.txt');
   });
+  it('flags all mutations of replacing math operators', function () {
+    assertExpectedReport('tmp/mathoperators.txt', 'test/expected/mathoperators.txt');
+  });
   it('dont test inside of not failing mutations', function () {
     assertExpectedReport('tmp/dont-test-inside-not-failing-mutations.txt', 'test/expected/dont-test-inside-not-failing-mutations.txt');
   });

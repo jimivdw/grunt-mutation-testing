@@ -1,6 +1,5 @@
 var expect = require("chai").expect;
 var comparisons = require("./comparisons");
-console.log (Object.getOwnPropertyNames(expect(function(){}())));
 describe('Comparisons', function () {
   it('lessThan', function () {
     comparisons.lessThan(1, 2)

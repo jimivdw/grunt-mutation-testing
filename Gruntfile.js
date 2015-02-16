@@ -172,6 +172,16 @@ module.exports = function (grunt) {
 //          'LOG': ['test/fixtures/mocha/literals.js']
         }
       },
+      mathoperators: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/mathoperators-test.js']
+          }
+        },
+        files: {
+          'tmp/mathoperators.txt': ['test/fixtures/mocha/mathoperators.js']
+        }
+      },
 
       dontTestInsideNotFailingMutations: {
         options: {
@@ -249,6 +259,7 @@ module.exports = function (grunt) {
     'mutationTest:attributes',
     'mutationTest:args',
     'mutationTest:comparisons',
+    'mutationTest:mathoperators',
     'mutationTest:literals',
     'mutationTest:array',
     'mutationTest:functionCalls',
@@ -271,6 +282,7 @@ module.exports = function (grunt) {
     'mutationTest:functionCalls',
     'mutationTest:args',
     'mutationTest:comparisons',
+    'mutationTest:mathoperators',
     'mutationTest:literals',
     'mutationTest:dontTestInsideNotFailingMutations',
     'mutationTest:grunt',
