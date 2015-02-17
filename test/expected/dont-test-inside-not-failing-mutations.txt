@@ -1,12 +1,12 @@
-test/fixtures/mocha/script1.js:13:3 can be removed
-test/fixtures/mocha/script1.js:13:12 is inside a not failing mutation
-test/fixtures/mocha/script1.js:13:15 is inside a not failing mutation
-test/fixtures/mocha/script1.js:14:3 can be removed
-test/fixtures/mocha/script1.js:14:15 is inside a not failing mutation
-test/fixtures/mocha/script1.js:14:3 is inside a not failing mutation
-test/fixtures/mocha/script1.js:14:3 is inside a not failing mutation
-test/fixtures/mocha/script2.js:4:3 can be removed
-test/fixtures/mocha/script2.js:5:3 can be removed
-test/fixtures/mocha/script2.js:5:7 is inside a not failing mutation
-test/fixtures/mocha/script2.js:5:3 is inside a not failing mutation
+/test/fixtures/mocha/script1.js:13:3 sum = sum + 0; can be removed
+/test/fixtures/mocha/script1.js:13:12 is inside a not failing mutation
+/test/fixtures/mocha/script1.js:13:15 is inside a not failing mutation
+/test/fixtures/mocha/script1.js:14:3 console.log(sum); can be removed
+/test/fixtures/mocha/script1.js:14:15 is inside a not failing mutation
+/test/fixtures/mocha/script1.js:14:3 is inside a not failing mutation
+/test/fixtures/mocha/script1.js:14:3 is inside a not failing mutation
+/test/fixtures/mocha/script2.js:4:3 array = array; can be removed
+/test/fixtures/mocha/script2.js:5:3 log(array); can be removed
+/test/fixtures/mocha/script2.js:5:7 is inside a not failing mutation
+/test/fixtures/mocha/script2.js:5:3 is inside a not failing mutation
 28 of 39 unignored mutations are tested (71%).

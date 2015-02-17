@@ -1,6 +1,6 @@
-test/fixtures/karma-mocha/script1.js:14:5 can be removed
-test/fixtures/karma-mocha/script1.js:14:14 can be replaced with: -
-test/fixtures/karma-mocha/script1.js:15:5 can be removed
-test/fixtures/karma-mocha/script1.js:15:17 can be replaced with: "MUTATION!"
-test/fixtures/karma-mocha/script1.js:15:5 can be replaced with: sum
+/test/fixtures/karma-mocha/script1.js:14:5 sum = sum + 0; can be removed
+/test/fixtures/karma-mocha/script1.js:14:14  +  can be replaced with: -
+/test/fixtures/karma-mocha/script1.js:15:5 console.log(sum); can be removed
+/test/fixtures/karma-mocha/script1.js:15:17 sum can be replaced with: "MUTATION!"
+/test/fixtures/karma-mocha/script1.js:15:5 console.log(sum) can be replaced with: sum
 35 of 40 unignored mutations are tested (87%).

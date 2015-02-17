@@ -78,7 +78,7 @@ function truncateReplacement(opts, replacementArg) {
 }
 
 function createMutationLogMessage(opts, srcFilePath, mutation, src) {
-  var srcFileName = srcFilePath.substr(srcFilePath.indexOf('/app'));
+  var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
   var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
   var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
   return currentMutationPosition + (
@@ -87,8 +87,9 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src) {
       ' ' + truncateReplacement(opts, mutatedCode) + ' can be removed');
 }
 
-function createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation) {
-  var currentMutationPosition = srcFilename + ':' + mutation.line + ':' + (mutation.col + 1);
+function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
+  var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
+  var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
   return currentMutationPosition + ' is inside a not failing mutation';
 }
 
@@ -128,7 +129,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
       log('Line ' + mutation.line + ' (' + perc + '%), ');
       if (opts.dontTestInsideNotFailingMutations && prevNotFailingMutation && isInside(mutation, prevNotFailingMutation)) {
         stats.untested += 1;
-        logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
+        logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
         return;
       }
       fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
