@@ -42,6 +42,9 @@ describe('Mutation Testing', function () {
   it('flags all mutations of replacing math operators', function () {
     assertExpectedReport('tmp/mathoperators.txt', 'test/expected/mathoperators.txt');
   });
+  it('flags all mutations of replacing update expressions', function () {
+    assertExpectedReport('tmp/update-expressions.txt', 'test/expected/update-expressions.txt');
+  });
   it('dont test inside of not failing mutations', function () {
     assertExpectedReport('tmp/dont-test-inside-not-failing-mutations.txt', 'test/expected/dont-test-inside-not-failing-mutations.txt');
   });

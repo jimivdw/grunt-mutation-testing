@@ -186,6 +186,16 @@ module.exports = function (grunt) {
           'tmp/mathoperators.txt': ['test/fixtures/mocha/mathoperators.js']
         }
       },
+      updateExpressions: {
+        options: {
+          mocha: {
+            testFiles: ['test/fixtures/mocha/update-expressions-test.js']
+          }
+        },
+        files: {
+          'tmp/update-expressions.txt': ['test/fixtures/mocha/update-expressions.js']
+        }
+      },
 
       dontTestInsideNotFailingMutations: {
         options: {
@@ -264,6 +274,7 @@ module.exports = function (grunt) {
     'mutationTest:args',
     'mutationTest:comparisons',
     'mutationTest:mathoperators',
+    'mutationTest:updateExpressions',
     'mutationTest:literals',
     'mutationTest:array',
     'mutationTest:functionCalls',
@@ -287,6 +298,7 @@ module.exports = function (grunt) {
     'mutationTest:args',
     'mutationTest:comparisons',
     'mutationTest:mathoperators',
+    'mutationTest:updateExpressions',
     'mutationTest:literals',
     'mutationTest:dontTestInsideNotFailingMutations',
     'mutationTest:grunt',
