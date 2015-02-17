@@ -148,9 +148,6 @@ describe('Mutations', function() {
         var getLiteralsSrc = getLiterals.toString();
         it("find mutations by replacing literals", function() {
             var foundMutations = mutations.findMutations(getLiteralsSrc);
-            console.log(foundMutations[3]);
-            console.log(foundMutations[5]);
-            console.log(foundMutations[7]);
             assert.deepEqual(foundMutations[3], { begin: 70, end: 78, line: 3, col: 24, replacement: '"MUTATION!"' });
             assert.deepEqual(foundMutations[5], { begin: 104, end: 106, line: 4, col: 24, replacement: '43' });
             assert.deepEqual(foundMutations[7], { begin: 133, end: 137, line: 5, col: 25, replacement: 'false' });
