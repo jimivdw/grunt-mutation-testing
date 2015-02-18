@@ -14,9 +14,9 @@ var operators = {
     '%': '*'
 };
 
-var MutateComparisonOperatorCommand = function (src, astNode, callback, parentMutationId) {
+function MutateComparisonOperatorCommand(src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
+}
 
 MutateComparisonOperatorCommand.prototype.execute = function () {
     if (operators.hasOwnProperty(this._astNode.operator)) {

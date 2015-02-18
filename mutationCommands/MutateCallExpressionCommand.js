@@ -6,9 +6,9 @@
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
 var Utils = require('../utils/MutationUtils');
 var LiteralUtils = require('../utils/LiteralUtils');
-var MutateCallExpressionCommand = function (src, astNode, callback, parentMutationId) {
+function MutateCallExpressionCommand (src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
+}
 
 MutateCallExpressionCommand.prototype.execute = function () {
     var astNode = this._astNode,

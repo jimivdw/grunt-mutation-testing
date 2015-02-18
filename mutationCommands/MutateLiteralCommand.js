@@ -6,10 +6,9 @@ var _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var LiteralUtils = require('../utils/LiteralUtils');
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
-var MutateLiteralCommand = function (src, astNode, callback, parentMutationId) {
+function MutateLiteralCommand (src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
-
+}
 
 MutateLiteralCommand.prototype.execute = function () {
     var literalValue = this._astNode.value,
