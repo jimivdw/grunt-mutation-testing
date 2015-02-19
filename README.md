@@ -176,3 +176,5 @@ _(Nothing yet)_
 
 ## License
 Copyright (c) 2015 Jimi van der Woning, Martin Koster. Licensed under the MIT license.
+
+Original version by Marco Stahl
