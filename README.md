@@ -174,4 +174,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2014 Marco Stahl. Licensed under the MIT license.
+Copyright (c) 2015 Jimi van der Woning, Martin Koster. Licensed under the MIT license.
