@@ -9,10 +9,13 @@
 var esprima = require('esprima'),
     _ = require('lodash'),
     Utils = require('../utils/MutationUtils'),
+    MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
+    CommandRegistry = require('../mutationCommands/CommandRegistry'),
     CommandExecutor = require('../mutationCommands/CommandExecutor');
 
-function findMutations(src) {
+function findMutations(src, excludeMutations) {
     var ast = esprima.parse(src, {range: true, loc: true}),
+        excludes = _.merge(CommandRegistry.getDefaultExcludes(), excludeMutations),
         mutations = [];
 
     function forEachMutation(astNode, processMutation, parentMutationId) {
@@ -22,8 +25,11 @@ function findMutations(src) {
             nodeToProcess = (body && _.isArray(body)) ? body : astNode,
             Command;
 
-        Command = astNode && CommandExecutor.selectCommand(astNode);
+        Command = astNode && CommandRegistry.selectCommand(astNode);
         if (Command) {
+            if (excludes[Command.code]) { //the command code is not included - revert to default command
+                Command = MutateBaseCommand;
+            }
             _.forEach(CommandExecutor.executeCommand(new Command(src, nodeToProcess, processMutation, parentMutationId)),
                 function (subTree) {
                     if (subTree.hasOwnProperty('node') && subTree.hasOwnProperty('parentMutationId')) {
