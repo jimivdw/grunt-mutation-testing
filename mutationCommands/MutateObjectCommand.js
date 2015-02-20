@@ -25,3 +25,4 @@ MutateObjectCommand.prototype.execute = function () {
 };
 
 module.exports = MutateObjectCommand;
+module.exports.code = 'OBJECT';

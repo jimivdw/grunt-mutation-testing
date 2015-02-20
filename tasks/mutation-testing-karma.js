@@ -97,4 +97,8 @@ exports.init = function (grunt, opts) {
             }
         );
     };
+
+    opts.excludeMutations = {
+        'INCREMENT': false
+    };
 };

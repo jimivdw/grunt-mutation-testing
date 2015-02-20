@@ -24,8 +24,11 @@ exports.init = function (grunt, opts) {
         });
 
         mocha.suite.on('pre-require', function (context, file) {
-            for (var key in require.cache) {
-                delete require.cache[key];
+            var cache = require.cache || {};
+            for (var key in cache) {
+                if (cache.hasOwnProperty(key)) {
+                    delete cache[key];
+                }
             }
             requireUncache(file);
         });
@@ -44,4 +47,7 @@ exports.init = function (grunt, opts) {
         }
     };
 
+    //opts.excludeMutations = {
+    //    'INCREMENT': false
+    //};
 };

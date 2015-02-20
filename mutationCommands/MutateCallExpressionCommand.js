@@ -46,3 +46,4 @@ MutateCallExpressionCommand.prototype.execute = function () {
 };
 
 module.exports = MutateCallExpressionCommand;
+module.exports.code = 'METHOD_CALL';

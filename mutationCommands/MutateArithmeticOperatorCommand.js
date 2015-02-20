@@ -28,3 +28,4 @@ MutateComparisonOperatorCommand.prototype.execute = function () {
 };
 
 module.exports = MutateComparisonOperatorCommand;
+module.exports.code = 'MATH';

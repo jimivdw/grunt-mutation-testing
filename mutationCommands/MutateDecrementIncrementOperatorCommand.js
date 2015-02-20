@@ -39,3 +39,5 @@ MutateDecrementIncrementOperatorCommand.prototype.execute = function () {
 };
 
 module.exports = MutateDecrementIncrementOperatorCommand;
+module.exports.code = 'INCREMENT';
+module.exports.exclude = true;

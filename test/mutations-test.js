@@ -5,6 +5,8 @@ var mutations = require("../tasks/mutations");
 describe('Mutations', function () {
     function assertDeepEquivalent(properties, expected, actual) {
         var i, l = expected.length;
+        //console.log('expected: \n\t', JSON.stringify(expected).replace(/},/g, '},\n\t'));
+        //console.log('actual: \n\t', JSON.stringify(actual).replace(/},/g, '},\n\t'));
         assert.equal(expected.length, actual.length, 'Unexpected number of mutations');
         for (i = 0; i < l; i++) {
             _.forEach(properties, function (property) {
@@ -37,7 +39,6 @@ describe('Mutations', function () {
                 {begin: 72, end: 73, line: 3, col: 24, replacement: '1'},
                 {begin: 76, end: 79, line: 3, col: 28, replacement: '<='},
                 {begin: 76, end: 79, line: 3, col: 28, replacement: '>='},
-                {begin: 94, end: 96, line: 3, col: 46, replacement: '--'},
                 {begin: 116, end: 132, line: 4, col: 16, replacement: ''},
                 {begin: 166, end: 167, line: 6, col: 19, replacement: '1'}
             ])

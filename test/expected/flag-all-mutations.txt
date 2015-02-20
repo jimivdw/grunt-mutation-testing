@@ -1,11 +1,11 @@
-/test/fixtures/mocha/script1.js:1:1 function add(array) { var sum = 0; array.forEach(function (elem) { sum += elem; }); return sum; } can be removed
+/test/fixtures/mocha/script1.js:1:1 function add(array) { var sum = 0; for (var i = 0; i < array.length; i++) { sum += array[i]; } return sum; } can be removed
 /test/fixtures/mocha/script1.js:2:5 var sum = 0; can be removed
 /test/fixtures/mocha/script1.js:2:15 0 can be replaced with: 1
-/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }); can be removed
-/test/fixtures/mocha/script1.js:3:19 function (elem) { sum += elem; } can be replaced with: "MUTATION!"
-/test/fixtures/mocha/script1.js:4:9 sum += elem; can be removed
-/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }) can be replaced with: function (elem) { sum += elem; }
-/test/fixtures/mocha/script1.js:3:5 array.forEach(function (elem) { sum += elem; }) can be replaced with: array
+/test/fixtures/mocha/script1.js:3:5 for (var i = 0; i < array.length; i++) { sum += array[i]; } can be removed
+/test/fixtures/mocha/script1.js:3:18 0 can be replaced with: 1
+/test/fixtures/mocha/script1.js:4:9 sum += array[i]; can be removed
+/test/fixtures/mocha/script1.js:3:22  <  can be replaced with: <=
+/test/fixtures/mocha/script1.js:3:22  <  can be replaced with: >=
 /test/fixtures/mocha/script1.js:6:5 return sum; can be removed
 /test/fixtures/mocha/script1.js:9:1 function sub(array) { var x = array[0]; var y = array[1]; var sum = x - y; sum = sum + 0; console.log(sum); return sum; } can be removed
 /test/fixtures/mocha/script1.js:10:5 var x = array[0]; can be removed

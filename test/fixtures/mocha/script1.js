@@ -1,8 +1,8 @@
 function add(array) {
     var sum = 0;
-    array.forEach(function (elem) {
-        sum += elem;
-    });
+    for (var i = 0; i < array.length; i++) {
+        sum += array[i];
+    }
     return sum;
 }
 

@@ -23,3 +23,4 @@ MutateLiteralCommand.prototype.execute = function () {
 };
 
 module.exports = MutateLiteralCommand;
+module.exports.code = 'LITERAL';

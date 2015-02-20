@@ -20,8 +20,22 @@ var esprima = require('esprima'),
     MutateCallExpressionCommand = require('../mutationCommands/MutateCallExpressionCommand'),
     MutateDecrementIncrementOperatorCommand = require('../mutationCommands/MutateDecrementIncrementOperatorCommand');
 
-function findMutations(src) {
-    var ast = esprima.parse(src, {range: true, loc: true});
+//TODO: move this to the CommandRegistry when that is merged into this branch
+function getDefaultExcludes() {
+    var excludes = {};
+    excludes[MutateComparisonOperatorCommand.code] = MutateComparisonOperatorCommand.exclude;
+    excludes[MutateArithmeticOperatorCommand.code] = MutateArithmeticOperatorCommand.exclude;
+    excludes[MutateArrayExpressionCommand.code] = MutateArrayExpressionCommand.exclude;
+    excludes[MutateArrayCommand.code] = MutateArrayCommand.exclude;
+    excludes[MutateObjectCommand.code] = MutateObjectCommand.exclude;
+    excludes[MutateLiteralCommand.code] = MutateLiteralCommand.exclude;
+    excludes[MutateCallExpressionCommand.code] = MutateCallExpressionCommand.exclude;
+    excludes[MutateDecrementIncrementOperatorCommand.code] = MutateDecrementIncrementOperatorCommand.exclude;
+    return excludes;
+}
+function findMutations(src, excludeMutations) {
+    var ast = esprima.parse(src, {range: true, loc: true}),
+        excludes = _.merge(getDefaultExcludes(), excludeMutations);
     //console.log(JSON.stringify(ast));
     function forEachMutation(astNode, processMutation, parentMutationId) {
         if (!astNode) {
@@ -60,6 +74,9 @@ function findMutations(src) {
         }
 
         if (Command) {
+            if (excludes[Command.code]) { //the command code is not included - revert to default command
+                Command = MutateDefaultCommand;
+            }
             _.forEach(CommandExecutor.executeCommand(new Command(src, _astNode, processMutation, parentMutationId)),
                 function (astChildNode) {
                     if (astChildNode.hasOwnProperty('node') && astChildNode.hasOwnProperty('parentMutationId')) {

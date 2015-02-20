@@ -1,6 +1,18 @@
+/test/fixtures/karma-mocha/script-update-expressions.js:3:19  <  can be replaced with: <=
+/test/fixtures/karma-mocha/script-update-expressions.js:3:16 ++ can be replaced with: --
+/test/fixtures/karma-mocha/script-update-expressions.js:3:22 10 can be replaced with: 11
+/test/fixtures/karma-mocha/script-update-expressions.js:7:19  >  can be replaced with: >=
+/test/fixtures/karma-mocha/script-update-expressions.js:7:16 -- can be replaced with: ++
+/test/fixtures/karma-mocha/script-update-expressions.js:7:22 10 can be replaced with: 11
+/test/fixtures/karma-mocha/script-update-expressions.js:11:19  <  can be replaced with: <=
+/test/fixtures/karma-mocha/script-update-expressions.js:11:17 ++ can be replaced with: --
+/test/fixtures/karma-mocha/script-update-expressions.js:11:22 10 can be replaced with: 11
+/test/fixtures/karma-mocha/script-update-expressions.js:15:19  >  can be replaced with: >=
+/test/fixtures/karma-mocha/script-update-expressions.js:15:17 -- can be replaced with: ++
+/test/fixtures/karma-mocha/script-update-expressions.js:15:22 10 can be replaced with: 11
 /test/fixtures/karma-mocha/script1.js:14:9 sum = sum + 0; can be removed
 /test/fixtures/karma-mocha/script1.js:15:9 console.log(sum); can be removed
 /test/fixtures/karma-mocha/script1.js:14:18  +  can be replaced with: -
 /test/fixtures/karma-mocha/script1.js:15:21 sum can be replaced with: "MUTATION!"
 /test/fixtures/karma-mocha/script1.js:15:9 console.log(sum) can be replaced with: sum
-35 of 40 unignored mutations are tested (87%).
+51 of 68 unignored mutations are tested (75%).

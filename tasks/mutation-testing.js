@@ -107,7 +107,7 @@ function isInsideNotFailingMutation(innerMutation) {
  */
 function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
     var src = fs.readFileSync(srcFilename, 'UTF8');
-    var mutations = mutate.findMutations(src);
+    var mutations = mutate.findMutations(src, opts.excludeMutations);
     var mutationPromise = new QPromise({});
 
     var stats = createStats();

@@ -22,3 +22,4 @@ MutateArrayCommand.prototype.execute = function () {
 };
 
 module.exports = MutateArrayCommand;
+module.exports.config = 'BLOCK_STATEMENT';
