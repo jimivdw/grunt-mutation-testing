@@ -183,6 +183,17 @@ module.exports = function (grunt) {
 //          'LOG': ['test/fixtures/mocha/literals.js']
                 }
             },
+            unaryExpression: {
+                options: {
+                    mocha: {
+                        testFiles: ['test/fixtures/mocha/unaryExpression-test.js']
+                    }
+                },
+                files: {
+                    'tmp/unaryExpression.txt': ['test/fixtures/mocha/unaryExpression.js']
+//          'LOG': ['test/fixtures/mocha/unaryExpression.js']
+                }
+            },
             mathoperators: {
                 options: {
                     mocha: {
@@ -283,6 +294,7 @@ module.exports = function (grunt) {
         //'mutationTest:mathoperators',
         //'mutationTest:updateExpressions',
         'mutationTest:literals',
+        'mutationTest:unaryExpression',
         'mutationTest:array',
         'mutationTest:functionCalls',
         'mutationTest:karma',
@@ -307,6 +319,7 @@ module.exports = function (grunt) {
         //'mutationTest:mathoperators',
         //'mutationTest:updateExpressions',
         'mutationTest:literals',
+        'mutationTest:unaryExpression',
         'mutationTest:dontTestInsideNotFailingMutations',
         'mutationTest:grunt',
         'mutationTest:karma',

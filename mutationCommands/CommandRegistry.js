@@ -13,6 +13,7 @@ var _ = require('lodash'),
     MutateArrayCommand = require('../mutationCommands/MutateArrayCommand'),
     MutateObjectCommand = require('../mutationCommands/MutateObjectCommand'),
     MutateLiteralCommand = require('../mutationCommands/MutateLiteralCommand'),
+    MutateUnaryExpressionCommand = require('../mutationCommands/MutateUnaryExpressionCommand'),
     MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
     MutateCallExpressionCommand = require('../mutationCommands/MutateCallExpressionCommand'),
     MutateDecrementIncrementOperatorCommand = require('../mutationCommands/MutateDecrementIncrementOperatorCommand'),
@@ -25,6 +26,7 @@ var _ = require('lodash'),
         {predicate: function(node) {return node && node.type === 'BinaryExpression' && !isArithmeticExpression(node);}, Command: MutateComparisonOperatorCommand},
         {predicate: function(node) {return node && node.type === 'UpdateExpression';}, Command: MutateDecrementIncrementOperatorCommand},
         {predicate: function(node) {return node && node.type === 'Literal';}, Command: MutateLiteralCommand},
+        {predicate: function(node) {return node && node.type === 'UnaryExpression';}, Command: MutateUnaryExpressionCommand},
         {predicate: function(node) {return _.isObject(node);}, Command: MutateBaseCommand}
     ];
 
