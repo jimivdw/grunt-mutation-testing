@@ -14,11 +14,11 @@ var operators = {
     '%': '*'
 };
 
-var MutateComparisonOperatorCommand = function (src, astNode, callback, parentMutationId) {
+function MutateArithmeticOperatorCommand(src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
+}
 
-MutateComparisonOperatorCommand.prototype.execute = function () {
+MutateArithmeticOperatorCommand.prototype.execute = function () {
     if (operators.hasOwnProperty(this._astNode.operator)) {
         this._callback(Utils.createOperatorMutation(this._astNode, this._parentMutationId, operators[this._astNode.operator]));
     }
@@ -27,5 +27,6 @@ MutateComparisonOperatorCommand.prototype.execute = function () {
         {node: this._astNode.right, parentMutationId: this._parentMutationId}];
 };
 
-module.exports = MutateComparisonOperatorCommand;
+module.exports = MutateArithmeticOperatorCommand;
 module.exports.code = 'MATH';
+module.exports.exclude = true;

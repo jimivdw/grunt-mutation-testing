@@ -46,8 +46,4 @@ exports.init = function (grunt, opts) {
             done(false);
         }
     };
-
-    //opts.excludeMutations = {
-    //    'INCREMENT': false
-    //};
 };

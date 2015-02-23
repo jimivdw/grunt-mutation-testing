@@ -3,12 +3,12 @@
  * Created by Martin Koster on 2/12/15.
  */
 var _ = require('lodash');
-var MutateBaseCommand = function (src, astNode, callback, parentMutationId) {
+function MutateBaseCommand (src, astNode, callback, parentMutationId) {
     this._src = src;
     this._astNode = astNode;
     this._callback = callback;
     this._parentMutationId = parentMutationId;
-};
+}
 
 MutateBaseCommand.prototype.execute = function () {
     var subNodes = [];

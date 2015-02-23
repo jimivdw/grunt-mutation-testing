@@ -91,7 +91,7 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src) {
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
     var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
-    return currentMutationPosition + ' is inside a not failing mutation';
+    return currentMutationPosition + ' is inside a surviving mutation';
 }
 
 function isInsideNotFailingMutation(innerMutation) {

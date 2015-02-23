@@ -91,6 +91,10 @@ module.exports = function (grunt) {
                 options: {
                     ignore: /^log\(/,
                     discardReplacements: [/^console$/],
+                    //excludeMutations = {
+                    //    'INCREMENT': false,
+                    //    'MATH': false
+                    //},
                     mocha: {
                         testFiles: ['test/fixtures/mocha/mocha-test*.js']
                     }
@@ -103,6 +107,10 @@ module.exports = function (grunt) {
             karma: {
                 options: {
                     discardReplacements: ['console'],
+                    excludeMutations: {
+                        'INCREMENT': false,
+                        'MATH': false
+                    },
                     karma: karmaOptions
                 },
                 files: {
@@ -272,7 +280,7 @@ module.exports = function (grunt) {
         'mutationTest:attributes',
         'mutationTest:args',
         'mutationTest:comparisons',
-        'mutationTest:mathoperators',
+        //'mutationTest:mathoperators',
         //'mutationTest:updateExpressions',
         'mutationTest:literals',
         'mutationTest:array',
@@ -296,7 +304,7 @@ module.exports = function (grunt) {
         'mutationTest:functionCalls',
         'mutationTest:args',
         'mutationTest:comparisons',
-        'mutationTest:mathoperators',
+        //'mutationTest:mathoperators',
         //'mutationTest:updateExpressions',
         'mutationTest:literals',
         'mutationTest:dontTestInsideNotFailingMutations',

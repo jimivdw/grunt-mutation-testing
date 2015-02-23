@@ -3,9 +3,9 @@
  */
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
 var Utils = require('../utils/MutationUtils');
-var MutateDecrementIncrementOperatorCommand = function (src, astNode, callback, parentMutationId) {
+function MutateDecrementIncrementOperatorCommand (src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
+}
 
 MutateDecrementIncrementOperatorCommand.prototype.execute = function () {
     var astNode = this._astNode,

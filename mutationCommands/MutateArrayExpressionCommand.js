@@ -5,9 +5,9 @@
 var _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
-var MutateArrayCommand = function (src, astNode, callback, parentMutationId) {
+function MutateArrayCommand (src, astNode, callback, parentMutationId) {
     MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
-};
+}
 
 MutateArrayCommand.prototype.execute = function () {
     var elements = this._astNode.elements,
