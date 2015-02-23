@@ -77,7 +77,7 @@ exports.init = function (grunt, opts) {
 
                 var timer = setTimeout(
                     function () {
-                        grunt.log.warn('Potential endless loop detected. Starting a new Karma instance...');
+                        grunt.log.warn('\nPotentially infinite loop detected. Starting a new Karma instance...');
                         port++;
                         startServer(
                             function () {
@@ -96,9 +96,5 @@ exports.init = function (grunt, opts) {
                 bgProcess.kill();
             }
         );
-    };
-
-    opts.excludeMutations = {
-        'INCREMENT': false
     };
 };

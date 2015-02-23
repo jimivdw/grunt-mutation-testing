@@ -15,9 +15,9 @@ module.exports = function (config) {
         files: [
             {pattern: 'script*.js'},
             'karma-test.js',
-            'karma-update-expressions-test.js'
+            'karma-update-expressions-test.js',
+            'karma-mathoperators-test.js'
         ],
-
 
         // list of files to exclude
         exclude: [
@@ -56,6 +56,11 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
+        singleRun: false,
+
+        mutationTest: {excludeMutations: {
+            'INCREMENT': false,
+            'MATH': false
+        }}
     });
 };
