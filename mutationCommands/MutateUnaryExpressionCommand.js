@@ -15,7 +15,6 @@ function UnaryExpressionCommand(src, astNode, callback, parentMutationId) {
 UnaryExpressionCommand.prototype.execute = function () {
 
     if (this._astNode.operator) {
-        console.log("INverts:" + JSON.stringify(this._astNode).replace(/},/g,'],\n'));
         this._callback(Utils.createUnaryOperatorMutation(this._astNode, this._parentMutationId, ""));
     }
 
