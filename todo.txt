@@ -6,11 +6,14 @@ TODO:
 * Get rid of some dependencies
 * Speedup tests
 * Better Documentation
-* Document or fix issue c of non terminating loops introduced by mutations
+* Document or fix non terminating loops introduced by mutations
+--> Workaround created for Karma
+--> Still an issue with Mocha
 * Cleanup and Refactor Code
 
 
 Done:
+* Fix non-terminating loops introduced by mutations (for Karma)
 * fix multiple mocha mutation tests targets for same files bug
 * Don't check mutations which are part of untested mutations (optional)
 * Untested "Mutate Function Argument" Mutations should get better log message
