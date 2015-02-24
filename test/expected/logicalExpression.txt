@@ -1,0 +1,7 @@
+/test/fixtures/mocha/logicalExpression.js:2:16  &&  can be replaced with: ||
+/test/fixtures/mocha/logicalExpression.js:2:12 true can be replaced with: false
+/test/fixtures/mocha/logicalExpression.js:2:20 false can be replaced with: true
+/test/fixtures/mocha/logicalExpression.js:6:16  ||  can be replaced with: &&
+/test/fixtures/mocha/logicalExpression.js:6:12 true can be replaced with: false
+/test/fixtures/mocha/logicalExpression.js:6:20 false can be replaced with: true
+6 of 12 unignored mutations are tested (50%).

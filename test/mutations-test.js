@@ -250,5 +250,32 @@ describe('Mutations', function () {
                 replacement: ''
             }]);
         });
+
+        function getLogicalExpression() {
+            return {
+                string: true && 2,
+                number: true || 3
+            };
+        }
+
+        var getLogicalExpressionSrc = getLogicalExpression.toString();
+        it("find mutations by mutating logical expressions", function () {
+            var foundMutations = mutations.findMutations(getLogicalExpressionSrc);
+            console.log("mutations: " + JSON.stringify(foundMutations).replace(/},/g,'],\n'));
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[4]], [{
+                begin: 83,
+                end: 87,
+                line: 3,
+                col: 24,
+                replacement: '||'
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[7]], [{
+                begin: 118,
+                end: 122,
+                line: 4,
+                col: 24,
+                replacement: '&&'
+            }]);
+        });
     })
 });
