@@ -27,3 +27,4 @@ MutateLogicalExpressionCommand.prototype.execute = function () {
 };
 
 module.exports = MutateLogicalExpressionCommand;
+module.exports.code = 'LOGICAL_EXPRESSION';

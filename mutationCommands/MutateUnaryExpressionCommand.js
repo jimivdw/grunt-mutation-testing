@@ -22,3 +22,4 @@ UnaryExpressionCommand.prototype.execute = function () {
 };
 
 module.exports = UnaryExpressionCommand;
+module.exports.code = 'UNARY_EXPRESSION';
