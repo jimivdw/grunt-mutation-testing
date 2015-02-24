@@ -12,8 +12,7 @@ var createMutation = function (astNode, endOffset, parentMutationId, replacement
         col: astNode.loc.start.column,
         parentMutationId: parentMutationId,
         mutationId: _.uniqueId(),
-        replacement: replacement,
-        type: "value"
+        replacement: replacement
     };
 };
 
@@ -32,8 +31,7 @@ var createOperatorMutation = function (astNode, parentMutationId, replacement) {
         col: astNode.left.loc.end.column,
         mutationId: _.uniqueId(),
         parentMutationId: parentMutationId,
-        replacement: replacement,
-        type: "operator"
+        replacement: replacement
     };
 };
 var createUnaryOperatorMutation = function (astNode, parentMutationId, replacement) {
@@ -44,8 +42,7 @@ var createUnaryOperatorMutation = function (astNode, parentMutationId, replaceme
         col: astNode.loc.end.column,
         mutationId: _.uniqueId(),
         parentMutationId: parentMutationId,
-        replacement: replacement,
-        type: "unary"
+        replacement: replacement
     };
 };
 
