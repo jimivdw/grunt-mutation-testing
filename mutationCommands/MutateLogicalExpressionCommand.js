@@ -11,8 +11,8 @@ var operators = {
     '||': '&&'
 };
 
-function MutateLogicalExpressionCommand(src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateLogicalExpressionCommand(src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
 MutateLogicalExpressionCommand.prototype.execute = function () {
@@ -22,8 +22,8 @@ MutateLogicalExpressionCommand.prototype.execute = function () {
     }
 
     return [
-        {node: this._astNode.left, parentMutationId: this._parentMutationId},
-        {node: this._astNode.right, parentMutationId: this._parentMutationId}];
+        {node: this._astNode.left, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables},
+        {node: this._astNode.right, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables}];
 };
 
 module.exports = MutateLogicalExpressionCommand;

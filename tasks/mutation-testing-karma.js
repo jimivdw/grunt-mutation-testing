@@ -6,14 +6,14 @@ exports.init = function (grunt, opts) {
         return;
     }
 
-    var runner = require('karma').runner;
-    var server = require('karma').server;
-    var backgroundProcesses = [];
-    var startServer;
-    var port = 12111;
+    var runner = require('karma').runner,
+        backgroundProcesses = [],
+        startServer,
+        karmaConfig,
+        port = 12111;
 
     opts.before = function (doneBefore) {
-        var karmaConfig = _.extend(
+        karmaConfig = _.extend(
             {
                 // defaults, but can be overwritten
                 reporters: [],
@@ -32,6 +32,7 @@ exports.init = function (grunt, opts) {
         );
 
         startServer = function (startCallback) {
+            //FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
             backgroundProcesses.push(
                 grunt.util.spawn(
                     {
@@ -69,7 +70,8 @@ exports.init = function (grunt, opts) {
         setTimeout(
             function () {
                 runner.run(
-                    {port: port}, function (exitCode) {
+                    _.merge(karmaConfig, {port: port}),
+                    function (exitCode) {
                         clearTimeout(timer);
                         done(exitCode === 0);
                     }

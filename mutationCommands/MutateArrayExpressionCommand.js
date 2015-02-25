@@ -5,8 +5,8 @@
 var _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
-function MutateArrayCommand (src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateArrayCommand (src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
 MutateArrayCommand.prototype.execute = function () {
@@ -16,7 +16,7 @@ MutateArrayCommand.prototype.execute = function () {
     _.each(elements, function (element, i) {
         var mutation = Utils.createAstArrayElementDeletionMutation(elements, element, i, this._parentMutationId);
         this._callback(mutation);
-        subNodes.push({node: element, parentMutationId: mutation.mutationId});
+        subNodes.push({node: element, parentMutationId: mutation.mutationId, loopVariables: this._loopVariables});
     }, this);
     return subNodes;
 };

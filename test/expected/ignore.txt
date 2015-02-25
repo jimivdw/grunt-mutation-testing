@@ -3,10 +3,7 @@
 /test/fixtures/mocha/script1.js:3:5 for (var i = 0; i < array.length; i = i + 1) { sum += array[i]; } can be removed
 /test/fixtures/mocha/script1.js:4:9 sum += array[i]; can be removed
 /test/fixtures/mocha/script1.js:3:18 0 can be replaced with: 1
-/test/fixtures/mocha/script1.js:3:22  <  can be replaced with: <=
-/test/fixtures/mocha/script1.js:3:22  <  can be replaced with: >=
 /test/fixtures/mocha/script1.js:6:5 return sum; can be removed
-/test/fixtures/mocha/script1.js:3:47 1 can be replaced with: 2
 /test/fixtures/mocha/script1.js:10:5 var x = array[0]; can be removed
 /test/fixtures/mocha/script1.js:10:19 0 can be replaced with: 1
 /test/fixtures/mocha/script1.js:11:5 var y = array[1]; can be removed
@@ -18,4 +15,4 @@
 /test/fixtures/mocha/script1.js:15:5 return sum; can be removed
 /test/fixtures/mocha/script1.js:18:1 exports.add = add; can be removed
 /test/fixtures/mocha/script1.js:19:1 exports.sub = sub; can be removed
-0 of 20 unignored mutations are tested (0%). 5 mutations were ignored.
+0 of 17 unignored mutations are tested (0%). 5 mutations were ignored.

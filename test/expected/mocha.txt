@@ -4,4 +4,4 @@
 /test/fixtures/mocha/script1.js:14:5 console.log(sum) can be replaced with: sum
 /test/fixtures/mocha/script2.js:5:5 array = array; can be removed
 /test/fixtures/mocha/script2.js:6:9 array can be replaced with: "MUTATION!"
-29 of 35 unignored mutations are tested (82%). 2 mutations were ignored.
+26 of 32 unignored mutations are tested (81%). 2 mutations were ignored.

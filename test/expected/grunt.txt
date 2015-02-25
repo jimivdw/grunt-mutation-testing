@@ -13,4 +13,4 @@
 /test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: function (x, y) { return x * y; }
 /test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: array
 /test/fixtures/mocha/script2.js:8:9 return x * y; can be removed
-20 of 35 unignored mutations are tested (57%). 2 mutations were ignored.
+17 of 32 unignored mutations are tested (53%). 2 mutations were ignored.

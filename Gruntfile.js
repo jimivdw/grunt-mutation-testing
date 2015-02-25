@@ -92,7 +92,7 @@ module.exports = function (grunt) {
                     ignore: /^log\(/,
                     discardReplacements: [/^console$/],
                     //excludeMutations = {
-                    //    'INCREMENT': false,
+                    //    'UPDATE_EXPRESSION': false,
                     //    'MATH': false
                     //},
                     mocha: {
@@ -108,7 +108,7 @@ module.exports = function (grunt) {
                 options: {
                     discardReplacements: ['console'],
                     excludeMutations: {
-                        'INCREMENT': false,
+                        'UPDATE_EXPRESSION': false,
                         'MATH': false
                     },
                     karma: karmaOptions
@@ -242,17 +242,14 @@ module.exports = function (grunt) {
         },
 
         mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['test/**/*-test.js']
-            },
             fixtures: {
                 options: {
                     reporter: 'spec'
                 },
-                src: ['test/fixtures/mocha/*-test.js']
+                src: [
+                    'test/fixtures/mocha/*-test.js',
+                    'test/fixtures/mocha/**/*Spec.js'
+                ]
             },
             mutations: {
                 options: {

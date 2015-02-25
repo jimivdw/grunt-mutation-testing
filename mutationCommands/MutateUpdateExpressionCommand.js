@@ -3,11 +3,11 @@
  */
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
 var Utils = require('../utils/MutationUtils');
-function MutateDecrementIncrementOperatorCommand (src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateUpdateExpressionCommand (src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
-MutateDecrementIncrementOperatorCommand.prototype.execute = function () {
+MutateUpdateExpressionCommand.prototype.execute = function () {
     var astNode = this._astNode,
         updateOperatorMutation,
         updateOperatorReplacements = {
@@ -15,7 +15,7 @@ MutateDecrementIncrementOperatorCommand.prototype.execute = function () {
             '--': '++'
         };
 
-    if (updateOperatorReplacements.hasOwnProperty(astNode.operator)) {
+    if (canMutate(this._astNode, this._loopVariables) && updateOperatorReplacements.hasOwnProperty(astNode.operator)) {
         var replacement = updateOperatorReplacements[astNode.operator];
 
         if (astNode.prefix) {
@@ -38,6 +38,10 @@ MutateDecrementIncrementOperatorCommand.prototype.execute = function () {
     return [];
 };
 
-module.exports = MutateDecrementIncrementOperatorCommand;
-module.exports.code = 'INCREMENT';
+function canMutate(astNode, loopVariables) {
+    return (loopVariables.indexOf(astNode.argument.name) < 0);
+}
+
+module.exports = MutateUpdateExpressionCommand;
+module.exports.code = 'UPDATE_EXPRESSION';
 module.exports.exclude = true;

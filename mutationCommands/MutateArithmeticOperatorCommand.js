@@ -14,8 +14,8 @@ var operators = {
     '%': '*'
 };
 
-function MutateArithmeticOperatorCommand(src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateArithmeticOperatorCommand(src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
 MutateArithmeticOperatorCommand.prototype.execute = function () {
@@ -23,8 +23,8 @@ MutateArithmeticOperatorCommand.prototype.execute = function () {
         this._callback(Utils.createOperatorMutation(this._astNode, this._parentMutationId, operators[this._astNode.operator]));
     }
     return [
-        {node: this._astNode.left, parentMutationId: this._parentMutationId},
-        {node: this._astNode.right, parentMutationId: this._parentMutationId}];
+        {node: this._astNode.left, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables},
+        {node: this._astNode.right, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables}];
 };
 
 module.exports = MutateArithmeticOperatorCommand;

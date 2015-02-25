@@ -8,4 +8,4 @@
 /test/fixtures/mocha/script2.js:6:5 log(array); can be removed
 /test/fixtures/mocha/script2.js:6:9 is inside a surviving mutation
 /test/fixtures/mocha/script2.js:6:5 is inside a surviving mutation
-27 of 37 unignored mutations are tested (72%).
+24 of 34 unignored mutations are tested (70%).

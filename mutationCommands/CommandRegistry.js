@@ -10,27 +10,37 @@ var _ = require('lodash'),
     MutateComparisonOperatorCommand = require('../mutationCommands/MutateComparisonOperatorCommand'),
     MutateArithmeticOperatorCommand = require('../mutationCommands/MutateArithmeticOperatorCommand'),
     MutateArrayExpressionCommand = require('../mutationCommands/MutateArrayExpressionCommand'),
-    MutateArrayCommand = require('../mutationCommands/MutateArrayCommand'),
+    MutateBlockStatementCommand = require('../mutationCommands/MutateBlockStatementCommand'),
     MutateObjectCommand = require('../mutationCommands/MutateObjectCommand'),
     MutateLiteralCommand = require('../mutationCommands/MutateLiteralCommand'),
     MutateUnaryExpressionCommand = require('../mutationCommands/MutateUnaryExpressionCommand'),
     MutateLogicalExpressionCommand = require('../mutationCommands/MutateLogicalExpressionCommand'),
     MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
     MutateCallExpressionCommand = require('../mutationCommands/MutateCallExpressionCommand'),
-    MutateDecrementIncrementOperatorCommand = require('../mutationCommands/MutateDecrementIncrementOperatorCommand'),
-    registry  = [
-        {predicate: function(node) {return node.body && _.isArray(node.body);}, Command: MutateArrayCommand},
-        {predicate: function(node) {return node && node.type === 'CallExpression';}, Command: MutateCallExpressionCommand},
-        {predicate: function(node) {return node && node.type === 'ObjectExpression';}, Command: MutateObjectCommand},
-        {predicate: function(node) {return node && node.type === 'ArrayExpression';}, Command: MutateArrayExpressionCommand},
-        {predicate: function(node) {return node && node.type === 'BinaryExpression' && isArithmeticExpression(node);}, Command: MutateArithmeticOperatorCommand},
-        {predicate: function(node) {return node && node.type === 'BinaryExpression' && !isArithmeticExpression(node);}, Command: MutateComparisonOperatorCommand},
-        {predicate: function(node) {return node && node.type === 'UpdateExpression';}, Command: MutateDecrementIncrementOperatorCommand},
-        {predicate: function(node) {return node && node.type === 'Literal';}, Command: MutateLiteralCommand},
-        {predicate: function(node) {return node && node.type === 'UnaryExpression';}, Command: MutateUnaryExpressionCommand},
-        {predicate: function(node) {return node && node.type === 'LogicalExpression';}, Command: MutateLogicalExpressionCommand},
-        {predicate: function(node) {return _.isObject(node);}, Command: MutateBaseCommand}
-    ];
+    MutateUpdateExpressionCommand = require('../mutationCommands/MutateUpdateExpressionCommand'),
+    MutateIterationCommand = require('../mutationCommands/MutateIterationCommand'),
+    MutateForLoopCommand = require('../mutationCommands/MutateForLoopCommand'),
+    AssignmentExpressionCommand = require('../mutationCommands/AssignmentExpressionCommand');
+
+/*
+ * Add a new command to this registry together with its predicate. It will automatically be included in the system
+ */
+var registry  = [
+    {predicate: function(node) {return node && node.body && _.isArray(node.body);}, Command: MutateBlockStatementCommand},
+    {predicate: function(node) {return node && (node.type === 'WhileStatement' || node.type === 'DoWhileStatement');}, Command: MutateIterationCommand},
+    {predicate: function(node) {return node && node.type === 'ForStatement';}, Command: MutateForLoopCommand},
+    {predicate: function(node) {return node && node.type === 'AssignmentExpression';}, Command: AssignmentExpressionCommand},
+    {predicate: function(node) {return node && node.type === 'CallExpression';}, Command: MutateCallExpressionCommand},
+    {predicate: function(node) {return node && node.type === 'ObjectExpression';}, Command: MutateObjectCommand},
+    {predicate: function(node) {return node && node.type === 'ArrayExpression';}, Command: MutateArrayExpressionCommand},
+    {predicate: function(node) {return node && node.type === 'BinaryExpression' && isArithmeticExpression(node);}, Command: MutateArithmeticOperatorCommand},
+    {predicate: function(node) {return node && node.type === 'BinaryExpression' && !isArithmeticExpression(node);}, Command: MutateComparisonOperatorCommand},
+    {predicate: function(node) {return node && node.type === 'UpdateExpression';}, Command: MutateUpdateExpressionCommand},
+    {predicate: function(node) {return node && node.type === 'Literal';}, Command: MutateLiteralCommand},
+    {predicate: function(node) {return node && node.type === 'UnaryExpression';}, Command: MutateUnaryExpressionCommand},
+    {predicate: function(node) {return node && node.type === 'LogicalExpression';}, Command: MutateLogicalExpressionCommand},
+    {predicate: function(node) {return _.isObject(node);}, Command: MutateBaseCommand}
+];
 
 function isArithmeticExpression(node) {
     return _.indexOf(['+', '-', '*', '/', '%'], node.operator) > -1;
