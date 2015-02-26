@@ -44,4 +44,3 @@ function canMutate(astNode, loopVariables) {
 
 module.exports = MutateUpdateExpressionCommand;
 module.exports.code = 'UPDATE_EXPRESSION';
-module.exports.exclude = true;

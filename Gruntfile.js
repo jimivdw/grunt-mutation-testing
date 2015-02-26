@@ -91,10 +91,6 @@ module.exports = function (grunt) {
                 options: {
                     ignore: /^log\(/,
                     discardReplacements: [/^console$/],
-                    //excludeMutations = {
-                    //    'UPDATE_EXPRESSION': false,
-                    //    'MATH': false
-                    //},
                     mocha: {
                         testFiles: ['test/fixtures/mocha/mocha-test*.js']
                     }
@@ -107,10 +103,6 @@ module.exports = function (grunt) {
             karma: {
                 options: {
                     discardReplacements: ['console'],
-                    excludeMutations: {
-                        'UPDATE_EXPRESSION': false,
-                        'MATH': false
-                    },
                     karma: karmaOptions
                 },
                 files: {
@@ -234,7 +226,7 @@ module.exports = function (grunt) {
                     }
                 },
                 files: {
-                    'tmp/dont-test-inside-not-failing-mutations.txt': ['test/fixtures/mocha/script*.js']
+                    'tmp/dont-test-inside-surviving-mutations.txt': ['test/fixtures/mocha/script*.js']
                     //'LOG': ['test/fixtures/mocha/script*.js']
                 }
             }
@@ -299,8 +291,8 @@ module.exports = function (grunt) {
         'mutationTest:attributes',
         'mutationTest:args',
         'mutationTest:comparisons',
-        //'mutationTest:mathoperators',
-        //'mutationTest:updateExpressions',
+        'mutationTest:mathoperators',
+        'mutationTest:updateExpressions',
         'mutationTest:literals',
         'mutationTest:unaryExpression',
         'mutationTest:logicalExpression',
@@ -325,8 +317,8 @@ module.exports = function (grunt) {
         'mutationTest:functionCalls',
         'mutationTest:args',
         'mutationTest:comparisons',
-        //'mutationTest:mathoperators',
-        //'mutationTest:updateExpressions',
+        'mutationTest:mathoperators',
+        'mutationTest:updateExpressions',
         'mutationTest:literals',
         'mutationTest:unaryExpression',
         'mutationTest:logicalExpression',

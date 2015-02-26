@@ -1,5 +1,6 @@
 /test/fixtures/mocha/script1.js:13:5 sum = sum + 0; can be removed
 /test/fixtures/mocha/script1.js:14:5 console.log(sum); can be removed
+/test/fixtures/mocha/script1.js:13:14  +  can be replaced with: -
 /test/fixtures/mocha/script1.js:14:17 sum can be replaced with: "MUTATION!"
 /test/fixtures/mocha/script1.js:14:5 console.log(sum) can be replaced with: sum
 /test/fixtures/mocha/script1.js:14:5 console.log(sum) can be replaced with: console
@@ -13,4 +14,5 @@
 /test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: function (x, y) { return x * y; }
 /test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: array
 /test/fixtures/mocha/script2.js:8:9 return x * y; can be removed
-17 of 32 unignored mutations are tested (53%). 2 mutations were ignored.
+/test/fixtures/mocha/script2.js:8:17  *  can be replaced with: /
+18 of 35 unignored mutations are tested (51%). 2 mutations were ignored.

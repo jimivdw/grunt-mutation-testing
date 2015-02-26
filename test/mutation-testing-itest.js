@@ -50,6 +50,6 @@ describe('Mutation Testing', function () {
     //    assertExpectedReport('tmp/update-expressions.txt', 'test/expected/update-expressions.txt');
     //});
     it('dont test inside of surviving mutations', function () {
-        assertExpectedReport('tmp/dont-test-inside-not-failing-mutations.txt', 'test/expected/dont-test-inside-not-failing-mutations.txt');
+        assertExpectedReport('tmp/dont-test-inside-surviving-mutations.txt', 'test/expected/dont-test-inside-surviving-mutations.txt');
     });
 });

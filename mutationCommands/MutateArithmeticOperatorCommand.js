@@ -29,4 +29,3 @@ MutateArithmeticOperatorCommand.prototype.execute = function () {
 
 module.exports = MutateArithmeticOperatorCommand;
 module.exports.code = 'MATH';
-module.exports.exclude = true;
