@@ -1,0 +1,54 @@
+{
+  "./app/js/program.js": {
+    "path": "./app/js/program.js",
+    "s": {
+      "1": 1,
+      "2": 0
+    },
+    "b": {},
+    "f": {"1": 0},
+    "fnMap": {
+      "1": {
+        "name": "getAAAA",
+        "line": 1,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": -45
+          },
+          "end": {
+            "line": 1,
+            "column": 3
+          }
+        }
+      }
+    },
+    "statementMap": {
+      "1": {
+        "start": {
+          "line": 1,
+          "column": -45
+        },
+        "end": {
+          "line": 3,
+          "column": 1
+        }
+      },
+      "2": {
+        "start": {
+          "line": 2,
+          "column": 1
+        },
+        "end": {
+          "line": 3,
+          "column": 0
+        }
+      }
+    },
+    "branchMap": {},
+    "l": {
+      "1": 1,
+      "2": 0
+    }
+  }
+}

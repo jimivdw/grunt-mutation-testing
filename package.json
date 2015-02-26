@@ -1,62 +1,59 @@
 {
-  "name": "grunt-mutation-testing",
-  "version": "0.6.0",
-  "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jimivdw/grunt-mutation-testing"
-  },
-  "author": {
-    "name": "Jimi van der Woning",
-    "url": "https://github.com/jimivdw"
-  },
-  "contributors": [
-    {
-      "name": "Martin Koster",
-      "url": "https://github.com/paysdoc"
+    "name": "grunt-mutation-testing",
+    "version": "0.4.0",
+    "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jimivdw/grunt-mutation-testing"
     },
-    {
-      "name": "Marco Stahl",
-      "url": "https://github.com/shybyte"
+    "author": {
+        "name": "Jimi van der Woning",
+        "url": "https://github.com/jimivdw"
+    },
+    "contributors": [
+        {
+            "name": "Martin Koster",
+            "url": "https://github.com/paysdoc"
+        },
+        {
+            "name": "Marco Stahl",
+            "url": "https://github.com/shybyte"
+        }
+    ],
+    "keywords": [
+        "gruntplugin"
+    ],
+    "main": "Gruntfile.js",
+    "engines": {
+        "node": ">= 0.10.0"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "chai": "~1.9.1",
+        "grunt": "~0.4.2",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-jshint": "~0.8.0",
+        "grunt-karma": "~0.8.3",
+        "grunt-mocha-test": "~0.11.0",
+        "jshint-stylish": "~0.1.5",
+        "karma-chai": "~0.1.0",
+        "karma-mocha": "~0.1.4",
+        "karma-phantomjs-launcher": "~0.1.4",
+        "load-grunt-tasks": "~0.3.0"
+    },
+    "scripts": {
+        "test": "grunt"
+    },
+    "dependencies": {
+        "escodegen": "^1.6.1",
+        "esprima": "~1.2.2",
+        "sync-exec": "~0.3.2",
+        "q": "~1.0.1",
+        "lodash": "~2.4.1",
+        "mocha": "~1.20.1",
+        "require-uncache": "0.0.2",
+        "karma": "~0.12.16",
+        "grunt-shell": "~0.7.0",
+        "istanbul": "~0.3.0"
     }
-  ],
-  "keywords": [
-    "gruntplugin"
-  ],
-  "main": "Gruntfile.js",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "chai": "~1.9.1",
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-karma": "~0.8.3",
-    "grunt-mocha-test": "~0.11.0",
-    "jshint-stylish": "~0.1.5",
-    "karma-chai": "~0.1.0",
-    "karma-jasmine": "~0.1.5",
-    "karma-mocha": "~0.1.4",
-    "karma-phantomjs-launcher": "~0.1.4",
-    "load-grunt-tasks": "~0.3.0"
-  },
-  "scripts": {
-    "test": "grunt"
-  },
-  "dependencies": {
-    "escodegen": "^1.6.1",
-    "esprima": "~1.2.2",
-    "fs-extra": "^0.16.4",
-    "glob": "^5.0.0",
-    "grunt-shell": "~0.7.0",
-    "karma": "~0.12.16",
-    "lodash": "~2.4.1",
-    "mocha": "~1.20.1",
-    "q": "~1.0.1",
-    "require-uncache": "0.0.2",
-    "sync-exec": "~0.3.2",
-    "temp": "^0.8.1"
-  }
 }

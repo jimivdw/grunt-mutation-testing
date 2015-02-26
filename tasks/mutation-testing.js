@@ -14,13 +14,10 @@ var fs = require('fs');
 var exec = require('sync-exec');
 var path = require('path');
 var QPromise = require('q');
-var _ = require('lodash');
-var os = require('os');
-
 var mutate = require('./mutations');
+var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
-
 var notFailingMutations = [];
 
 function ensureRegExpArray(value) {
@@ -83,32 +80,19 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationFileMessage(opts, srcFile) {
-    // Normalize Windows paths to use '/' instead of '\\'
-    if(os.platform() === 'win32') {
-        srcFile = srcFile.replace(/\\/g, '/');
-    }
-
-    // Strip off anything before the basePath when present
-    if(opts.basePath && srcFile.indexOf(opts.basePath) !== -1) {
-        srcFile = srcFile.substr(srcFile.indexOf(opts.basePath));
-    }
-
-    return srcFile;
-}
-
-function createMutationLogMessage(opts, srcFilePath, mutation, src) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+    var result = testSurvived ? "KILLED" : "SURVIVED";
+    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
     return currentMutationPosition + (
             mutation.replacement ?
-            ' ' + truncateReplacement(opts, mutatedCode) + ' can be replaced with: ' + truncateReplacement(opts, mutation.replacement) :
-            ' ' + truncateReplacement(opts, mutatedCode) + ' can be removed');
+            ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + result :
+            ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result );
 }
 
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
@@ -151,9 +135,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
                 return;
             }
             fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
-            return runTests().then(function (testSuccess) {
-                if (testSuccess) {
-                    logMutation(createMutationLogMessage(opts, srcFilename, mutation, src));
+            return runTests().then(function (testSurvived) {
+                logMutation(createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived));
+                if (testSurvived) {
                     stats.untested += 1;
                     notFailingMutations.push(mutation.mutationId);
                 }
@@ -200,9 +184,9 @@ function mutationTest(grunt, task, opts) {
         return deferred.promise;
     }
 
-    opts.before(function () {
-        var files = opts.files;
+    var files = task.files;
 
+    opts.before(function () {
         // run first without mutations
         runTests().done(function (testOk) {
             if (!testOk) {
@@ -270,14 +254,12 @@ function callDone(done) {
 var DEFAULT_OPTIONS = {
     test: callDone,
     before: callDone,
-    after: callDone,
-    files: []
+    after: callDone
 };
 
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the production code.', function () {
         var opts = this.options(DEFAULT_OPTIONS);
-        opts.files = this.files;
         mutationTestingKarma.init(grunt, opts);
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);
