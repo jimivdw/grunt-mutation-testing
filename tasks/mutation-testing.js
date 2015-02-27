@@ -18,6 +18,7 @@ var mutate = require('./mutations');
 var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
+var reportGenerator = require('../lib/ReportGenerator');
 var notFailingMutations = [];
 
 function ensureRegExpArray(value) {
@@ -159,7 +160,6 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 function mutationTest(grunt, task, opts) {
     var done = task.async();
     var mutationTestPromise = new QPromise();
-
     function logToMutationReport(fileDest, msg) {
         if (fileDest === 'LOG') {
             grunt.log.writeln('\n' + msg);
@@ -169,6 +169,13 @@ function mutationTest(grunt, task, opts) {
             grunt.file.write(fileDest, '');
         }
         fs.appendFileSync(fileDest, msg + '\n');
+    }
+
+    function createMutationCoverageReport(){
+        if(task.data.mutationCoverageReporter) {
+            grunt.log.writeln('Generating the mutation coverage report in directory: '+task.data.mutationCoverageReporter.dir)
+            reportGenerator.generate(task.data.mutationCoverageReporter);
+        }
     }
 
     function runTests() {
@@ -233,6 +240,7 @@ function mutationTest(grunt, task, opts) {
                         return mutationFilesPromise;
                     });
                 });
+                createMutationCoverageReport();
             }
 
             mutationTestPromise.then(function () {
