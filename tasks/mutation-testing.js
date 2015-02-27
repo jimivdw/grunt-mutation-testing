@@ -19,6 +19,7 @@ var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
 var reportGenerator = require('../lib/ReportGenerator');
+var coverageGenerator = require('../lib/CoverageGenerator');
 var notFailingMutations = [];
 
 function ensureRegExpArray(value) {
@@ -173,7 +174,9 @@ function mutationTest(grunt, task, opts) {
 
     function createMutationCoverageReport(){
         if(task.data.mutationCoverageReporter) {
-            grunt.log.writeln('Generating the mutation coverage report in directory: '+task.data.mutationCoverageReporter.dir)
+            grunt.log.writeln('Generating the mutation coverage report in directory: '+task.data.mutationCoverageReporter.dir);
+            // TODO the coverageGenerator should be used differently, this is just here now for test purpose
+            coverageGenerator.generate(task.data.mutationCoverageReporter);
             reportGenerator.generate(task.data.mutationCoverageReporter);
         }
     }

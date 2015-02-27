@@ -169,6 +169,10 @@ module.exports = function (grunt) {
                 files: {
 //          'LOG': ['test/fixtures/mocha/function-calls.js']
                     'tmp/function-calls.txt': ['test/fixtures/mocha/function-calls.js']
+                },
+                mutationCoverageReporter: {
+                    type: 'html',
+                    dir: 'reports/coverage'
                 }
             },
             literals: {
