@@ -1,9 +1,9 @@
 function encodeUrl(url) {
-  return encodeURI(url);
+    return encodeURI(url);
 }
 
 function trim(string) {
-  return string.trim();
+    return string.trim();
 }
 
 exports.encodeUrl = encodeUrl;

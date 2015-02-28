@@ -1,0 +1,13 @@
+/test/fixtures/mocha/update-expressions.js:2:15  <  can be replaced with: <=
+/test/fixtures/mocha/update-expressions.js:2:12 ++ can be replaced with: --
+/test/fixtures/mocha/update-expressions.js:2:18 10 can be replaced with: 11
+/test/fixtures/mocha/update-expressions.js:6:15  >  can be replaced with: >=
+/test/fixtures/mocha/update-expressions.js:6:12 -- can be replaced with: ++
+/test/fixtures/mocha/update-expressions.js:6:18 10 can be replaced with: 11
+/test/fixtures/mocha/update-expressions.js:10:15  <  can be replaced with: <=
+/test/fixtures/mocha/update-expressions.js:10:13 ++ can be replaced with: --
+/test/fixtures/mocha/update-expressions.js:10:18 10 can be replaced with: 11
+/test/fixtures/mocha/update-expressions.js:14:15  >  can be replaced with: >=
+/test/fixtures/mocha/update-expressions.js:14:13 -- can be replaced with: ++
+/test/fixtures/mocha/update-expressions.js:14:18 10 can be replaced with: 11
+12 of 24 unignored mutations are tested (50%).
