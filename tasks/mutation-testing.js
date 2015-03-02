@@ -18,8 +18,7 @@ var mutate = require('./mutations');
 var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
-var reportGenerator = require('../lib/ReportGenerator');
-var coverageGenerator = require('../lib/CoverageGenerator');
+var reportGenerator = require('../lib/reporting/ReportGenerator');
 var notFailingMutations = [];
 
 function ensureRegExpArray(value) {
@@ -54,7 +53,8 @@ function createStats() {
     return {
         all: 0,
         ignored: 0,
-        untested: 0 // if a test succeeds for mutated code, it's an untested mutation
+        untested: 0,
+        survived: 0
     };
 }
 
@@ -82,15 +82,22 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+function createMutationResult(opts, srcFilePath, mutation, src, testSurvived) {
     var result = testSurvived ? "KILLED" : "SURVIVED";
     var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
-    return currentMutationPosition + (
+    var message = currentMutationPosition + (
             mutation.replacement ?
             ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + result :
-            ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result );
+            ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result
+        );
+    console.log('creating mutation result', message);
+    return {
+        mutation: mutation,
+        survived: testSurvived,
+        message: message
+    };
 }
 
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
@@ -111,11 +118,17 @@ function isInsideNotFailingMutation(innerMutation) {
  * @param {object} opts the config options
  */
 function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
-    var src = fs.readFileSync(srcFilename, 'UTF8');
+    var src = fs.readFileSync(path.resolve(srcFilename), 'UTF8');
     var mutations = mutate.findMutations(src, opts.excludeMutations);
     var mutationPromise = new QPromise({});
 
     var stats = createStats();
+    var fileMutationResult = {
+        stats: stats,
+        src: src,
+        fileName: srcFilename,
+        mutationResults: []
+    };
 
     log('\nMutating file ' + srcFilename + '\n');
 
@@ -138,17 +151,22 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             }
             fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
             return runTests().then(function (testSurvived) {
-                logMutation(createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived));
+                console.log('success!!');
+				var mutationResult = createMutationResult(opts, srcFilename, mutation, src, testSurvived);
+                fileMutationResult.mutationResults.push(mutationResult);
+                logMutation(mutationResult.message);
                 if (testSurvived) {
-                    stats.untested += 1;
+                    stats.survived += 1;
                     notFailingMutations.push(mutation.mutationId);
                 }
+            }, function() {
+                console.log('failed!!');
             });
         });
     });
 
     mutationPromise = mutationPromise.then(function () {
-        return stats;
+        return {stats: stats, fileMutationResult: fileMutationResult};
     });
 
     return mutationPromise.fin(function () {
@@ -161,6 +179,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 function mutationTest(grunt, task, opts) {
     var done = task.async();
     var mutationTestPromise = new QPromise();
+    var totalResults = [];
     function logToMutationReport(fileDest, msg) {
         if (fileDest === 'LOG') {
             grunt.log.writeln('\n' + msg);
@@ -172,12 +191,10 @@ function mutationTest(grunt, task, opts) {
         fs.appendFileSync(fileDest, msg + '\n');
     }
 
-    function createMutationCoverageReport(){
+    function createMutationCoverageReport(results){
         if(task.data.mutationCoverageReporter) {
             grunt.log.writeln('Generating the mutation coverage report in directory: '+task.data.mutationCoverageReporter.dir);
-            // TODO the coverageGenerator should be used differently, this is just here now for test purpose
-            coverageGenerator.generate(task.data.mutationCoverageReporter);
-            reportGenerator.generate(task.data.mutationCoverageReporter);
+            reportGenerator.generate(task.data.mutationCoverageReporter, results);
         }
     }
 
@@ -230,8 +247,9 @@ function mutationTest(grunt, task, opts) {
                         var mutationFilesPromise = new QPromise();
                         validFiles.forEach(function (srcFile) {
                             mutationFilesPromise = mutationFilesPromise.then(function () {
-                                return mutationTestFile(path.resolve(srcFile), runTests, logMutationToFileDest, log, opts).then(function (stats) {
-                                    statsSummary = addStats(statsSummary, stats);
+								return mutationTestFile(srcFile, runTests, logMutationToFileDest, log, opts).then(function (opts) {
+                                    statsSummary = addStats(statsSummary, opts.stats);
+                                    totalResults.push(opts.fileMutationResult);
                                 });
                             });
                         });
@@ -243,10 +261,10 @@ function mutationTest(grunt, task, opts) {
                         return mutationFilesPromise;
                     });
                 });
-                createMutationCoverageReport();
             }
 
             mutationTestPromise.then(function () {
+                createMutationCoverageReport(totalResults);
                 var dfd = QPromise.defer();
                 opts.after(function () {
                     dfd.resolve();
