@@ -92,7 +92,7 @@ function createMutationResult(opts, srcFilePath, mutation, src, testSurvived) {
             ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + result :
             ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result
         );
-    console.log('creating mutation result', message);
+    //console.log('creating mutation result', message);
     return {
         mutation: mutation,
         survived: testSurvived,
@@ -151,7 +151,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             }
             fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
             return runTests().then(function (testSurvived) {
-                console.log('success!!');
+                //console.log('success!!');
 				var mutationResult = createMutationResult(opts, srcFilename, mutation, src, testSurvived);
                 fileMutationResult.mutationResults.push(mutationResult);
                 logMutation(mutationResult.message);
@@ -159,8 +159,6 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
                     stats.survived += 1;
                     notFailingMutations.push(mutation.mutationId);
                 }
-            }, function() {
-                console.log('failed!!');
             });
         });
     });
