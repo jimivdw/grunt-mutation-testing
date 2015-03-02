@@ -83,7 +83,7 @@ function truncateReplacement(opts, replacementArg) {
 }
 
 function createMutationResult(opts, srcFilePath, mutation, src, testSurvived) {
-    var result = testSurvived ? "KILLED" : "SURVIVED";
+    var result = testSurvived ? "SURVIVED" : "KILLED";
     var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
