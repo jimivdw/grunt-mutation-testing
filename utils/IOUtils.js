@@ -7,7 +7,7 @@ var fs = require('fs');
 /**
  * returns a list of directories, given a path
  * @param {String} path path to dissect
- * @param {boolean} excludeLastSegment exlude last segment of the path (can sometimes be a file name)
+ * @param {boolean} [excludeLastSegment] exclude last segment of the path (can sometimes be a file name), DEFAULT false
  * @returns {Array} the directory segments in the path
  */
 module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSegment) {
