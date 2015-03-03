@@ -4,21 +4,31 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
         #source {
             font-family: courier, 'Lucida Sans Typewriter', monospace;
             white-space: pre;
         }
+        #header {
+            background-color: #bfb;
+            padding: 10px;
+        }
         .killed, .survived {
             margin: 0 1px;
         }
-        .killed{background-color: darkseagreen}
-        .survived{background-color: red}
+        .killed{background-color: #bfb}
+        .survived{background-color: #f66}
     </style>
 </head>
 <body>
 <div id="header">
     <h1>Mutation Test {{project}}</h1>
-    <p>Mutation Coverage {{coverage}}%</p>
+    <p>Number of Mutations: <strong>{{total}}</strong> of which <strong>{{survived}}</strong> survived,&nbsp;
+        <strong>{{ignored}}</strong> ignored and <strong>{{untested}}</strong> untested</p>
+    <p>Mutation coverage: <strong>{{coverage}}%</strong></p>
 </div>
 <h2>{{fileName}}</h2>
 <div id='source'>{{{source}}}</div>
