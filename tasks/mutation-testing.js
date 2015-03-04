@@ -67,7 +67,7 @@ function addStats(stats1, stats2) {
 function createStatsMessage(stats) {
     var ignoredMessage = stats.ignored ? ' ' + stats.ignored + ' mutations were ignored.' : '';
     var allUnIgnored = stats.all - stats.ignored;
-    var testedMutations = allUnIgnored - stats.untested;
+    var testedMutations = allUnIgnored - stats.untested - stats.survived;
     var percentTested = Math.floor((testedMutations / allUnIgnored) * 100);
     return testedMutations +
         ' of ' + allUnIgnored + ' unignored mutations are tested (' + percentTested + '%).' + ignoredMessage;
@@ -82,9 +82,8 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationResult(opts, srcFilePath, mutation, src, testSurvived) {
+function createMutationResult(opts, srcFileName, mutation, src, testSurvived) {
     var result = testSurvived ? "SURVIVED" : "KILLED";
-    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
     var message = currentMutationPosition + (
@@ -100,8 +99,7 @@ function createMutationResult(opts, srcFilePath, mutation, src, testSurvived) {
     };
 }
 
-function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
-    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
+function createNotTestedBecauseInsideUntestedMutationLogMessage(srcFileName, mutation) {
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
@@ -146,7 +144,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
-                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
+                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
                 return;
             }
             fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
@@ -154,9 +152,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
                 //console.log('success!!');
 				var mutationResult = createMutationResult(opts, srcFilename, mutation, src, testSurvived);
                 fileMutationResult.mutationResults.push(mutationResult);
-                logMutation(mutationResult.message);
                 if (testSurvived) {
                     stats.survived += 1;
+                    logMutation(mutationResult.message);
                     notFailingMutations.push(mutation.mutationId);
                 }
             });
