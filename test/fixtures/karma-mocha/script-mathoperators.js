@@ -24,7 +24,7 @@
 
     exports.looping = function (array) {
         var prev = 0, _new;
-        for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to let the arithmetic mutation cause an infinite loop
+        for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop
             _new = prev + array[i];
             prev = array[i];
             array[i] = _new;

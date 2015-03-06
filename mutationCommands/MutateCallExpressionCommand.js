@@ -6,8 +6,8 @@
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
 var Utils = require('../utils/MutationUtils');
 var LiteralUtils = require('../utils/LiteralUtils');
-function MutateCallExpressionCommand (src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateCallExpressionCommand (src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
 MutateCallExpressionCommand.prototype.execute = function () {
@@ -28,7 +28,7 @@ MutateCallExpressionCommand.prototype.execute = function () {
             return;
         }
         callback(mutation || Utils.createMutation(arg, arg.range[1], parentMutationId, '"MUTATION!"'));
-        astChildNodes.push({node: arg, parentMutationId: parentMutationId});
+        astChildNodes.push({node: arg, parentMutationId: parentMutationId, loopVariables: this._loopVariables});
     });
 
     if (args.length === 1) {

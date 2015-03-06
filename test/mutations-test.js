@@ -5,14 +5,9 @@ var mutations = require("../tasks/mutations");
 describe('Mutations', function () {
     function assertDeepEquivalent(properties, actual, expected) {
         var i, l = expected.length;
-        //console.log('expected: \n\t', JSON.stringify(expected).replace(/},/g, '},\n\t'));
-        //console.log('actual: \n\t', JSON.stringify(actual).replace(/},/g, '},\n\t'));
         assert.equal(l, actual.length, 'Unexpected number of mutations. Expected ' + l + ', but was ' + actual.length);
         for (i = 0; i < l; i++) {
             _.forEach(properties, function (property) {
-                if (expected.replacement === 'MUTATIjON!') {
-                    console.log(JSON.stringify(actual));
-                }
                 assert.strictEqual(actual[i][property], expected[i][property], 'expected ' + property + ': ' + actual[i][property] + ' to equal ' + expected[i][property]);
             });
         }
@@ -33,7 +28,6 @@ describe('Mutations', function () {
 
         it('find mutations in simple function', function () {
             var actual = mutations.findMutations(addSrc);
-            //console.log(JSON.stringify(actual).replace(/},/g, '},\n'));
             assertDeepEquivalent(['begin', 'end', 'replacement'], actual, [
                 {begin: 0, end: 202, line: 1, col: 0, replacement: ''},
                 {begin: 34, end: 46, line: 2, col: 12, replacement: ''},
@@ -42,8 +36,6 @@ describe('Mutations', function () {
                 {begin: 181, end: 192, line: 7, col: 12, replacement: ''},
                 {begin: 44, end: 45, line: 2, col: 22, replacement: '1'},
                 {begin: 72, end: 73, line: 3, col: 24, replacement: '1'},
-                {begin: 76, end: 79, line: 3, col: 28, replacement: '<='},
-                {begin: 76, end: 79, line: 3, col: 28, replacement: '>='},
                 {begin: 116, end: 132, line: 4, col: 16, replacement: ''},
                 {begin: 166, end: 167, line: 6, col: 19, replacement: '1'}
             ])
@@ -261,7 +253,6 @@ describe('Mutations', function () {
         var getLogicalExpressionSrc = getLogicalExpression.toString();
         it("find mutations by mutating logical expressions", function () {
             var foundMutations = mutations.findMutations(getLogicalExpressionSrc);
-            console.log("mutations: " + JSON.stringify(foundMutations).replace(/},/g,'],\n'));
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[4]], [{
                 begin: 83,
                 end: 87,

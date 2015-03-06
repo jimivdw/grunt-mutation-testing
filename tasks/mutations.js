@@ -18,11 +18,8 @@ function findMutations(src, excludeMutations) {
         excludes = _.merge(CommandRegistry.getDefaultExcludes(), excludeMutations),
         mutations = [];
 
-    function forEachMutation(astNode, processMutation, parentMutationId) {
-        var body = astNode && astNode.body,
-            /* while selecting a command requires the node, the actual prcessing may
-             * in some cases require the body of the node, which is itself a node */
-            nodeToProcess = (body && _.isArray(body)) ? body : astNode,
+    function forEachMutation(subtree, processMutation) {
+        var astNode = subtree.node,
             Command;
 
         Command = astNode && CommandRegistry.selectCommand(astNode);
@@ -30,18 +27,17 @@ function findMutations(src, excludeMutations) {
             if (excludes[Command.code]) { //the command code is not included - revert to default command
                 Command = MutateBaseCommand;
             }
-            _.forEach(CommandExecutor.executeCommand(new Command(src, nodeToProcess, processMutation, parentMutationId)),
+            _.forEach(CommandExecutor.executeCommand(new Command(src, subtree, processMutation)),
                 function (subTree) {
-                    if (subTree.hasOwnProperty('node') && subTree.hasOwnProperty('parentMutationId')) {
-                        forEachMutation(subTree.node, processMutation, subTree.parentMutationId);
-                    }
-                });
+                    forEachMutation(subTree, processMutation);
+                }
+            );
         }
     }
 
-    forEachMutation(ast, function (mutation) {
+    forEachMutation({node:ast, parentMutationId: _.uniqueId()}, function (mutation) {
         mutations.push(mutation);
-    }, _.uniqueId());
+    });
 
     return mutations;
 }

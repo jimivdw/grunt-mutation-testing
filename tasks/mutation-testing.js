@@ -4,6 +4,8 @@
  *
  * Copyright (c) 2014 Marco Stahl
  * Licensed under the MIT license.
+ *
+ * TODO (Martin Koster): split up this file and refactor to effect better separation of concerns. That should also improve legibility
  */
 
 'use strict';

@@ -5,21 +5,21 @@
 var _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
-function MutateArrayCommand (src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateBlockStatementCommand (src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
-MutateArrayCommand.prototype.execute = function () {
+MutateBlockStatementCommand.prototype.execute = function () {
     var mutation,
         subTree = [];
 
-    _.forEach(this._astNode, function (childNode, i) {
+    _.forEach(this._astNode, function (childNode) {
         mutation = Utils.createMutation(childNode, childNode.range[1], this._parentMutationId);
         this._callback(mutation);
-        subTree.push({node: childNode, parentMutationId: mutation.mutationId});
+        subTree.push({node: childNode, parentMutationId: mutation.mutationId, loopVariables: this._loopVariables});
     }, this);
     return subTree;
 };
 
-module.exports = MutateArrayCommand;
+module.exports = MutateBlockStatementCommand;
 module.exports.config = 'BLOCK_STATEMENT';

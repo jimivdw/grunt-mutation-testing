@@ -17,8 +17,8 @@ var operators = {
     '!=': {boundary: '!==', negation: '=='}
 };
 
-function MutateComparisonOperatorCommand (src, astNode, callback, parentMutationId) {
-    MutateBaseCommand.call(this, src, astNode, callback, parentMutationId);
+function MutateComparisonOperatorCommand (src, subTree, callback) {
+    MutateBaseCommand.call(this, src, subTree, callback);
 }
 
 MutateComparisonOperatorCommand.prototype.execute = function () {
@@ -35,8 +35,8 @@ MutateComparisonOperatorCommand.prototype.execute = function () {
         }
     }
     return [
-        {node: this._astNode.left, parentMutationId: this._parentMutationId}, //mutations on left and right nodes aren't sub-mutations of this so use parent mutation id
-        {node: this._astNode.right, parentMutationId: this._parentMutationId}
+        {node: this._astNode.left, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables}, //mutations on left and right nodes aren't sub-mutations of this so use parent mutation id
+        {node: this._astNode.right, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables}
     ];
 };
 
