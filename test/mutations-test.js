@@ -5,8 +5,6 @@ var mutations = require("../tasks/mutations");
 describe('Mutations', function () {
     function assertDeepEquivalent(properties, actual, expected) {
         var i, l = expected.length;
-        //console.log('expected: \n\t', JSON.stringify(expected).replace(/},/g, '},\n\t'));
-        //console.log('actual: \n\t', JSON.stringify(actual).replace(/},/g, '},\n\t'));
         assert.equal(l, actual.length, 'Unexpected number of mutations. Expected ' + l + ', but was ' + actual.length);
         for (i = 0; i < l; i++) {
             _.forEach(properties, function (property) {
@@ -30,7 +28,6 @@ describe('Mutations', function () {
 
         it('find mutations in simple function', function () {
             var actual = mutations.findMutations(addSrc);
-            console.log(JSON.stringify(actual).replace(/},/g, '},\n'));
             assertDeepEquivalent(['begin', 'end', 'replacement'], actual, [
                 {begin: 0, end: 202, line: 1, col: 0, replacement: ''},
                 {begin: 34, end: 46, line: 2, col: 12, replacement: ''},
@@ -256,7 +253,6 @@ describe('Mutations', function () {
         var getLogicalExpressionSrc = getLogicalExpression.toString();
         it("find mutations by mutating logical expressions", function () {
             var foundMutations = mutations.findMutations(getLogicalExpressionSrc);
-            //console.log("mutations: " + JSON.stringify(foundMutations).replace(/},/g,'],\n'));
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[4]], [{
                 begin: 83,
                 end: 87,
