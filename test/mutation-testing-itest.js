@@ -34,6 +34,12 @@ describe('Mutation Testing', function () {
     it('flags all literal mutations', function () {
         assertExpectedReport('tmp/literals.txt', 'test/expected/literals.txt');
     });
+    it('flags all unary expression mutations', function () {
+        assertExpectedReport('tmp/unaryExpression.txt', 'test/expected/unaryExpression.txt');
+    });
+    it('flags all logical expression mutations', function () {
+        assertExpectedReport('tmp/logicalExpression.txt', 'test/expected/logicalExpression.txt');
+    });
     it('flags all mutations of replacing comparators within comparison', function () {
         assertExpectedReport('tmp/comparisons.txt', 'test/expected/comparisons.txt');
     });

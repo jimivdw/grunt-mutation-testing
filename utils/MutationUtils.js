@@ -34,7 +34,19 @@ var createOperatorMutation = function (astNode, parentMutationId, replacement) {
         replacement: replacement
     };
 };
+var createUnaryOperatorMutation = function (astNode, parentMutationId, replacement) {
+    return {
+        begin: astNode.range[0],
+        end: astNode.range[0]+1,
+        line: astNode.loc.end.line,
+        col: astNode.loc.end.column,
+        mutationId: _.uniqueId(),
+        parentMutationId: parentMutationId,
+        replacement: replacement
+    };
+};
 
 module.exports.createMutation = createMutation;
 module.exports.createAstArrayElementDeletionMutation = createAstArrayElementDeletionMutation;
 module.exports.createOperatorMutation = createOperatorMutation;
+module.exports.createUnaryOperatorMutation = createUnaryOperatorMutation;

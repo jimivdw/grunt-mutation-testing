@@ -10,6 +10,9 @@ describe('Mutations', function () {
         assert.equal(l, actual.length, 'Unexpected number of mutations. Expected ' + l + ', but was ' + actual.length);
         for (i = 0; i < l; i++) {
             _.forEach(properties, function (property) {
+                if (expected.replacement === 'MUTATIjON!') {
+                    console.log(JSON.stringify(actual));
+                }
                 assert.strictEqual(actual[i][property], expected[i][property], 'expected ' + property + ': ' + actual[i][property] + ' to equal ' + expected[i][property]);
             });
         }
@@ -55,14 +58,14 @@ describe('Mutations', function () {
         var mulSrc = mul.toString();
         it('find mutations in functions used as argument', function () {
             var foundMutations = mutations.findMutations(mulSrc);
-            var innerReturnMutation = foundMutations[3];
-            assertDeepEquivalent(['begin', 'end', 'replacement'], innerReturnMutation, {
-                begin: 87,
-                end: 100,
+            var innerReturnMutation = foundMutations[5];
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [innerReturnMutation], [{
+                begin: 88,
+                end: 101,
                 line: 3,
                 col: 16,
                 replacement: ''
-            });
+            }]);
         });
 
 
@@ -77,13 +80,13 @@ describe('Mutations', function () {
             var foundMutations = mutations.findMutations(createSimplePersonSrc);
             assert.equal(foundMutations.length, 3);
             var attributeMutation = foundMutations[2];
-            assertDeepEquivalent(['begin', 'end', 'replacement'], attributeMutation, {
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [attributeMutation], [{
                 begin: 73,
                 end: 83,
                 line: 3,
                 col: 16,
                 replacement: ''
-            });
+            }]);
         });
 
         function createPerson(name, age) {
@@ -99,13 +102,13 @@ describe('Mutations', function () {
             assert.equal(foundMutations.length, 4);
             var attributeMutation = foundMutations[2];
             // take care for the comma
-            assertDeepEquivalent(['begin', 'end', 'replacement'], attributeMutation, {
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [attributeMutation], [{
                 begin: 72,
                 end: 100,
                 line: 3,
                 col: 16,
                 replacement: ''
-            });
+            }]);
         });
 
         function containsName(persons, name) {
@@ -155,13 +158,13 @@ describe('Mutations', function () {
         var encodeUrlSrc = encodeUrl.toString();
         it("find mutations by replacing function call with it's argument", function () {
             var foundMutations = mutations.findMutations(encodeUrlSrc);
-            assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations[3], {
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[3]], [{
                 begin: 45,
                 end: 59,
                 line: 2,
                 col: 19,
                 replacement: 'url'
-            });
+            }]);
         });
 
         function trim(string) {
@@ -171,13 +174,13 @@ describe('Mutations', function () {
         var trimSrc = trim.toString();
         it("find mutations by replacing method calls with object", function () {
             var foundMutations = mutations.findMutations(trimSrc);
-            assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations[2], {
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[2]], [{
                 begin: 43,
                 end: 56,
                 line: 2,
                 col: 19,
                 replacement: 'string'
-            });
+            }]);
         });
 
         function getLiterals() {
@@ -191,28 +194,88 @@ describe('Mutations', function () {
         var getLiteralsSrc = getLiterals.toString();
         it("find mutations by replacing literals", function () {
             var foundMutations = mutations.findMutations(getLiteralsSrc);
-            assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations[3], {
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[5]], [{
                 begin: 70,
                 end: 78,
                 line: 3,
                 col: 24,
                 replacement: '"MUTATION!"'
-            });
-            assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations[5], {
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[6]], [{
                 begin: 104,
                 end: 106,
                 line: 4,
                 col: 24,
                 replacement: '43'
-            });
-            assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations[7], {
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[7]], [{
                 begin: 133,
                 end: 137,
                 line: 5,
                 col: 25,
                 replacement: 'false'
-            });
+            }]);
         });
 
+        function getUnaryExpression() {
+            return {
+                string: -"string",
+                number: -42,
+                boolean: -true
+            };
+        }
+
+        var getUnaryExpressionSrc = getUnaryExpression.toString();
+        it("find mutations by mutating unary expressions", function () {
+            var foundMutations = mutations.findMutations(getUnaryExpressionSrc);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[5]], [{
+                begin: 77,
+                end: 78,
+                line: 3,
+                col: 24,
+                replacement: ''
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[6]], [{
+                begin: 112,
+                end: 113,
+                line: 4,
+                col: 24,
+                replacement: ''
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[7]], [{
+                begin: 142,
+                end: 143,
+                line: 5,
+                col: 25,
+                replacement: ''
+            }]);
+        });
+
+        function getLogicalExpression() {
+            return {
+                string: true && 2,
+                number: true || 3
+            };
+        }
+
+        var getLogicalExpressionSrc = getLogicalExpression.toString();
+        it("find mutations by mutating logical expressions", function () {
+            var foundMutations = mutations.findMutations(getLogicalExpressionSrc);
+            console.log("mutations: " + JSON.stringify(foundMutations).replace(/},/g,'],\n'));
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[4]], [{
+                begin: 83,
+                end: 87,
+                line: 3,
+                col: 24,
+                replacement: '||'
+            }]);
+            assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[7]], [{
+                begin: 118,
+                end: 122,
+                line: 4,
+                col: 24,
+                replacement: '&&'
+            }]);
+        });
     })
 });
