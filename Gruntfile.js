@@ -220,6 +220,10 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/mathoperators.txt': ['test/fixtures/mocha/mathoperators.js']
+                },
+                mutationCoverageReporter: {
+                    type: 'html',
+                    dir: 'reports/coverage'
                 }
             },
             updateExpressions: {

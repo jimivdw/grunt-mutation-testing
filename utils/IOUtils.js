@@ -2,7 +2,8 @@
  * IO relates utilities
  * Created by Martin Koster on 3/2/15.
  */
-var fs = require('fs');
+var fs = require('fs'),
+    Q = require('q');
 
 /**
  * returns a list of directories, given a path

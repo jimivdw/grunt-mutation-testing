@@ -13,6 +13,7 @@ html, body {
 #popup {
     position: absolute;
     border: solid 1px black;
+    padding: 3px;
     display: none;
 }
 #popup.show {
