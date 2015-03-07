@@ -183,9 +183,9 @@ function mutationTest(grunt, task, opts) {
         return deferred.promise;
     }
 
-    var files = task.files;
-
     opts.before(function () {
+        var files = opts.files;
+
         // run first without mutations
         runTests().done(function (testOk) {
             if (!testOk) {
@@ -253,12 +253,14 @@ function callDone(done) {
 var DEFAULT_OPTIONS = {
     test: callDone,
     before: callDone,
-    after: callDone
+    after: callDone,
+    files: []
 };
 
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the production code.', function () {
         var opts = this.options(DEFAULT_OPTIONS);
+        opts.files = this.files;
         mutationTestingKarma.init(grunt, opts);
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);

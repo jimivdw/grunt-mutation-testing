@@ -1,5 +1,7 @@
 var path = require('path');
 var _ = require('lodash');
+var karmaParseConfig = require('karma/lib/config').parseConfig;
+var CopyUtils = require('../utils/CopyUtils');
 
 exports.init = function (grunt, opts) {
     if (!opts.karma) {
@@ -30,28 +32,59 @@ exports.init = function (grunt, opts) {
                 port: port
             }
         );
-
-        startServer = function (startCallback) {
-            //FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
-            backgroundProcesses.push(
-                grunt.util.spawn(
-                    {
-                        cmd: 'node',
-                        args: [
-                            path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'),
-                            JSON.stringify(karmaConfig)
-                        ]
-                    }, function () {
-                    }
+        
+        // Find which files are used in the unit test such that they can be copied
+        var configFileContents = karmaParseConfig(karmaConfig.configFile, {});
+        var unitTestFiles = opts.unitTestFiles || opts.karma.files || configFileContents.files.map(function(file) {
+            return path.relative(path.resolve('.'), file.pattern);
+        });
+        
+        CopyUtils.copyToTemp(unitTestFiles, 'mutation-testing').done(function(tempDirPath) {
+            // Set the basePath relative to the temp dir
+            karmaConfig.basePath = path.join(
+                tempDirPath,
+                path.relative(
+                    path.resolve('.'),
+                    path.dirname(karmaConfig.configFile)
                 )
             );
+            
+            // Set the paths to the files to be mutated relative to the temp dir
+            var files = [];
+            opts.files.forEach(function(fileSet) {
+                files.push({
+                    src: fileSet.src.map(function(file) {
+                        return path.join(tempDirPath, file);
+                    }),
+                    dest: fileSet.dest
+                });
+            });
+            opts.files = files;
 
-            setTimeout(
-                function () {
-                    startCallback();
-                }, karmaConfig.waitForServerTime * 1000
-            );
-        };
+            startServer = function (startCallback) {
+                //FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
+                backgroundProcesses.push(
+                    grunt.util.spawn(
+                        {
+                            cmd: 'node',
+                            args: [
+                                path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'),
+                                JSON.stringify(karmaConfig)
+                            ]
+                        }, function () {
+                        }
+                    )
+                );
+
+                setTimeout(
+                    function () {
+                        startCallback();
+                    }, karmaConfig.waitForServerTime * 1000
+                );
+            };
+
+            startServer(doneBefore);
+        });
 
         process.on(
             'exit', function () {
@@ -62,8 +95,6 @@ exports.init = function (grunt, opts) {
                 );
             }
         );
-
-        startServer(doneBefore);
     };
 
     opts.test = function (done) {
