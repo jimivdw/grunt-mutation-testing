@@ -14,10 +14,13 @@ var fs = require('fs');
 var exec = require('sync-exec');
 var path = require('path');
 var QPromise = require('q');
-var mutate = require('./mutations');
 var _ = require('lodash');
+var os = require('os');
+
+var mutate = require('./mutations');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
+
 var notFailingMutations = [];
 
 function ensureRegExpArray(value) {
@@ -80,8 +83,22 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
+function createMutationFileMessage(opts, srcFile) {
+    // Normalize Windows paths to use '/' instead of '\\'
+    if(os.platform() === 'win32') {
+        srcFile = srcFile.replace(/\\/g, '/');
+    }
+
+    // Strip off anything before the basePath when present
+    if(opts.basePath && srcFile.indexOf(opts.basePath) !== -1) {
+        srcFile = srcFile.substr(srcFile.indexOf(opts.basePath));
+    }
+
+    return srcFile;
+}
+
 function createMutationLogMessage(opts, srcFilePath, mutation, src) {
-    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
     return currentMutationPosition + (
@@ -91,7 +108,7 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src) {
 }
 
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
-    var srcFileName = opts.basePath ? srcFilePath.substr(srcFilePath.indexOf(opts.basePath)) : srcFilePath;
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
