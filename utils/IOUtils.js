@@ -41,3 +41,27 @@ module.exports.createDirIfNotExists = function createDirIfNotExists(newDir) {
         fs.mkdirSync(newDir);
     }
 };
+
+module.exports.readFileInPromise = function readFileInPromise(fileName) {
+    return Q.Promise(function(resolve, reject){
+        fs.readFile(fileName, function(error, data) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+
+module.exports.writeFileInPromise = function writeFileInPromise(fileName, data) {
+    return Q.Promise(function(resolve, reject){
+        fs.writeFile(fileName, data, function(error, data) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
