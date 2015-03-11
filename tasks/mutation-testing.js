@@ -13,7 +13,7 @@ var esprima = require('esprima');
 var fs = require('fs');
 var exec = require('sync-exec');
 var path = require('path');
-var QPromise = require('q');
+var Q = require('q');
 var mutate = require('./mutations');
 var _ = require('lodash');
 var mutationTestingKarma = require('./mutation-testing-karma');
@@ -118,7 +118,7 @@ function isInsideNotFailingMutation(innerMutation) {
 function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
     var src = fs.readFileSync(path.resolve(srcFilename), 'UTF8');
     var mutations = mutate.findMutations(src, opts.excludeMutations);
-    var mutationPromise = new QPromise({});
+    var mutationPromise = new Q({});
 
     var stats = createStats();
     var fileMutationResult = {
@@ -174,7 +174,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
 
 function mutationTest(grunt, task, opts) {
     var done = task.async();
-    var mutationTestPromise = new QPromise();
+    var mutationTestPromise = new Q();
     var totalResults = [];
     function logToMutationReport(fileDest, msg) {
         if (fileDest === 'LOG') {
@@ -195,7 +195,7 @@ function mutationTest(grunt, task, opts) {
     }
 
     function runTests() {
-        var deferred = QPromise.defer();
+        var deferred = Q.defer();
         if (typeof opts.test === 'string') {
             var execResult = exec(opts.test);
             deferred.resolve(execResult.status === 0);
@@ -240,7 +240,7 @@ function mutationTest(grunt, task, opts) {
                         var logMutationToFileDest = _.partial(logToMutationReport, file.dest);
                         var statsSummary = createStats();
 
-                        var mutationFilesPromise = new QPromise();
+                        var mutationFilesPromise = new Q();
                         validFiles.forEach(function (srcFile) {
                             mutationFilesPromise = mutationFilesPromise.then(function () {
 								return mutationTestFile(srcFile, runTests, logMutationToFileDest, log, opts).then(function (opts) {
@@ -261,7 +261,7 @@ function mutationTest(grunt, task, opts) {
 
             mutationTestPromise.then(function () {
                 createMutationCoverageReport(totalResults);
-                var dfd = QPromise.defer();
+                var dfd = Q.defer();
                 opts.after(function () {
                     dfd.resolve();
                 });
