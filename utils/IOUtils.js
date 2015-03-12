@@ -61,13 +61,7 @@ module.exports.createDirIfNotExists = function createDirIfNotExists(newDir) {
 module.exports.promiseToReadFile = function promiseToReadFile(fileName) {
     return Q.Promise(function(resolve, reject){
         fs.readFile(fileName, 'utf-8', function(error, data) {
-            if (error) {
-                console.log('error reading', error);
-                reject(error);
-            } else {
-                console.log('read success');
-                resolve(data);
-            }
+            error ? reject(error) : resolve(data);
         });
     });
 };
@@ -75,13 +69,24 @@ module.exports.promiseToReadFile = function promiseToReadFile(fileName) {
 module.exports.promiseToWriteFile = function promiseToWriteFile(fileName, data) {
     return Q.Promise(function(resolve, reject){
         fs.writeFile(fileName, data, function(error, data) {
-            if (error) {
-                console.log('error writing', error);
-                reject(error);
-            } else {
-                console.log('write success');
-                resolve(data);
-            }
+            error ? reject(error) : resolve(data);
         });
     });
 };
+
+module.exports.promiseToReadDir = function promiseToReadDir(directory) {
+    return Q.Promise(function(resolve, reject){
+        fs.readdir(directory, function(error, data) {
+            error ? reject(error) : resolve(data);
+        });
+    });
+};
+
+module.exports.promiseToStat = function promiseToStat(directory) {
+    return Q.Promise(function(resolve, reject){
+        fs.stat(directory, function(error, data) {
+            error ? reject(error) : resolve(data);
+        });
+    });
+};
+
