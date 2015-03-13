@@ -2,7 +2,7 @@
 /**
  * Utility functions for copying files
  *
- * @module CopyUtils 
+ * @module CopyUtils
  * @author Jimi van der Woning
  */
 
@@ -14,7 +14,7 @@ var fs = require('fs-extra'),
     temp = require('temp');
 
 // Remove files after the process
-//temp.track();
+temp.track();
 
 /**
  * Copy a file or array of files to a temporary directory. File paths may contain wildcards,
@@ -33,22 +33,22 @@ function copyToTemp(files, tempDirName) {
     temp.mkdir(tempDirName, function(err, tempDirPath) {
         try {
             if(err) { throw err; }
-            
+
             files.forEach(function(filePath) {
                 // Resolve all wildcards in the filePath
                 var globbedFilePaths = glob.sync(filePath, { dot: true });
-                
+
                 globbedFilePaths.forEach(function(gfp) {
                     fs.copySync(gfp, path.join(tempDirPath, gfp));
                 });
             });
-            
+
             deferred.resolve(tempDirPath);
         } catch(err) {
             deferred.reject(err);
         }
     });
-    
+
     return deferred.promise;
 }
 
