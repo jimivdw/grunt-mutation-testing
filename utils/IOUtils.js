@@ -35,7 +35,7 @@ module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSeg
 /**
  * creates a directory path if it doesn't exist
  * @param {string, Array} path path to create
- * @param {string} parentDir parent directory to create paht from
+ * @param {string} parentDir parent directory to create path from
  */
 module.exports.createPathIfNotExists = function createPathIfNotExists(path, parentDir) {
     var directoryList = (path === 'string') ? path.split(pathAux.sep) : path;

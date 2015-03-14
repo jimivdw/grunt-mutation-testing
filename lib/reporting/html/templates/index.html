@@ -11,7 +11,7 @@
     <h1>Mutation Test {{project}}</h1>
     <p>Number of Mutations: <strong>{{stats.all}}</strong> of which <strong>{{stats.survived}}</strong> survived,&nbsp;
         <strong>{{stats.ignored}}</strong> ignored and <strong>{{stats.untested}}</strong> untested</p>
-    <p>Mutation coverage: <strong>{{coverage}}%</strong></p>
+    <span id="successRate" class="{{status}}">Mutation success rate: <strong>{{folderSuccessRate}}%</strong></span>
 </div>
 <h2>{{fileName}}</h2>
 <ul id='files'>{{{listItems}}}</ul>

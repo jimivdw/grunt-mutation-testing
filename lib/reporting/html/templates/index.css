@@ -2,26 +2,16 @@ html, body {
     margin: 0;
     padding: 0;
 }
-#source {
-    font-family: courier, 'Lucida Sans Typewriter', monospace;
-    white-space: pre;
-}
 #header {
     background-color: #fff5a0;
     padding: 10px;
 }
-#popup {
-    position: absolute;
-    border: solid 1px black;
-    padding: 3px;
-    display: none;
-}
-#popup.show {
-    display: block;
-}
-#coverage {
+#successRate {
     padding: 2px;
     border: none;
+}
+.link {
+    cursor: pointer;
 }
 .killed, .survived {
     border: solid 1px white;
