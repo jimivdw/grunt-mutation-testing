@@ -28,28 +28,28 @@ describe('Mutation Testing', function () {
     it('flags all mutations of array literals', function () {
         assertExpectedReport('tmp/array.txt', 'test/expected/array.txt');
     });
-    it('flags all mutations of replacing function calls with argument', function () {
-        assertExpectedReport('tmp/function-calls.txt', 'test/expected/function-calls.txt');
-    });
-    it('flags all literal mutations', function () {
-        assertExpectedReport('tmp/literals.txt', 'test/expected/literals.txt');
-    });
-    it('flags all unary expression mutations', function () {
-        assertExpectedReport('tmp/unaryExpression.txt', 'test/expected/unaryExpression.txt');
-    });
-    it('flags all logical expression mutations', function () {
-        assertExpectedReport('tmp/logicalExpression.txt', 'test/expected/logicalExpression.txt');
-    });
-    it('flags all mutations of replacing comparators within comparison', function () {
+    it('flags all mutations of replacing comparators within comparison', function() {
         assertExpectedReport('tmp/comparisons.txt', 'test/expected/comparisons.txt');
     });
-    //it('flags all mutations of replacing math operators', function () {
-    //    assertExpectedReport('tmp/mathoperators.txt', 'test/expected/mathoperators.txt');
-    //});
-    //it('flags all mutations of replacing update expressions', function () {
-    //    assertExpectedReport('tmp/update-expressions.txt', 'test/expected/update-expressions.txt');
-    //});
-    it('dont test inside of surviving mutations', function () {
+    it('flags all mutations of replacing function calls with argument', function() {
+        assertExpectedReport('tmp/function-calls.txt', 'test/expected/function-calls.txt');
+    });
+    it('flags all literal mutations', function() {
+        assertExpectedReport('tmp/literals.txt', 'test/expected/literals.txt');
+    });
+    it('flags all unary expression mutations', function() {
+        assertExpectedReport('tmp/unaryExpression.txt', 'test/expected/unaryExpression.txt');
+    });
+    it('flags all logical expression mutations', function() {
+        assertExpectedReport('tmp/logicalExpression.txt', 'test/expected/logicalExpression.txt');
+    });
+    it('flags all mutations of replacing math operators', function() {
+        assertExpectedReport('tmp/mathoperators.txt', 'test/expected/mathoperators.txt');
+    });
+    it('flags all mutations of replacing update expressions', function() {
+        assertExpectedReport('tmp/update-expressions.txt', 'test/expected/update-expressions.txt');
+    });
+    it('dont test inside of surviving mutations', function() {
         assertExpectedReport('tmp/dont-test-inside-surviving-mutations.txt', 'test/expected/dont-test-inside-surviving-mutations.txt');
     });
 });

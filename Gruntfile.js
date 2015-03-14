@@ -91,6 +91,7 @@ module.exports = function (grunt) {
                 options: {
                     ignore: /^log\(/,
                     discardReplacements: [/^console$/],
+                    unitTestFiles: ['test/fixtures/mocha/script*.js', 'test/fixtures/mocha/mocha-test*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/mocha-test*.js']
                     }
@@ -112,6 +113,7 @@ module.exports = function (grunt) {
             },
             attributes: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/attribute.js', 'test/fixtures/mocha/attribute-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/attribute-test.js']
                     }
@@ -124,6 +126,7 @@ module.exports = function (grunt) {
             args: {
                 options: {
                     discardReplacements: /^_$/,
+                    mutateProductionCode: true,
                     mocha: {
                         testFiles: ['test/fixtures/mocha/arguments-test.js']
                     }
@@ -135,6 +138,7 @@ module.exports = function (grunt) {
             },
             array: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/array.js', 'test/fixtures/mocha/array-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/array-test.js']
                     }
@@ -145,6 +149,7 @@ module.exports = function (grunt) {
             },
             comparisons: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/comparisons.js', 'test/fixtures/mocha/comparisons-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/comparisons-test.js']
                     }
@@ -155,6 +160,7 @@ module.exports = function (grunt) {
             },
             functionCalls: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/function-calls.js', 'test/fixtures/mocha/function-calls-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/function-calls-test.js']
                     }
@@ -166,6 +172,7 @@ module.exports = function (grunt) {
             },
             literals: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/literals.js', 'test/fixtures/mocha/literals-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/literals-test.js']
                     }
@@ -177,6 +184,7 @@ module.exports = function (grunt) {
             },
             unaryExpression: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/unaryExpression.js', 'test/fixtures/mocha/unaryExpression-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/unaryExpression-test.js']
                     }
@@ -188,6 +196,7 @@ module.exports = function (grunt) {
             },
             logicalExpression: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/logicalExpression.js', 'test/fixtures/mocha/logicalExpression-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/logicalExpression-test.js']
                     }
@@ -199,6 +208,7 @@ module.exports = function (grunt) {
             },
             mathoperators: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/mathoperators.js', 'test/fixtures/mocha/mathoperators-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/mathoperators-test.js']
                     }
@@ -209,6 +219,7 @@ module.exports = function (grunt) {
             },
             updateExpressions: {
                 options: {
+                    unitTestFiles: ['test/fixtures/mocha/update-expressions.js', 'test/fixtures/mocha/update-expressions-test.js', 'node_modules/chai/**/*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/update-expressions-test.js']
                     }
@@ -221,6 +232,7 @@ module.exports = function (grunt) {
             dontTestInsideNotFailingMutations: {
                 options: {
                     dontTestInsideNotFailingMutations: true,
+                    unitTestFiles: ['test/fixtures/mocha/script*.js', 'test/fixtures/mocha/mocha-test*.js'],
                     mocha: {
                         testFiles: ['test/fixtures/mocha/mocha-test*.js']
                     }
