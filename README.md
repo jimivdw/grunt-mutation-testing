@@ -209,6 +209,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v 0.6.0
+- Mutate a temporary copy of the code, rather than the original files;
+- Fixed this project's unit tests on Windows.
+
 ### v 0.5.1
 - Reduced chances for mutations resulting in endless loops by disabling mutations on loop invariants.
 
@@ -223,21 +227,19 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - Improved reporting.
 
 ## Planned for the next release
-- Mutate a temporary copy of the code, rather than the original files;
-- Fixed this project's unit tests on Windows.
+- Better (HTML) reporting.
 
 ## Planned for the future
-- Better (HTML) reporting;
 - Performance improvements (mainly for Karma);
 - Improve documentation;
-- Perform mutations on AST nodes rather than source file locations;
 - Karma:
   - Auto-detecting which unit test file belongs to which source code file(s);
   - Cleaner way of dealing with infinite loops introduced by mutating the code.
 - Mocha:
   - Better way of inferring which files should be copied to the temporary location;
   - Deal with infinite loops introduced by mutations.
-- Some code refactoring;
+- Perform mutations on AST nodes rather than source file locations;
+- Some more code refactoring;
 - Splitting the project into separate modules for grunt, mutations, karma, and mocha.
 
 
