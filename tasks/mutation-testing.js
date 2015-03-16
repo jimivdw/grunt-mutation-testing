@@ -14,10 +14,13 @@ var fs = require('fs');
 var exec = require('sync-exec');
 var path = require('path');
 var Q = require('q');
-var mutate = require('./mutations');
 var _ = require('lodash');
+var os = require('os');
+
+var mutate = require('./mutations');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
+
 var reportGenerator = require('../lib/reporting/ReportGenerator');
 var notFailingMutations = [];
 
@@ -82,7 +85,22 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationResult(opts, srcFileName, mutation, src, testSurvived) {
+function createMutationFileMessage(opts, srcFile) {
+    // Normalize Windows paths to use '/' instead of '\\'
+    if(os.platform() === 'win32') {
+        srcFile = srcFile.replace(/\\/g, '/');
+    }
+
+    // Strip off anything before the basePath when present
+    if(opts.basePath && srcFile.indexOf(opts.basePath) !== -1) {
+        srcFile = srcFile.substr(srcFile.indexOf(opts.basePath));
+    }
+
+    return srcFile;
+}
+
+function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var result = testSurvived ? "SURVIVED" : "KILLED";
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
@@ -99,7 +117,8 @@ function createMutationResult(opts, srcFileName, mutation, src, testSurvived) {
     };
 }
 
-function createNotTestedBecauseInsideUntestedMutationLogMessage(srcFileName, mutation) {
+function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
@@ -144,13 +163,13 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
-                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(srcFilename, mutation));
+                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
                 return;
             }
             fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
             return runTests().then(function (testSurvived) {
                 //console.log('success!!');
-				var mutationResult = createMutationResult(opts, srcFilename, mutation, src, testSurvived);
+				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived);
                 fileMutationResult.mutationResults.push(mutationResult);
                 if (testSurvived) {
                     stats.survived += 1;
@@ -207,9 +226,9 @@ function mutationTest(grunt, task, opts) {
         return deferred.promise;
     }
 
-    var files = task.files;
-
     opts.before(function () {
+        var files = opts.files;
+
         // run first without mutations
         runTests().done(function (testOk) {
             if (!testOk) {
@@ -279,12 +298,14 @@ function callDone(done) {
 var DEFAULT_OPTIONS = {
     test: callDone,
     before: callDone,
-    after: callDone
+    after: callDone,
+    files: []
 };
 
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the production code.', function () {
         var opts = this.options(DEFAULT_OPTIONS);
+        opts.files = this.files;
         mutationTestingKarma.init(grunt, opts);
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);
