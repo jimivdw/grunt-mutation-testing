@@ -37,6 +37,7 @@
     "grunt-mocha-test": "~0.11.0",
     "jshint-stylish": "~0.1.5",
     "karma-chai": "~0.1.0",
+    "karma-jasmine": "~0.1.5",
     "karma-mocha": "~0.1.4",
     "karma-phantomjs-launcher": "~0.1.4",
     "load-grunt-tasks": "~0.3.0"
@@ -47,12 +48,15 @@
   "dependencies": {
     "escodegen": "^1.6.1",
     "esprima": "~1.2.2",
-    "sync-exec": "~0.3.2",
-    "q": "~1.0.1",
+    "fs-extra": "^0.16.4",
+    "glob": "^5.0.0",
+    "grunt-shell": "~0.7.0",
+    "karma": "~0.12.16",
     "lodash": "~2.4.1",
     "mocha": "~1.20.1",
+    "q": "~1.0.1",
     "require-uncache": "0.0.2",
-    "karma": "~0.12.16",
-    "grunt-shell": "~0.7.0"
+    "sync-exec": "~0.3.2",
+    "temp": "^0.8.1"
   }
 }

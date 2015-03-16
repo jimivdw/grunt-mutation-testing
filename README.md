@@ -47,10 +47,12 @@ This test is executed for every Mutation. If it succeeds, this mutation is repor
 
 #### options.karma
 Type: `Object` 
+
 Karma configuration
 
 #### options.karma.configFile
 Type: `String`
+
 Karma config file
 
 #### options.karma.waitForServerTime
@@ -59,6 +61,7 @@ Default value: 5 (seconds)
 
 #### options.mocha.testFiles
 Type: `[String]`
+
 Mocha configuration 
 
 #### options.ignore
@@ -66,6 +69,39 @@ Type: `RegExp` or `[RegExp]`
 Default value: undefined
 
 Mutated code which matches this option is ignored.
+
+### options.excludeMutations
+Type: `[String]`
+Default value: undefined
+
+A list of mutation types that should not be performed.
+
+### options.mutateProductionCode
+Type: `Boolean`
+Default value: false
+
+When true, code is not copied to a temporary directory and mutated there, but instead the original production code is mutated, which can speed up your tests. _Be careful when using this option_, as, in case the mutation process does not exit correctly, your code will be left mutated.
+
+### options.unitTestFiles
+Type: `[String]`
+Default value: undefined
+
+Option to specify exactly which files are needed for running the unit tests. Supplying this can reduce the time needed to copy the files to a temporary directory, since less files need to be copied. Globbing filenames _is_ supported.
+
+### options.maxReplacementLength
+Type: `Number`
+Default: 20
+
+Specify the maximum reported length of the mutation that has been done. When set to `0`, the full mutation is logged regardless of its length.
+
+### options.basePath
+**Warning: to be renamed in the near future**
+
+Type: `String`
+Default value: undefined
+
+Base of the path to the mutated file that will be printed in the report.
+
 
 ### Usage Examples
 
@@ -172,7 +208,39 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+### v 0.5.1
+- Reduced chances for mutations resulting in endless loops by disabling mutations on loop invariants.
+
+### v 0.5.0
+- Added unary expression mutations;
+- Added logical expression mutations.
+
+### v 0.4.0
+- Revived project;
+- Added many new mutations;
+- Fixed a couple of Karma-related issues;
+- Improved reporting.
+
+## Planned for the next release
+- Mutate a temporary copy of the code, rather than the original files;
+- Fixed this project's unit tests on Windows.
+
+## Planned for the future
+- Better (HTML) reporting;
+- Performance improvements (mainly for Karma);
+- Improve documentation;
+- Perform mutations on AST nodes rather than source file locations;
+- Karma:
+  - Auto-detecting which unit test file belongs to which source code file(s);
+  - Cleaner way of dealing with infinite loops introduced by mutating the code.
+- Mocha:
+  - Better way of inferring which files should be copied to the temporary location;
+  - Deal with infinite loops introduced by mutations.
+- Some code refactoring;
+- Splitting the project into separate modules for grunt, mutations, karma, and mocha.
+
+
 
 ## License
 Copyright (c) 2015 Jimi van der Woning, Martin Koster. Licensed under the MIT license.
