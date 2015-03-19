@@ -60,17 +60,34 @@ function isArithmeticExpression(node) {
     }
 
     /**
+     * returns the command codes of all available mutation commands
+     * @returns {[string]} a list of mutation codes
+     */
+    function getAllCommandCodes() {
+        var codes = [];
+        _.forEach(_.pluck(registry, 'Command'), function(Command){
+            if(Command.code) {
+                codes.push(Command.code);
+            }
+        });
+        return codes;
+    }
+
+    /**
      * returns the default exclusion status of each mutation command
      * @returns {object} a list of mutation codes [key] and whether or not they're excluded [value]
      */
     function getDefaultExcludes() {
         var excludes = {};
         _.forEach(_.pluck(registry, 'Command'), function(Command){
-            excludes[Command.code] = !!Command.exclude;
+            if(Command.code) {
+                excludes[Command.code] = !!Command.exclude;
+            }
         });
         return excludes;
     }
 
     exports.selectCommand = selectCommand;
+    exports.getAllCommandCodes = getAllCommandCodes;
     exports.getDefaultExcludes = getDefaultExcludes;
 })(module.exports);
