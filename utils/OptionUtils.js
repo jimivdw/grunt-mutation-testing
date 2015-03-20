@@ -10,7 +10,7 @@ var _ = require('lodash'),
     path = require('path');
 
 
-// Placeholder function for when no excplicit before, after, or test function is provided
+// Placeholder function for when no explicit before, after, or test function is provided
 function CALL_DONE(done) {
     done(true);
 }
@@ -23,7 +23,7 @@ var DEFAULT_OPTIONS = {
     basePath: '.',
     testFramework: 'karma',
     maxReportedMutationLength: 80,
-    mutateProductionCode: false
+    mutateProductionCode: falseg
 };
 
 // By default, report only to the console, which takes no additional configuration
