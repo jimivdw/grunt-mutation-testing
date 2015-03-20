@@ -64,13 +64,7 @@ function isArithmeticExpression(node) {
      * @returns {[string]} a list of mutation codes
      */
     function getAllCommandCodes() {
-        var codes = [];
-        _.forEach(_.pluck(registry, 'Command'), function(Command){
-            if(Command.code) {
-                codes.push(Command.code);
-            }
-        });
-        return codes;
+        return _.keys(getDefaultExcludes());
     }
 
     /**
