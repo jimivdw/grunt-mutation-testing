@@ -282,9 +282,4 @@ module.exports = function (grunt) {
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);
     });
-
-    grunt.registerMultiTask('mutationTest-new', 'Test your tests by mutating the code.', function() {
-        var opts = OptionUtils.getOptions(grunt, this);
-        grunt.log.warn(JSON.stringify(opts));
-    });
 };

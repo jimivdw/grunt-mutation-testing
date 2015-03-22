@@ -23,7 +23,7 @@ var DEFAULT_OPTIONS = {
     basePath: '.',
     testFramework: 'karma',
     maxReportedMutationLength: 80,
-    mutateProductionCode: falseg
+    mutateProductionCode: false
 };
 
 // By default, report only to the console, which takes no additional configuration
