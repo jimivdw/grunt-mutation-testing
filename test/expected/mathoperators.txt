@@ -1,8 +1,8 @@
-test/fixtures/mocha/mathoperators.js:3:21 Replaced  +  with - -> SURVIVED
-test/fixtures/mocha/mathoperators.js:3:17 Replaced  +  with - -> SURVIVED
-test/fixtures/mocha/mathoperators.js:7:17 Replaced  -  with + -> SURVIVED
-test/fixtures/mocha/mathoperators.js:7:22 Replaced  +  with - -> SURVIVED
-test/fixtures/mocha/mathoperators.js:11:17 Replaced  *  with / -> SURVIVED
-test/fixtures/mocha/mathoperators.js:16:21 Replaced  /  with * -> SURVIVED
-test/fixtures/mocha/mathoperators.js:23:17 Replaced  %  with * -> SURVIVED
+mocha/mathoperators.js:3:21 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:3:17 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:7:17 Replaced  -  with + -> SURVIVED
+mocha/mathoperators.js:7:22 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:11:17 Replaced  *  with / -> SURVIVED
+mocha/mathoperators.js:16:21 Replaced  /  with * -> SURVIVED
+mocha/mathoperators.js:23:17 Replaced  %  with * -> SURVIVED
 19 of 26 unignored mutations are tested (73%).

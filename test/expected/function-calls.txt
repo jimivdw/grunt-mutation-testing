@@ -1,3 +1,3 @@
-test/fixtures/mocha/function-calls.js:2:12 Replaced encodeURI(url) with url -> SURVIVED
-test/fixtures/mocha/function-calls.js:6:12 Replaced string.trim() with string -> SURVIVED
+mocha/function-calls.js:2:12 Replaced encodeURI(url) with url -> SURVIVED
+mocha/function-calls.js:6:12 Replaced string.trim() with string -> SURVIVED
 7 of 9 unignored mutations are tested (77%).

@@ -1,4 +1,4 @@
-test/fixtures/mocha/literals.js:2:12 Replaced 'string' with "MUTATION!" -> SURVIVED
-test/fixtures/mocha/literals.js:6:12 Replaced 42 with 43 -> SURVIVED
-test/fixtures/mocha/literals.js:10:12 Replaced true with false -> SURVIVED
+mocha/literals.js:2:12 Replaced 'string' with "MUTATION!" -> SURVIVED
+mocha/literals.js:6:12 Replaced 42 with 43 -> SURVIVED
+mocha/literals.js:10:12 Replaced true with false -> SURVIVED
 9 of 12 unignored mutations are tested (75%).
