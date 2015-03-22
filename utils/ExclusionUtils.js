@@ -41,15 +41,15 @@ function parseASTComments(astNode) {
 function getExclusions(astNode) {
     var comments = parseASTComments(astNode),
         commandCodes = CommandRegistry.getAllCommandCodes(),
+        params,
         exclusions = {};
 
     _.forEach(comments, function(comment) {
         if(comment.indexOf(EXCLUSION_KEYWORD) !== -1) {
-            var params = comment.match(/\[.*\]/g);
+            params = comment.match(/\[.*\]/g);
             if(params) {
                 // Replace all single quotes with double quotes to be able to JSON parse them
-                var exclude = params.join(',').replace(/'/g, '\"');
-                _.forEach(JSON.parse(exclude), function(exclusion) {
+                _.forEach(JSON.parse(params[0].replace(/'/g, '\"')), function(exclusion) {
                     if(commandCodes.indexOf(exclusion) !== -1) {
                         exclusions[exclusion] = true;
                     } else {
