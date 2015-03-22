@@ -1,24 +1,24 @@
-test/fixtures/karma-mocha/script-mathoperators.js:3:17 Replaced  +  with - -> SURVIVED
-test/fixtures/karma-mocha/script-mathoperators.js:7:17 Replaced  -  with + -> SURVIVED
-test/fixtures/karma-mocha/script-mathoperators.js:11:17 Replaced  *  with / -> SURVIVED
-test/fixtures/karma-mocha/script-mathoperators.js:16:21 Replaced  /  with * -> SURVIVED
-test/fixtures/karma-mocha/script-mathoperators.js:22:17 Replaced  %  with * -> SURVIVED
-test/fixtures/karma-mocha/script-mathoperators.js:27:22 Replaced 0 with 1 -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:3:19 Replaced  <  with <= -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:3:16 Replaced ++ with -- -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:3:22 Replaced 10 with 11 -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:7:19 Replaced  >  with >= -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:7:16 Replaced -- with ++ -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:7:22 Replaced 10 with 11 -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:11:19 Replaced  <  with <= -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:11:17 Replaced ++ with -- -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:11:22 Replaced 10 with 11 -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:15:19 Replaced  >  with >= -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:15:17 Replaced -- with ++ -> SURVIVED
-test/fixtures/karma-mocha/script-update-expressions.js:15:22 Replaced 10 with 11 -> SURVIVED
-test/fixtures/karma-mocha/script1.js:14:9 Removed sum = sum + 0; -> SURVIVED
-test/fixtures/karma-mocha/script1.js:15:9 Removed console.log(sum); -> SURVIVED
-test/fixtures/karma-mocha/script1.js:14:18 Replaced  +  with - -> SURVIVED
-test/fixtures/karma-mocha/script1.js:15:21 Replaced sum with "MUTATION!" -> SURVIVED
-test/fixtures/karma-mocha/script1.js:15:9 Replaced console.log(sum) with sum -> SURVIVED
+karma-mocha/script-mathoperators.js:3:17  +  can be replaced with: -
+karma-mocha/script-mathoperators.js:7:17  -  can be replaced with: +
+karma-mocha/script-mathoperators.js:11:17  *  can be replaced with: /
+karma-mocha/script-mathoperators.js:16:21  /  can be replaced with: *
+karma-mocha/script-mathoperators.js:22:17  %  can be replaced with: *
+karma-mocha/script-mathoperators.js:27:22 0 can be replaced with: 1
+karma-mocha/script-update-expressions.js:3:19  <  can be replaced with: <=
+karma-mocha/script-update-expressions.js:3:16 ++ can be replaced with: --
+karma-mocha/script-update-expressions.js:3:22 10 can be replaced with: 11
+karma-mocha/script-update-expressions.js:7:19  >  can be replaced with: >=
+karma-mocha/script-update-expressions.js:7:16 -- can be replaced with: ++
+karma-mocha/script-update-expressions.js:7:22 10 can be replaced with: 11
+karma-mocha/script-update-expressions.js:11:19  <  can be replaced with: <=
+karma-mocha/script-update-expressions.js:11:17 ++ can be replaced with: --
+karma-mocha/script-update-expressions.js:11:22 10 can be replaced with: 11
+karma-mocha/script-update-expressions.js:15:19  >  can be replaced with: >=
+karma-mocha/script-update-expressions.js:15:17 -- can be replaced with: ++
+karma-mocha/script-update-expressions.js:15:22 10 can be replaced with: 11
+karma-mocha/script1.js:14:9 sum = sum + 0; can be removed
+karma-mocha/script1.js:15:9 console.log(sum); can be removed
+karma-mocha/script1.js:14:18  +  can be replaced with: -
+karma-mocha/script1.js:15:21 sum can be replaced with: "MUTATION!"
+karma-mocha/script1.js:15:9 console.log(sum) can be replaced with: sum
 76 of 99 unignored mutations are tested (76%).
