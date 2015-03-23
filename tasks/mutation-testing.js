@@ -115,6 +115,11 @@ function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
     return srcFileName + ' tests fail without mutations';
 }
 
+function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+    return srcFileName + ' tests fail without mutations';
+}
+
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
     var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
