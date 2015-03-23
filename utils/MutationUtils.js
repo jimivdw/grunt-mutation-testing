@@ -6,6 +6,7 @@ var _ = require('lodash');
 var createMutation = function (astNode, endOffset, parentMutationId, replacement) {
     replacement = replacement || '';
     return {
+        range: astNode.range,
         begin: astNode.range[0],
         end: endOffset,
         line: astNode.loc.start.line,
@@ -25,6 +26,7 @@ var createAstArrayElementDeletionMutation = function (astArray, element, element
 
 var createOperatorMutation = function (astNode, parentMutationId, replacement) {
     return {
+        range: astNode.range,
         begin: astNode.left.range[1],
         end: astNode.right.range[0],
         line: astNode.left.loc.end.line,
@@ -36,6 +38,7 @@ var createOperatorMutation = function (astNode, parentMutationId, replacement) {
 };
 var createUnaryOperatorMutation = function (astNode, parentMutationId, replacement) {
     return {
+        range: astNode.range,
         begin: astNode.range[0],
         end: astNode.range[0]+1,
         line: astNode.loc.end.line,

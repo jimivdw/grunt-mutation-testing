@@ -17,7 +17,7 @@ var Q = require('q');
 var _ = require('lodash');
 var os = require('os');
 
-var mutate = require('./mutations');
+var Mutator = require('../lib/Mutator');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
 
@@ -85,11 +85,26 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationFileMessage(opts, srcFile) {
+function stripOffTempPath(originalSources, srcFile) {
+//if the actual mutation happens in a temp dir, strip off the path to the temp dir by analysing the originalSources
+    _.forEach(originalSources, function (source) {
+        var sourceDir = path.dirname(source),
+            sourceDirIndex = srcFile.indexOf(sourceDir);
+
+        if (sourceDirIndex > -1) {
+            srcFile = srcFile.substr(sourceDirIndex);
+        }
+    });
+    return srcFile;
+}
+
+function createMutationFileMessage(opts, srcFile, originalSources) {
     // Normalize Windows paths to use '/' instead of '\\'
     if(os.platform() === 'win32') {
         srcFile = srcFile.replace(/\\/g, '/');
     }
+
+    srcFile = stripOffTempPath(originalSources, srcFile);
 
     // Strip off anything before the basePath when present
     if(opts.basePath && srcFile.indexOf(opts.basePath) !== -1) {
@@ -99,17 +114,17 @@ function createMutationFileMessage(opts, srcFile) {
     return srcFile;
 }
 
-function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
-    var result = testSurvived ? "SURVIVED" : "KILLED";
-    var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
-    var mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin);
-    var message = currentMutationPosition + (
+function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived, originalSources) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath, originalSources),
+        result = testSurvived ? "SURVIVED" : "KILLED",
+        currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1),
+        mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin),
+        message = currentMutationPosition + (
             mutation.replacement ?
             ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + result :
             ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result
-        );
-    //console.log('creating mutation result', message);
+            );
+
     return {
         mutation: mutation,
         survived: testSurvived,
@@ -117,8 +132,8 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived
     };
 }
 
-function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation, originalSources) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath, originalSources);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
@@ -134,16 +149,18 @@ function isInsideNotFailingMutation(innerMutation) {
  * @param {function} log the logger
  * @param {object} opts the config options
  */
-function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
+function mutationTestFile(srcFilename, runTests, logMutation, log, opts, originalSources) {
     var src = fs.readFileSync(path.resolve(srcFilename), 'UTF8');
-    var mutations = mutate.findMutations(src, opts.excludeMutations);
+    var mutator = new Mutator(src);
+    var mutations = mutator.collectMutations(opts.excludeMutations);
     var mutationPromise = new Q({});
 
     var stats = createStats();
+    console.log(originalSources, srcFilename);
     var fileMutationResult = {
         stats: stats,
         src: src,
-        fileName: srcFilename,
+        fileName: stripOffTempPath(originalSources, srcFilename),
         mutationResults: []
     };
 
@@ -163,13 +180,13 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
-                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
+                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation, originalSources));
                 return;
             }
-            fs.writeFileSync(srcFilename, mutate.applyMutation(src, mutation));
+            fs.writeFileSync(srcFilename, mutator.applyMutation(mutation));
             return runTests().then(function (testSurvived) {
                 //console.log('success!!');
-				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived);
+				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived, originalSources);
                 fileMutationResult.mutationResults.push(mutationResult);
                 if (testSurvived) {
                     stats.survived += 1;
@@ -262,7 +279,7 @@ function mutationTest(grunt, task, opts) {
                         var mutationFilesPromise = new Q();
                         validFiles.forEach(function (srcFile) {
                             mutationFilesPromise = mutationFilesPromise.then(function () {
-								return mutationTestFile(srcFile, runTests, logMutationToFileDest, log, opts).then(function (opts) {
+								return mutationTestFile(srcFile, runTests, logMutationToFileDest, log, opts, file.orig.src).then(function (opts) {
                                     statsSummary = addStats(statsSummary, opts.stats);
                                     totalResults.push(opts.fileMutationResult);
                                 });

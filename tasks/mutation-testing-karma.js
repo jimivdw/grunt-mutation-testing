@@ -89,7 +89,8 @@ exports.init = function(grunt, opts) {
                         src: fileSet.src.map(function(file) {
                             return path.join(tempDirPath, file);
                         }),
-                        dest: fileSet.dest
+                        dest: fileSet.dest,
+                        orig: fileSet
                     });
                 });
                 opts.files = files;
