@@ -340,13 +340,12 @@ module.exports = function (grunt) {
         'mutationTest:flagAllMutations',
         'mutationTest:ignore',
         'mutationTest:flagAllMutationsDefault',
-        // FIXME: test is currently failing, find out why and fix it
+        //FIXME: test is currently failing, find out why and fix it
         //'mutationTest:testIsFailingWithoutMutation',
         'mutationTest:dontTestInsideNotFailingMutations',
         'mutationTest:mocha',
         'mutationTest:attributes',
-        // FIXME: test is currently failing, find out why and fix it
-        //'mutationTest:args',
+        'mutationTest:args',
         'mutationTest:comparisons',
         'mutationTest:mathoperators',
         'mutationTest:updateExpressions',
