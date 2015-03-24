@@ -156,7 +156,6 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts, origina
     var mutationPromise = new Q({});
 
     var stats = createStats();
-    console.log(originalSources, srcFilename);
     var fileMutationResult = {
         stats: stats,
         src: src,

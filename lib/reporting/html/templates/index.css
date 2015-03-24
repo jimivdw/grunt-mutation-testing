@@ -10,6 +10,13 @@ html, body {
     padding: 2px;
     border: none;
 }
+#files {
+    margin-left: 30px;
+}
+#files .perc {
+    width: 25%;
+    text-align: right;
+}
 .link {
     cursor: pointer;
 }

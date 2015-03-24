@@ -2,6 +2,13 @@ html, body {
     margin: 0;
     padding: 0;
 }
+h3 {
+    margin-left: 40px;
+}
+h3 .link {
+    cursor: pointer;
+    text-decoration: underline;
+}
 #source {
     font-family: courier, 'Lucida Sans Typewriter', monospace;
     white-space: pre;

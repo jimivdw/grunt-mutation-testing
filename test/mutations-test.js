@@ -270,20 +270,4 @@ describe('Mutations', function () {
             }]);
         });
     })
-
-    describe('Find Mutation', function() {
-        function add(array) {
-            var sum = 0;
-            for (var i = 0; i < array.length; i++) {
-                sum += array[i];
-            }
-            sum += 0;
-            return sum;
-        }
-
-        var addSrc = add.toString();
-        it('Finds the node for a given mutation', function(){
-            expect(new Mutator(addSrc).findNodeForMutation({range: [159, 168]})).to.be.not.null;
-        })
-    });
 });
