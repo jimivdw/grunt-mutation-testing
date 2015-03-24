@@ -1,7 +1,7 @@
-test/fixtures/mocha/logicalExpression.js:2:16 Replaced  &&  with || -> SURVIVED
-test/fixtures/mocha/logicalExpression.js:2:12 Replaced true with false -> SURVIVED
-test/fixtures/mocha/logicalExpression.js:2:20 Replaced false with true -> SURVIVED
-test/fixtures/mocha/logicalExpression.js:6:16 Replaced  ||  with && -> SURVIVED
-test/fixtures/mocha/logicalExpression.js:6:12 Replaced true with false -> SURVIVED
-test/fixtures/mocha/logicalExpression.js:6:20 Replaced false with true -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:3:16 Replaced  &&  with || -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:3:12 Replaced true with false -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:3:20 Replaced false with true -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:8:16 Replaced  ||  with && -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:8:12 Replaced true with false -> SURVIVED
+test/fixtures/mocha/logicalExpression.js:8:20 Replaced false with true -> SURVIVED
 6 of 12 unignored mutations are tested (50%).
