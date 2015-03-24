@@ -47,6 +47,8 @@
   "dependencies": {
     "escodegen": "^1.6.1",
     "esprima": "~1.2.2",
+    "fs-extra": "^0.16.4",
+    "glob": "^5.0.0",
     "grunt-shell": "~0.7.0",
     "handlebars": "^3.0.0",
     "istanbul": "~0.3.0",
@@ -55,6 +57,7 @@
     "mocha": "~1.20.1",
     "q": "~1.0.1",
     "require-uncache": "0.0.2",
-    "sync-exec": "~0.3.2"
+    "sync-exec": "~0.3.2",
+    "temp": "^0.8.1"
   }
 }
