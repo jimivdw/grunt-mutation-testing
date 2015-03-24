@@ -224,19 +224,20 @@ function mutationTest(grunt, task, opts) {
     }
 
     opts.before(function () {
-        var logFile = 'LOG';
+        var logFile = 'LOG',
+            logMutationToFileDest;
         if(opts.reporters.text) {
             logFile = path.join(opts.reporters.text.dir, opts.reporters.text.file || 'grunt-mutation-testing.txt');
         }
+        logMutationToFileDest = _.partial(logToMutationReport, logFile);
 
         // run first without mutations
         runTests().done(function (testOk) {
             if (!testOk) {
                 opts.mutate.forEach(function(file) {
-                    logToMutationReport(logFile, createTestsFailWithoutMutationsLogMessage(opts, file));
+                    logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
                 });
             } else {
-                var logMutationToFileDest = _.partial(logToMutationReport, logFile);
                 var statsSummary = createStats();
                 opts.mutate.forEach(function(file) {
                     mutationTestPromise = mutationTestPromise.then(function () {
@@ -249,15 +250,10 @@ function mutationTest(grunt, task, opts) {
                             grunt.log.write(msg);
                         }
 
-                        var mutationFilesPromise = new Q();
-                        mutationFilesPromise = mutationFilesPromise.then(function() {
-                            return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(opts) {
-                                statsSummary = addStats(statsSummary, opts.stats);
-                                totalResults.push(opts.fileMutationResult);
-                            });
+                        return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(opts) {
+                            statsSummary = addStats(statsSummary, opts.stats);
+                            totalResults.push(opts.fileMutationResult);
                         });
-
-                        return mutationFilesPromise;
                     });
                 });
                 mutationTestPromise = mutationTestPromise.then(function() {
@@ -277,17 +273,6 @@ function mutationTest(grunt, task, opts) {
         });
     });
 }
-
-function callDone(done) {
-    done(true);
-}
-
-var DEFAULT_OPTIONS = {
-    test: callDone,
-    before: callDone,
-    after: callDone,
-    files: []
-};
 
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the code.', function() {
