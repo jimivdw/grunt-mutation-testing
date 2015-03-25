@@ -15,5 +15,24 @@ function sub(array) {
     return sum;
 }
 
+/**
+ * multiplies some stuff
+ * @excludeMutations
+ * @param array
+ * @returns {number}
+ */
+function mul(array) {
+    var x = array[0];
+    var y = array[1];
+    var sum = x * y;
+    if (sum > 9){
+        console.log(sum);
+    }
+    return sum;
+}
+
 exports.add = add;
 exports.sub = sub;
+
+//@excludeMutations
+exports.mul = mul;

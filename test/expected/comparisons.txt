@@ -1,4 +1,3 @@
-test/fixtures/mocha/comparisons.js:5:5 Removed return left < right; -> SURVIVED
 test/fixtures/mocha/comparisons.js:5:16 Replaced  <  with <= -> SURVIVED
 test/fixtures/mocha/comparisons.js:5:16 Replaced  <  with >= -> SURVIVED
 test/fixtures/mocha/comparisons.js:9:16 Replaced  <=  with < -> SURVIVED
@@ -15,4 +14,4 @@ test/fixtures/mocha/comparisons.js:29:16 Replaced  !==  with != -> SURVIVED
 test/fixtures/mocha/comparisons.js:29:16 Replaced  !==  with === -> SURVIVED
 test/fixtures/mocha/comparisons.js:33:16 Replaced  !=  with !== -> SURVIVED
 test/fixtures/mocha/comparisons.js:33:16 Replaced  !=  with == -> SURVIVED
-15 of 32 unignored mutations are tested (46%). 2 mutations were ignored.
+15 of 31 unignored mutations are tested (48%). 2 mutations were ignored.

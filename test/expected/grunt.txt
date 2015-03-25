@@ -15,4 +15,4 @@ test/fixtures/mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { retu
 test/fixtures/mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> SURVIVED
 test/fixtures/mocha/script2.js:8:9 Removed return x * y; -> SURVIVED
 test/fixtures/mocha/script2.js:8:17 Replaced  *  with / -> SURVIVED
-18 of 35 unignored mutations are tested (51%). 2 mutations were ignored.
+20 of 37 unignored mutations are tested (54%). 2 mutations were ignored.

@@ -13,5 +13,8 @@ describe('Fixtures', function () {
             var expected = 1;
             assert.equal(actual, expected);
         });
+        it('mul', function () {
+            var actual = code1.mul([2, 5]);
+        });
     });
 });

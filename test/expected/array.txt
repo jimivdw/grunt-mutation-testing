@@ -1,6 +1,4 @@
 test/fixtures/mocha/array.js:5:13 Removed el,  -> SURVIVED
 test/fixtures/mocha/array.js:5:17 Removed 'string',  -> SURVIVED
 test/fixtures/mocha/array.js:5:27 Removed 123 -> SURVIVED
-test/fixtures/mocha/array.js:5:17 Replaced 'string' with "MUTATION!" -> SURVIVED
-test/fixtures/mocha/array.js:5:27 Replaced 123 with 124 -> SURVIVED
-4 of 9 unignored mutations are tested (44%). 2 mutations were ignored.
+4 of 7 unignored mutations are tested (57%). 2 mutations were ignored.
