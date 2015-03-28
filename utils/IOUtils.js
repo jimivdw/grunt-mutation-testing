@@ -3,6 +3,7 @@
  * Created by Martin Koster on 3/2/15.
  */
 var fs = require('fs'),
+    os = require('os'),
     pathAux = require('path'),
     Q = require('q'),
     _ = require('lodash');
@@ -19,7 +20,6 @@ module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSeg
         segment = pathRegex.exec(path),
         directoryList = [];
 
-    //console.log(segment);
     while (segment) {
         currentSegment = segment[0];
         segment = pathRegex.exec(path);
@@ -28,7 +28,6 @@ module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSeg
         }
     }
 
-    //console.log(directoryList);
     return directoryList;
 };
 
@@ -41,9 +40,22 @@ module.exports.createPathIfNotExists = function createPathIfNotExists(path, pare
     var directoryList = (path === 'string') ? path.split(pathAux.sep) : path;
 
     _.forEach(directoryList, function(segment) {
-        parentDir += '/' + segment;
+        parentDir = pathAux.join(parentDir, segment);
         this.createDirIfNotExists(parentDir);
     }, this);
+};
+
+/**
+ * Normalize windows path to use forward slashes instead of backslashes
+ * @param {string} path the path to normalize
+ * @returns {string} normalized path
+ */
+module.exports.normalizeWindowsPath = function(path) {
+    // Normalize Windows paths to use '/' instead of '\\'
+    if(os.platform() === 'win32') {
+        path = path.replace(/\\/g, '/');
+    }
+    return path;
 };
 
 /**

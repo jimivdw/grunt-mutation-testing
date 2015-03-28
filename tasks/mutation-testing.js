@@ -15,12 +15,12 @@ var exec = require('sync-exec');
 var path = require('path');
 var Q = require('q');
 var _ = require('lodash');
-var os = require('os');
 
 var Mutator = require('../lib/Mutator');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
 
+var IOUtils = require('../utils/IOUtils');
 var reportGenerator = require('../lib/reporting/ReportGenerator');
 var notFailingMutations = [];
 
@@ -86,7 +86,9 @@ function truncateReplacement(opts, replacementArg) {
 }
 
 function stripOffTempPath(originalSources, srcFile) {
-//if the actual mutation happens in a temp dir, strip off the path to the temp dir by analysing the originalSources
+    srcFile = IOUtils.normalizeWindowsPath(srcFile);
+
+    //if the actual mutation happens in a temp dir, strip off the path to the temp dir by analysing the originalSources
     _.forEach(originalSources, function (source) {
         var sourceDir = path.dirname(source),
             sourceDirIndex = srcFile.indexOf(sourceDir);
@@ -99,11 +101,6 @@ function stripOffTempPath(originalSources, srcFile) {
 }
 
 function createMutationFileMessage(opts, srcFile, originalSources) {
-    // Normalize Windows paths to use '/' instead of '\\'
-    if(os.platform() === 'win32') {
-        srcFile = srcFile.replace(/\\/g, '/');
-    }
-
     srcFile = stripOffTempPath(originalSources, srcFile);
 
     // Strip off anything before the basePath when present
