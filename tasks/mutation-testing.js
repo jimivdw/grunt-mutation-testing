@@ -87,7 +87,9 @@ function truncateReplacement(opts, replacementArg) {
 }
 
 function createMutationFileMessage(opts, srcFile) {
-    return IOUtils.normalizeWindowsPath(_.last(srcFile.split(opts.basePath)));
+    var normalizedBasePath = IOUtils.normalizeWindowsPath(opts.basePath),
+        normalizedSrcFile = IOUtils.normalizeWindowsPath(srcFile);
+    return _.last(normalizedSrcFile.split(normalizedBasePath));
 }
 
 function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
