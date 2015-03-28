@@ -17,8 +17,10 @@ function CALL_DONE(done) {
 
 var DEFAULT_OPTIONS = {
     before: CALL_DONE,
-    after: CALL_DONE,
+    beforeEach: CALL_DONE,
     test: CALL_DONE,
+    afterEach: CALL_DONE,
+    after: CALL_DONE,
 
     basePath: '.',
     testFramework: 'karma',
