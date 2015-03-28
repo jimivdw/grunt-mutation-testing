@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">{{{style}}}</style>
+    <script type="application/javascript">{{{script}}}</script>
+</head>
+<body onload="onLoad();">
+<div id="header">
+    <h1>Mutation Test {{project}}</h1>
+    <p>Number of Mutations: <strong>{{stats.all}}</strong> of which <strong>{{stats.survived}}</strong> survived,&nbsp;
+        <strong>{{stats.ignored}}</strong> ignored and <strong>{{stats.untested}}</strong> untested</p>
+    <span id="successRate" class="{{status}}">Mutation success rate: <strong>{{folderSuccessRate}}%</strong></span>
+</div>
+<h2>{{fileName}}</h2>
+<table id='files'>{{{rows}}}</table>
+</body>
+</html>

@@ -1,18 +1,18 @@
-/test/fixtures/mocha/script1.js:13:5 sum = sum + 0; can be removed
-/test/fixtures/mocha/script1.js:14:5 console.log(sum); can be removed
-/test/fixtures/mocha/script1.js:13:14  +  can be replaced with: -
-/test/fixtures/mocha/script1.js:14:17 sum can be replaced with: "MUTATION!"
-/test/fixtures/mocha/script1.js:14:5 console.log(sum) can be replaced with: sum
-/test/fixtures/mocha/script1.js:14:5 console.log(sum) can be replaced with: console
-/test/fixtures/mocha/script2.js:1:1 function log() { } can be removed
-/test/fixtures/mocha/script2.js:4:1 function mul(array) { array = array; log(array); return array.reduce(function (x, y) { return x * y; }); } can be removed
-/test/fixtures/mocha/script2.js:12:1 exports.mul = mul; can be removed
-/test/fixtures/mocha/script2.js:5:5 array = array; can be removed
-/test/fixtures/mocha/script2.js:7:5 return array.reduce(function (x, y) { return x * y; }); can be removed
-/test/fixtures/mocha/script2.js:6:9 array can be replaced with: "MUTATION!"
-/test/fixtures/mocha/script2.js:7:25 function (x, y) { return x * y; } can be replaced with: "MUTATION!"
-/test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: function (x, y) { return x * y; }
-/test/fixtures/mocha/script2.js:7:12 array.reduce(function (x, y) { return x * y; }) can be replaced with: array
-/test/fixtures/mocha/script2.js:8:9 return x * y; can be removed
-/test/fixtures/mocha/script2.js:8:17  *  can be replaced with: /
-18 of 35 unignored mutations are tested (51%). 2 mutations were ignored.
+test/fixtures/mocha/script1.js:13:5 Removed sum = sum + 0; -> SURVIVED
+test/fixtures/mocha/script1.js:14:5 Removed console.log(sum); -> SURVIVED
+test/fixtures/mocha/script1.js:13:14 Replaced  +  with - -> SURVIVED
+test/fixtures/mocha/script1.js:14:17 Replaced sum with "MUTATION!" -> SURVIVED
+test/fixtures/mocha/script1.js:14:5 Replaced console.log(sum) with sum -> SURVIVED
+test/fixtures/mocha/script1.js:14:5 Replaced console.log(sum) with console -> SURVIVED
+test/fixtures/mocha/script2.js:1:1 Removed function log() { } -> SURVIVED
+test/fixtures/mocha/script2.js:4:1 Removed function mul(array) { array = array; log(array); return array.reduce(function (x, y) { return x * y; }); } -> SURVIVED
+test/fixtures/mocha/script2.js:12:1 Removed exports.mul = mul; -> SURVIVED
+test/fixtures/mocha/script2.js:5:5 Removed array = array; -> SURVIVED
+test/fixtures/mocha/script2.js:7:5 Removed return array.reduce(function (x, y) { return x * y; }); -> SURVIVED
+test/fixtures/mocha/script2.js:6:9 Replaced array with "MUTATION!" -> SURVIVED
+test/fixtures/mocha/script2.js:7:25 Replaced function (x, y) { return x * y; } with "MUTATION!" -> SURVIVED
+test/fixtures/mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with function (x, y) { return x * y; } -> SURVIVED
+test/fixtures/mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> SURVIVED
+test/fixtures/mocha/script2.js:8:9 Removed return x * y; -> SURVIVED
+test/fixtures/mocha/script2.js:8:17 Replaced  *  with / -> SURVIVED
+20 of 37 unignored mutations are tested (54%). 2 mutations were ignored.

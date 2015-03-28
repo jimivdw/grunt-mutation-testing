@@ -39,7 +39,11 @@ module.exports = function (grunt) {
             options: {
                 maxReplacementLength: 0,
                 basePath: '/test/fixtures/',
-                ignore: [/use strict/]
+                ignore: [/use strict/],
+                mutationCoverageReporter: {
+                    type: 'html',
+                    dir: 'reports/mutation-test'
+                }
             },
             flagAllMutations: {
                 options: {
@@ -357,5 +361,4 @@ module.exports = function (grunt) {
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
-
 };

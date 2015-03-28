@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var assert = require("assert");
-var mutations = require("../tasks/mutations");
+var expect = require("chai").expect;
+var Mutator = require("../lib/Mutator");
 
 describe('Mutations', function () {
     function assertDeepEquivalent(properties, actual, expected) {
@@ -13,7 +14,7 @@ describe('Mutations', function () {
         }
     }
 
-    describe('findMutation', function () {
+    describe('Collect Mutations', function () {
 
         function add(array) {
             var sum = 0;
@@ -27,7 +28,7 @@ describe('Mutations', function () {
         var addSrc = add.toString();
 
         it('find mutations in simple function', function () {
-            var actual = mutations.findMutations(addSrc);
+            var actual = new Mutator(addSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], actual, [
                 {begin: 0, end: 202, line: 1, col: 0, replacement: ''},
                 {begin: 34, end: 46, line: 2, col: 12, replacement: ''},
@@ -49,7 +50,7 @@ describe('Mutations', function () {
 
         var mulSrc = mul.toString();
         it('find mutations in functions used as argument', function () {
-            var foundMutations = mutations.findMutations(mulSrc);
+            var foundMutations = new Mutator(mulSrc).collectMutations();
             var innerReturnMutation = foundMutations[5];
             assertDeepEquivalent(['begin', 'end', 'replacement'], [innerReturnMutation], [{
                 begin: 88,
@@ -69,7 +70,7 @@ describe('Mutations', function () {
 
         var createSimplePersonSrc = createSimplePerson.toString();
         it('find mutations in simple object literals', function () {
-            var foundMutations = mutations.findMutations(createSimplePersonSrc);
+            var foundMutations = new Mutator(createSimplePersonSrc).collectMutations();
             assert.equal(foundMutations.length, 3);
             var attributeMutation = foundMutations[2];
             assertDeepEquivalent(['begin', 'end', 'replacement'], [attributeMutation], [{
@@ -90,7 +91,7 @@ describe('Mutations', function () {
 
         var createPersonSrc = createPerson.toString();
         it('find mutations in object literals', function () {
-            var foundMutations = mutations.findMutations(createPersonSrc);
+            var foundMutations = new Mutator(createPersonSrc).collectMutations();
             assert.equal(foundMutations.length, 4);
             var attributeMutation = foundMutations[2];
             // take care for the comma
@@ -109,7 +110,7 @@ describe('Mutations', function () {
 
         var containsNameSrc = containsName.toString();
         it('find mutations in function arguments', function () {
-            var foundMutations = mutations.findMutations(containsNameSrc);
+            var foundMutations = new Mutator(containsNameSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations, [
                 {begin: 0, end: 111, line: 1, col: 0, replacement: ''},
                 {begin: 51, end: 101, line: 2, col: 12, replacement: ''},
@@ -129,7 +130,7 @@ describe('Mutations', function () {
 
         var createArraySrc = createArray.toString();
         it('find mutations in array literals', function () {
-            var foundMutations = mutations.findMutations(createArraySrc);
+            var foundMutations = new Mutator(createArraySrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], foundMutations, [
                 {begin: 0, end: 99, line: 1, col: 0, replacement: ''},
                 {begin: 37, end: 49, line: 2, col: 12, replacement: ''},
@@ -149,7 +150,7 @@ describe('Mutations', function () {
 
         var encodeUrlSrc = encodeUrl.toString();
         it("find mutations by replacing function call with it's argument", function () {
-            var foundMutations = mutations.findMutations(encodeUrlSrc);
+            var foundMutations = new Mutator(encodeUrlSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[3]], [{
                 begin: 45,
                 end: 59,
@@ -165,7 +166,7 @@ describe('Mutations', function () {
 
         var trimSrc = trim.toString();
         it("find mutations by replacing method calls with object", function () {
-            var foundMutations = mutations.findMutations(trimSrc);
+            var foundMutations = new Mutator(trimSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[2]], [{
                 begin: 43,
                 end: 56,
@@ -185,7 +186,7 @@ describe('Mutations', function () {
 
         var getLiteralsSrc = getLiterals.toString();
         it("find mutations by replacing literals", function () {
-            var foundMutations = mutations.findMutations(getLiteralsSrc);
+            var foundMutations = new Mutator(getLiteralsSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[5]], [{
                 begin: 70,
                 end: 78,
@@ -219,7 +220,7 @@ describe('Mutations', function () {
 
         var getUnaryExpressionSrc = getUnaryExpression.toString();
         it("find mutations by mutating unary expressions", function () {
-            var foundMutations = mutations.findMutations(getUnaryExpressionSrc);
+            var foundMutations = new Mutator(getUnaryExpressionSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[5]], [{
                 begin: 77,
                 end: 78,
@@ -252,7 +253,7 @@ describe('Mutations', function () {
 
         var getLogicalExpressionSrc = getLogicalExpression.toString();
         it("find mutations by mutating logical expressions", function () {
-            var foundMutations = mutations.findMutations(getLogicalExpressionSrc);
+            var foundMutations = new Mutator(getLogicalExpressionSrc).collectMutations();
             assertDeepEquivalent(['begin', 'end', 'replacement'], [foundMutations[4]], [{
                 begin: 83,
                 end: 87,

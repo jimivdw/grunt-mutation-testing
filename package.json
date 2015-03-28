@@ -1,6 +1,6 @@
 {
   "name": "grunt-mutation-testing",
-  "version": "0.6.0",
+    "version": "0.6.0",
   "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
   "repository": {
     "type": "git",
@@ -37,7 +37,6 @@
     "grunt-mocha-test": "~0.11.0",
     "jshint-stylish": "~0.1.5",
     "karma-chai": "~0.1.0",
-    "karma-jasmine": "~0.1.5",
     "karma-mocha": "~0.1.4",
     "karma-phantomjs-launcher": "~0.1.4",
     "load-grunt-tasks": "~0.3.0"
@@ -51,6 +50,8 @@
     "fs-extra": "^0.16.4",
     "glob": "^5.0.0",
     "grunt-shell": "~0.7.0",
+    "handlebars": "^3.0.0",
+    "istanbul": "~0.3.0",
     "karma": "~0.12.16",
     "lodash": "~2.4.1",
     "mocha": "~1.20.1",

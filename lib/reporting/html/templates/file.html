@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" mutationStats='{{{json stats}}}'/>
+    <title></title>
+    <style type="text/css">{{{style}}}</style>
+    <script type="application/javascript">{{{script}}}</script>
+</head>
+<body onload="onLoad();">
+<div id="header">
+    <h1>Mutation Test {{project}}</h1>
+    <p>Number of Mutations: <strong>{{stats.all}}</strong> of which <strong>{{stats.survived}}</strong> survived,&nbsp;
+        <strong>{{stats.ignored}}</strong> ignored and <strong>{{stats.untested}}</strong> untested</p>
+    <span id="coverage" class="{{coverageStatus}}">Mutation success rate: <strong>{{coverage}}%</strong></span>
+</div>
+<h3>{{{fileName}}}</h3>
+<div id='source'>{{{source}}}</div>
+<h2>Mutations</h2>
+<div id='mutations'>{{{mutations}}}</div>
+<div id='popup'></div>
+</body>
+</html>

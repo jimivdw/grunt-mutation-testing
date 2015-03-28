@@ -102,6 +102,18 @@ Default value: undefined
 
 Base of the path to the mutated file that will be printed in the report.
 
+### options.mutationCoverageReporter.type
+Type: `String`
+Default value: undefined
+
+Type of the mutation coverage (HTML) report that should be generated. Available values: `"html"`.
+
+### options.mutationCoverageReporter.dir
+Type: `String`
+Default value: undefined
+
+Directory to place the mutation coverage report in.
+
 
 ### Usage Examples
 
