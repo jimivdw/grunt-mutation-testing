@@ -278,6 +278,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v 0.7.0
+- Local mutation exclusions;
+- HTML mutation coverage reporting.
+
 ### v 0.6.0
 - Mutate a temporary copy of the code, rather than the original files;
 - Fixed this project's unit tests on Windows.
@@ -296,18 +300,19 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - Improved reporting.
 
 ## Planned for the next release
-- Local mutation exclusions;
-- Better (HTML) reporting.
+- Configuration overhaul;
+- Karma:
+  - Auto-detecting which unit test file belongs to which source code file(s).
+- Mocha:
+  - Better way of inferring which files should be copied to the temporary location.
 
 ## Planned for the future
-- Configuration overhaul;
 - Performance improvements (mainly for Karma);
 - Improve documentation;
+- Improve console output;
 - Karma:
-  - Auto-detecting which unit test file belongs to which source code file(s);
   - Cleaner way of dealing with infinite loops introduced by mutating the code.
 - Mocha:
-  - Better way of inferring which files should be copied to the temporary location;
   - Deal with infinite loops introduced by mutations.
 - Perform mutations on AST nodes rather than source file locations;
 - Some more code refactoring;
