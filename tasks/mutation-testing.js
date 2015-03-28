@@ -237,73 +237,76 @@ function mutationTest(grunt, task, opts) {
     }
 
     opts.before(function () {
-        var logFile = 'LOG',
+        var statsSummary = createStats(),
+            logFile = 'LOG',
             logMutationToFileDest;
+
         if(opts.reporters.text) {
             logFile = path.join(opts.reporters.text.dir, opts.reporters.text.file || 'grunt-mutation-testing.txt');
         }
         logMutationToFileDest = _.partial(logToMutationReport, logFile);
 
-        // run first without mutations
-        runTests().done(function (testOk) {
-            if (!testOk) {
-                opts.mutate.forEach(function(file) {
-                    logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
+        opts.mutate.forEach(function(file) {
+            // Execute beforeEach
+            mutationTestPromise = mutationTestPromise.then(function() {
+                opts.currentFile = file;
+
+                var deferred = QPromise.defer();
+                opts.beforeEach(function(ok) {
+                    deferred.resolve(ok);
                 });
-            } else {
-                var statsSummary = createStats();
-                opts.mutate.forEach(function(file) {
-                    // Execute beforeEach
-                    mutationTestPromise = mutationTestPromise.then(function() {
-                        opts.currentFile = file;
+                return deferred.promise;
+            });
 
-                        var deferred = QPromise.defer();
-                        opts.beforeEach(function(ok) {
-                            deferred.resolve(ok);
-                        });
-                        return deferred.promise;
-                    });
+            // Execute test
+            mutationTestPromise = mutationTestPromise.then(function() {
+                // Run tests first to see if they pass without mutations
+                return runTests().then(function(testOk) {
+                    function log(msg) {
+                        grunt.log.write(msg);
+                    }
 
-                    // Execute test
-                    mutationTestPromise = mutationTestPromise.then(function () {
+                    if(testOk) {
                         if(!grunt.file.exists(file)) {
                             grunt.log.warn('Source file "' + file + '" not found.');
                             return false;
                         }
 
-                        function log(msg) {
-                            grunt.log.write(msg);
-                        }
-
                         return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(stats) {
                             statsSummary = addStats(statsSummary, stats);
                         });
-                    });
-
-                    // Execute afterEach
-                    mutationTestPromise = mutationTestPromise.then(function() {
-                        var deferred = QPromise.defer();
-                        opts.afterEach(function(ok) {
-                            deferred.resolve(ok);
-                        });
-                        return deferred.promise;
-                    });
+                    } else {
+                        log('\nTests fail without mutations for file ' + path.resolve(file) + '\n');
+                        logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
+                    }
                 });
-                mutationTestPromise = mutationTestPromise.then(function() {
-                    logMutationToFileDest(createStatsMessage(statsSummary));
-                });
-            }
-
-            mutationTestPromise.then(function () {
-                createMutationCoverageReport(totalResults);
-                var dfd = Q.defer();
-                opts.after(function () {
-                    dfd.resolve();
-                });
-                return dfd.promise;
             });
-            mutationTestPromise.done(done);
+
+            // Execute afterEach
+            mutationTestPromise = mutationTestPromise.then(function() {
+                var deferred = QPromise.defer();
+                opts.afterEach(function(ok) {
+                    deferred.resolve(ok);
+                });
+                return deferred.promise;
+            });
         });
+
+        mutationTestPromise = mutationTestPromise.then(function() {
+            if(statsSummary.all > 0) {
+                logMutationToFileDest(createStatsMessage(statsSummary));
+            }
+        });
+
+        mutationTestPromise.then(function() {
+            var dfd = QPromise.defer();
+            opts.after(function() {
+                dfd.resolve();
+            });
+            return dfd.promise;
+        });
+
+        mutationTestPromise.done(done);
     });
 }
 
