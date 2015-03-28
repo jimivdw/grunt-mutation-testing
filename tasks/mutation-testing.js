@@ -253,6 +253,18 @@ function mutationTest(grunt, task, opts) {
             } else {
                 var statsSummary = createStats();
                 opts.mutate.forEach(function(file) {
+                    // Execute beforeEach
+                    mutationTestPromise = mutationTestPromise.then(function() {
+                        opts.currentFile = file;
+
+                        var deferred = QPromise.defer();
+                        opts.beforeEach(function(ok) {
+                            deferred.resolve(ok);
+                        });
+                        return deferred.promise;
+                    });
+
+                    // Execute test
                     mutationTestPromise = mutationTestPromise.then(function () {
                         if(!grunt.file.exists(file)) {
                             grunt.log.warn('Source file "' + file + '" not found.');
@@ -266,6 +278,15 @@ function mutationTest(grunt, task, opts) {
                         return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(stats) {
                             statsSummary = addStats(statsSummary, stats);
                         });
+                    });
+
+                    // Execute afterEach
+                    mutationTestPromise = mutationTestPromise.then(function() {
+                        var deferred = QPromise.defer();
+                        opts.afterEach(function(ok) {
+                            deferred.resolve(ok);
+                        });
+                        return deferred.promise;
                     });
                 });
                 mutationTestPromise = mutationTestPromise.then(function() {
