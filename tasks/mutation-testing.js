@@ -87,17 +87,20 @@ function truncateReplacement(opts, replacementArg) {
 }
 
 function createMutationFileMessage(opts, srcFile) {
-    var mutationFileMessage;
-
-    // Strip off anything before the basePath
-    mutationFileMessage = _.last(srcFile.split(opts.basePath));
+    var normalizedBasePath,
+        normalizedSrcFile;
 
     // Normalize Windows paths to use '/' instead of '\\'
     if(os.platform() === 'win32') {
-        mutationFileMessage = mutationFileMessage.replace(/\\/g, '/');
+        normalizedBasePath = opts.basePath.replace(/\\/g, '/');
+        normalizedSrcFile = srcFile.replace(/\\/g, '/');
+    } else {
+        normalizedBasePath = opts.basePath;
+        normalizedSrcFile = srcFile;
     }
 
-    return mutationFileMessage;
+    // Strip off anything before the basePath
+    return _.last(normalizedSrcFile.split(normalizedBasePath));
 }
 
 function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived, originalSources) {
