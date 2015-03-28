@@ -39,7 +39,11 @@ module.exports = function (grunt) {
             options: {
                 maxReplacementLength: 0,
                 basePath: '/test/fixtures/',
-                ignore: [/use strict/]
+                ignore: [/use strict/],
+                mutationCoverageReporter: {
+                    type: 'html',
+                    dir: 'reports/mutation-test'
+                }
             },
             flagAllMutations: {
                 options: {
@@ -49,10 +53,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/flag-all-mutations.txt': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             ignore: {
@@ -64,10 +64,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/ignore.txt': ['test/fixtures/mocha/script1.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             testIsFailingWithoutMutation: {
@@ -79,20 +75,12 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/test-is-failing-without-mutation.txt': ['test/fixtures/mocha/script*.js']
 //          'LOG': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             flagAllMutationsDefault: {
                 options: {},
                 files: {
                     'tmp/flag-all-mutations-default.txt': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             grunt: {
@@ -102,10 +90,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/grunt.txt': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             mocha: {
@@ -120,10 +104,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/mocha.txt': ['test/fixtures/mocha/script*.js']
 //          'LOG': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             karma: {
@@ -134,10 +114,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/karma.txt': ['test/fixtures/karma-mocha/script*.js']
 //          'LOG': ['test/fixtures/karma-mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             attributes: {
@@ -150,10 +126,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/attributes.txt': ['test/fixtures/mocha/attribute.js']
 //          'LOG': ['test/fixtures/mocha/attribute.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             args: {
@@ -167,10 +139,6 @@ module.exports = function (grunt) {
                 files: {
 //          'LOG': ['test/fixtures/mocha/arguments.js']
                     'tmp/arguments.txt': ['test/fixtures/mocha/arguments.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             array: {
@@ -182,10 +150,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/array.txt': ['test/fixtures/mocha/array.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             comparisons: {
@@ -197,10 +161,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/comparisons.txt': ['test/fixtures/mocha/comparisons.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             functionCalls: {
@@ -213,10 +173,6 @@ module.exports = function (grunt) {
                 files: {
 //          'LOG': ['test/fixtures/mocha/function-calls.js']
                     'tmp/function-calls.txt': ['test/fixtures/mocha/function-calls.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             literals: {
@@ -229,10 +185,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/literals.txt': ['test/fixtures/mocha/literals.js']
 //          'LOG': ['test/fixtures/mocha/literals.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             unaryExpression: {
@@ -245,10 +197,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/unaryExpression.txt': ['test/fixtures/mocha/unaryExpression.js']
 //          'LOG': ['test/fixtures/mocha/unaryExpression.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             logicalExpression: {
@@ -261,10 +209,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/logicalExpression.txt': ['test/fixtures/mocha/logicalExpression.js']
 //          'LOG': ['test/fixtures/mocha/logicalExpression.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             mathoperators: {
@@ -276,10 +220,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/mathoperators.txt': ['test/fixtures/mocha/mathoperators.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
             updateExpressions: {
@@ -291,10 +231,6 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/update-expressions.txt': ['test/fixtures/mocha/update-expressions.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
 
@@ -309,10 +245,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/dont-test-inside-surviving-mutations.txt': ['test/fixtures/mocha/script*.js']
                     //'LOG': ['test/fixtures/mocha/script*.js']
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             }
 

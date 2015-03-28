@@ -220,9 +220,9 @@ function mutationTest(grunt, task, opts) {
     }
 
     function createMutationCoverageReport(results){
-        if(task.data.mutationCoverageReporter) {
-            grunt.log.writeln('Generating the mutation coverage report in directory: '+task.data.mutationCoverageReporter.dir);
-            reportGenerator.generate(task.data.mutationCoverageReporter, results);
+        if(opts.mutationCoverageReporter) {
+            grunt.log.writeln('Generating the mutation coverage report in directory: ' + opts.mutationCoverageReporter.dir);
+            reportGenerator.generate(opts.mutationCoverageReporter, results);
         }
     }
 
