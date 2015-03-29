@@ -19,6 +19,7 @@ exports.init = function(grunt, opts) {
     }
 
     var runner = require('karma').runner,
+        start = Date.now(),
         backgroundProcesses = [],
         serverInstance,
         karmaConfig,
@@ -48,6 +49,7 @@ exports.init = function(grunt, opts) {
 
         // Find which files are used in the unit test
         karmaConfig.files = opts.code.concat(opts.specs);
+        karmaServerManager.setKarmaConfig(karmaConfig);
 
         // Create a mapping from source code to its specs, or to all specs when not explicitly provided
         _.forEach(opts.mutate, function(file) {
@@ -138,6 +140,7 @@ exports.init = function(grunt, opts) {
     };
 
     opts.after = function(done) {
+        console.log('karma mutation tests ran for ' + (Date.now() - start) + 'ms');
         karmaServerManager.killAllServerInstances().then(done);
     };
 };
