@@ -1,8 +1,10 @@
 /**
  * Created by Martin Koster on 2/16/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
-var Utils = require('../utils/MutationUtils');
+var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
+    Utils = require('../utils/MutationUtils'),
+    escodegen = require('escodegen');
+
 function MutateUpdateExpressionCommand (src, subTree, callback) {
     MutateBaseCommand.call(this, src, subTree, callback);
 }
@@ -39,7 +41,7 @@ MutateUpdateExpressionCommand.prototype.execute = function () {
 };
 
 function canMutate(astNode, loopVariables) {
-    return (loopVariables.indexOf(astNode.argument.name) < 0);
+    return (loopVariables.indexOf(escodegen.generate(astNode.argument)) < 0);
 }
 
 module.exports = MutateUpdateExpressionCommand;

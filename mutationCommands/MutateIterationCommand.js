@@ -19,10 +19,25 @@ MutateIterationCommand.prototype.execute = function () {
     ]);
 };
 
+//find identifiers and property accessors (known in this context as MemberExpression - which can be nested), serialize them and return them as loop variables
 function findLoopVariables(testNode) {
-    var tokens = esprima.tokenize(escodegen.generate(testNode));
+    var identifiers = _.pluck(findDeep(testNode, {type:'Identifier'}), 'name') || [],
+        memberExpressions = findDeep(testNode, {type: 'MemberExpression'});
 
-    return _.pluck(_.filter(tokens, {'type': 'Identifier'}), 'value');
+    return identifiers.concat(_.reduce(memberExpressions, function(result, memberExpression) {
+        result.push(escodegen.generate(memberExpression));
+        return result;
+    }, []));
+}
+
+function findDeep(object, token) {
+    var results = _.filter(object, token),
+        childResults = _.flatten(_.map(object, function (child) {
+        return typeof child == "object" ? findDeep(child, token) : [];
+    }), true);
+
+    var xx = results.concat(childResults);
+    return xx;
 }
 
 module.exports = MutateIterationCommand;
