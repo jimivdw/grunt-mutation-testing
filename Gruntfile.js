@@ -54,10 +54,6 @@ module.exports = function (grunt) {
                     text: {
                         dir: 'tmp'
                     }
-                },
-                mutationCoverageReporter: {
-                    type: 'html',
-                    dir: 'reports/mutation-test'
                 }
             },
 

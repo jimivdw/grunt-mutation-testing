@@ -205,10 +205,9 @@ function mutationTest(grunt, task, opts) {
         fs.appendFileSync(fileDest, msg + '\n');
     }
 
-    function createMutationCoverageReport(results){
-        if(opts.mutationCoverageReporter) {
-            grunt.log.writeln('Generating the mutation coverage report in directory: ' + opts.mutationCoverageReporter.dir);
-            reportGenerator.generate(opts.mutationCoverageReporter, results);
+    function createMutationHtmlReport(results) {
+        if(opts.reporters.html) {
+            reportGenerator.generate(opts.reporters.html, results);
         }
     }
 
@@ -264,7 +263,7 @@ function mutationTest(grunt, task, opts) {
             }
 
             mutationTestPromise.then(function () {
-                createMutationCoverageReport(totalResults);
+                createMutationHtmlReport(totalResults);
                 var dfd = Q.defer();
                 opts.after(function () {
                     dfd.resolve();
