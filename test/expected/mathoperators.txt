@@ -1,6 +1,8 @@
-mocha/mathoperators.js:2:13  +  can be replaced with: -
-mocha/mathoperators.js:6:13  -  can be replaced with: +
-mocha/mathoperators.js:10:13  *  can be replaced with: /
-mocha/mathoperators.js:15:17  /  can be replaced with: *
-mocha/mathoperators.js:21:13  %  can be replaced with: *
-16 of 21 unignored mutations are tested (76%).
+mocha/mathoperators.js:3:21 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:3:17 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:7:17 Replaced  -  with + -> SURVIVED
+mocha/mathoperators.js:7:22 Replaced  +  with - -> SURVIVED
+mocha/mathoperators.js:11:17 Replaced  *  with / -> SURVIVED
+mocha/mathoperators.js:16:21 Replaced  /  with * -> SURVIVED
+mocha/mathoperators.js:23:17 Replaced  %  with * -> SURVIVED
+19 of 26 unignored mutations are tested (73%).

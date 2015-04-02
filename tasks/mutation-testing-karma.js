@@ -102,7 +102,7 @@ exports.init = function(grunt, opts) {
 
                 // Set the paths to the files to be mutated relative to the temp dir
                 opts.mutate = _.map(opts.mutate, function(file) {
-                    return path.join(tempDirPath, file);
+                    return {orig: file, temp: path.join(tempDirPath, file)};
                 });
 
                 doneBefore();

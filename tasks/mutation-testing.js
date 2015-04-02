@@ -15,6 +15,7 @@ var exec = require('sync-exec');
 var path = require('path');
 var Q = require('q');
 var _ = require('lodash');
+var os = require('os');
 
 var Mutator = require('../lib/Mutator');
 var mutationTestingKarma = require('./mutation-testing-karma');
@@ -86,7 +87,7 @@ function truncateReplacement(opts, replacementArg) {
     return replacement;
 }
 
-function createMutationFileMessage(opts, srcFile) {
+function stripOffBasePath(opts, srcFile) {
     var normalizedBasePath,
         normalizedSrcFile;
 
@@ -103,8 +104,8 @@ function createMutationFileMessage(opts, srcFile) {
     return _.last(normalizedSrcFile.split(normalizedBasePath));
 }
 
-function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived, originalSources) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath, originalSources),
+function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+    var srcFileName = stripOffBasePath(opts, srcFilePath),
         result = testSurvived ? "SURVIVED" : "KILLED",
         currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1),
         mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin),
@@ -122,12 +123,12 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived
 }
 
 function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+    var srcFileName = stripOffBasePath(opts, srcFilePath);
     return srcFileName + ' tests fail without mutations';
 }
 
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+    var srcFileName = stripOffBasePath(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
     return currentMutationPosition + ' is inside a surviving mutation';
 }
@@ -138,12 +139,13 @@ function isInsideNotFailingMutation(innerMutation) {
 
 /**
  * @param {string} srcFilename
+ * @param {string} originalFileName
  * @param {function} runTests
  * @param {function} logMutation
  * @param {function} log the logger
  * @param {object} opts the config options
  */
-function mutationTestFile(srcFilename, runTests, logMutation, log, opts, originalSources) {
+function mutationTestFile(srcFilename, originalFileName, runTests, logMutation, log, opts) {
     var src = fs.readFileSync(path.resolve(srcFilename), 'UTF8');
     var mutator = new Mutator(src);
     var mutations = mutator.collectMutations(opts.excludeMutations);
@@ -153,7 +155,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts, origina
     var fileMutationResult = {
         stats: stats,
         src: src,
-        fileName: stripOffTempPath(originalSources, srcFilename),
+        fileName: stripOffBasePath(opts, originalFileName),
         mutationResults: []
     };
 
@@ -173,13 +175,13 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts, origina
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
-                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation, originalSources));
+                logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
                 return;
             }
             fs.writeFileSync(srcFilename, mutator.applyMutation(mutation));
             return runTests().then(function (testSurvived) {
                 //console.log('success!!');
-				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived, originalSources);
+				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived);
                 fileMutationResult.mutationResults.push(mutationResult);
                 if (testSurvived) {
                     stats.survived += 1;
@@ -203,8 +205,8 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts, origina
 
 function mutationTest(grunt, task, opts) {
     var done = task.async(),
-        mutationTestPromise = new QPromise();
-
+        mutationTestPromise = new Q();
+    var totalResults = [];
     function logToMutationReport(fileDest, msg) {
         if (fileDest === 'LOG') {
             grunt.log.writeln('\n' + msg);
@@ -217,9 +219,10 @@ function mutationTest(grunt, task, opts) {
     }
 
     function createMutationCoverageReport(results){
-        if(opts.mutationCoverageReporter) {
-            grunt.log.writeln('Generating the mutation coverage report in directory: ' + opts.mutationCoverageReporter.dir);
-            reportGenerator.generate(opts.mutationCoverageReporter, results);
+        console.log(JSON.stringify(opts.reporters));
+        if(!!opts.reporters) {
+            grunt.log.writeln('Generating the mutation coverage report');
+            reportGenerator.generate(opts.reporters, results);
         }
     }
 
@@ -247,11 +250,13 @@ function mutationTest(grunt, task, opts) {
         logMutationToFileDest = _.partial(logToMutationReport, logFile);
 
         opts.mutate.forEach(function(file) {
+            var tempFile = typeof(file) === 'string' ? file : file.temp,
+                originalFile = typeof(file) === 'string' ? file : file.orig;
             // Execute beforeEach
             mutationTestPromise = mutationTestPromise.then(function() {
-                opts.currentFile = file;
+                opts.currentFile = tempFile;
 
-                var deferred = QPromise.defer();
+                var deferred = Q.defer();
                 opts.beforeEach(function(ok) {
                     deferred.resolve(ok);
                 });
@@ -267,24 +272,25 @@ function mutationTest(grunt, task, opts) {
                     }
 
                     if(testOk) {
-                        if(!grunt.file.exists(file)) {
+                        if(!grunt.file.exists(tempFile)) {
                             grunt.log.warn('Source file "' + file + '" not found.');
                             return false;
                         }
 
-                        return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(stats) {
-                            statsSummary = addStats(statsSummary, stats);
+                        return mutationTestFile(path.resolve(tempFile), originalFile, runTests, logMutationToFileDest, log, opts).then(function(opts) {
+                            statsSummary = addStats(statsSummary, opts.stats);
+                            totalResults.push(opts.fileMutationResult);
                         });
                     } else {
-                        log('\nTests fail without mutations for file ' + path.resolve(file) + '\n');
-                        logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
+                        log('\nTests fail without mutations for file ' + path.resolve(originalFile) + '\n');
+                        logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, tempFile));
                     }
                 });
             });
 
             // Execute afterEach
             mutationTestPromise = mutationTestPromise.then(function() {
-                var deferred = QPromise.defer();
+                var deferred = Q.defer();
                 opts.afterEach(function(ok) {
                     deferred.resolve(ok);
                 });
@@ -299,7 +305,8 @@ function mutationTest(grunt, task, opts) {
         });
 
         mutationTestPromise.then(function() {
-            var dfd = QPromise.defer();
+            createMutationCoverageReport(totalResults);
+            var dfd = Q.defer();
             opts.after(function() {
                 dfd.resolve();
             });

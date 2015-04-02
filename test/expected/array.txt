@@ -1,4 +1,4 @@
-mocha/array.js:5:13 el,  can be removed
-mocha/array.js:5:17 'string',  can be removed
-mocha/array.js:5:27 123 can be removed
+mocha/array.js:5:13 Removed el,  -> SURVIVED
+mocha/array.js:5:17 Removed 'string',  -> SURVIVED
+mocha/array.js:5:27 Removed 123 -> SURVIVED
 4 of 7 unignored mutations are tested (57%). 2 mutations were ignored.
