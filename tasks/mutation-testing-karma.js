@@ -7,7 +7,8 @@
  */
 'use strict';
 var _ = require('lodash'),
-    path = require('path');
+    path = require('path'),
+    KarmaServerManager = require('../lib/KarmaServerManager');
 
 var CopyUtils = require('../utils/CopyUtils');
 
@@ -18,51 +19,18 @@ exports.init = function(grunt, opts) {
 
     var runner = require('karma').runner,
         backgroundProcesses = [],
+        serverInstance,
         karmaConfig,
         fileSpecs = {},
-        port = 12111;
-
-    function startServer(startCallback) {
-        port = port + 1;
-        karmaConfig.port = port;
-
-        grunt.log.write('\nStarting a Karma server on port ' + port + '...');
-
-        // FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
-        backgroundProcesses.push(
-            grunt.util.spawn(
-                {
-                    cmd: 'node',
-                    args: [
-                        path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'),
-                        JSON.stringify(karmaConfig)
-                    ]
-                }, function() {
-                }
-            )
-        );
-
-        setTimeout(
-            function() {
-                grunt.log.write('Done\n');
-                startCallback();
-            }, karmaConfig.waitForServerTime * 1000
-        );
-    }
-
-    function stopServer() {
-        backgroundProcesses.forEach(function(bgProcess) {
-            bgProcess.kill();
-        });
-        backgroundProcesses = [];
-    }
+        port = 12111,
+        karmaServerManager = new KarmaServerManager(port);
 
     opts.before = function(doneBefore) {
         karmaConfig = _.extend(
             {
                 // defaults, but can be overwritten
                 reporters: [],
-                logLevel: 'OFF',
+                logLevel: 'INFO',
                 waitForServerTime: 5
             },
             opts.karma,
@@ -71,10 +39,11 @@ exports.init = function(grunt, opts) {
                 configFile: opts.karma && opts.karma.configFile ? path.resolve(opts.karma.configFile) : undefined,
                 background: false,
                 singleRun: false,
-                autoWatch: false,
-                port: port
+                autoWatch: false
             }
         );
+        //overwrite the loglevel with INFO if it's set to anything stricter as we need the karma log to determine whether the server has started
+        karmaConfig.logLevel = karmaConfig.logLevel === 'DEBUG' || karmaConfig.logLevel === 'TRACE' ? karmaConfig.logLevel : 'INFO';
 
         // Find which files are used in the unit test
         karmaConfig.files = opts.code.concat(opts.specs);
@@ -112,32 +81,36 @@ exports.init = function(grunt, opts) {
         }
 
         process.on('exit', function() {
-            stopServer();
+            karmaServerManager.killAllServerInstances();
         });
     };
 
     opts.beforeEach = function(done) {
         var currentFileSpecs;
 
-        // Kill old server processes (from previous runs)
-        if(backgroundProcesses.length > 0) {
-            stopServer();
-        }
+        // Kill old server processes (from previous runs) and start new ones with new karma configuration
+        karmaServerManager.killAllServerInstances()
+            .then(function(){
+                // Find the specs for the current mutation file
+                currentFileSpecs = _.find(fileSpecs, function(specs, file) {
+                    return opts.currentFile.replace(/\\/g, '/').indexOf(file) !== -1;
+                });
 
-        // Find the specs for the current mutation file
-        currentFileSpecs = _.find(fileSpecs, function(specs, file) {
-            return opts.currentFile.replace(/\\/g, '/').indexOf(file) !== -1;
-        });
-
-        karmaConfig.files = opts.code.concat(currentFileSpecs || []);
-
-        startServer(done);
+                karmaConfig.files = opts.code.concat(currentFileSpecs || []);
+                karmaServerManager.setKarmaConfig(karmaConfig);
+                karmaServerManager.initServers(3);
+                return karmaServerManager.getServerInstance();
+            }).done(function(instance){
+                console.log('retrieving instance', instance.port);
+                serverInstance = instance;
+                done();
+            });
     };
 
     opts.test = function(done) {
         setTimeout(function() {
             runner.run(
-                _.merge(karmaConfig, { port: port }),
+                _.merge(karmaConfig, { port: serverInstance.port }),
                 function(exitCode) {
                     clearTimeout(timer);
                     done(exitCode === 0);
@@ -147,15 +120,21 @@ exports.init = function(grunt, opts) {
             var timer = setTimeout(
                 function() {
                     grunt.log.warn('\nWarning! Infinite loop detected. This may put a strain on your CPU.');
-                    startServer(function() {
-                        done(false);
-                    });
+                    karmaServerManager.invalidateServerInstance(serverInstance);
+                    karmaServerManager.startServerInstance();
+                    karmaServerManager.getServerInstance()
+                        .then(function(instance){
+                            serverInstance = instance;
+                            return karmaServerManager.killExpiredServerInstances();
+                        }).then(function(){
+                            done('infiniteLoop');
+                        });
                 }, 2000
             );
         }, 100);
     };
 
-    opts.after = function() {
-        stopServer();
+    opts.after = function(done) {
+        karmaServerManager.killAllServerInstances().then(done);
     };
 };
