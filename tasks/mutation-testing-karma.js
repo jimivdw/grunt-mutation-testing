@@ -13,7 +13,8 @@ var _ = require('lodash'),
     xml2js = require('xml2js');
 
 var CopyUtils = require('../utils/CopyUtils'),
-    IOUtils = require('../utils/IOUtils');
+    IOUtils = require('../utils/IOUtils'),
+    KarmaServer = require('../lib/KarmaServer');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
@@ -30,31 +31,11 @@ exports.init = function(grunt, opts) {
         port = 12111;
 
     function startServer(startCallback) {
-        port = port + 1;
-        karmaConfig.port = port;
-
-        grunt.log.write('\nStarting a Karma server on port ' + port + '...');
-
-        // FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
-        backgroundProcesses.push(
-            grunt.util.spawn(
-                {
-                    cmd: 'node',
-                    args: [
-                        path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'),
-                        JSON.stringify(karmaConfig)
-                    ]
-                }, function() {
-                }
-            )
-        );
-
-        setTimeout(
-            function() {
-                grunt.log.write('Done\n');
-                startCallback();
-            }, karmaConfig.waitForServerTime * 1000
-        );
+        var server = new KarmaServer(karmaConfig, port++);
+        backgroundProcesses.push(server);
+        server.start().done(function() {
+            startCallback();
+        });
     }
 
     function stopServer() {
@@ -231,7 +212,7 @@ exports.init = function(grunt, opts) {
                 // defaults, but can be overwritten
                 basePath: '.',
                 reporters: [],
-                logLevel: 'OFF',
+                logLevel: 'INFO',
                 waitForServerTime: 5
             },
             opts.karma,
@@ -298,24 +279,14 @@ exports.init = function(grunt, opts) {
     };
 
     opts.test = function(done) {
-        setTimeout(function() {
-            runner.run(
-                _.merge(karmaConfig, { port: port }),
-                function(exitCode) {
-                    clearTimeout(timer);
-                    done(exitCode === 0);
-                }
-            );
-
-            var timer = setTimeout(
-                function() {
-                    grunt.log.warn('\nWarning! Infinite loop detected. This may put a strain on your CPU.');
-                    startServer(function() {
-                        done(false);
-                    });
-                }, 2000
-            );
-        }, 100);
+        backgroundProcesses[0].runTests().then(function(testSuccess) {
+            done(testSuccess);
+        }, function(error) {
+            grunt.log.warn('\n' + error);
+            startServer(function() {
+                done(false);
+            });
+        });
     };
 
     opts.after = function() {
