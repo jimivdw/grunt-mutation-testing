@@ -70,6 +70,34 @@ module.exports.createDirIfNotExists = function createDirIfNotExists(newDir) {
     }
 };
 
+/**
+ * Read a file that may not be present yet. Keep trying every (interval || 100) milliseconds.
+ *
+ * @param fileName {string} the file that should be read
+ * @param maxWait {number} maximum time that should be waited for the file to be read
+ * @param interval {number} [interval] number of milliseconds between each try, DEFAULT: 100
+ * @returns {promise|*|Q.promise} a promise that will resolve with the file contents or rejected with any error
+ */
+module.exports.readFileEventually = function(fileName, maxWait, interval) {
+    var self = this,
+        dfd = Q.defer(),
+        interval = interval || 100;
+
+    self.promiseToReadFile(fileName).then(function(data) {
+        dfd.resolve(data);
+    }, function(error) {
+        if(maxWait > 0) {
+            setTimeout(function() {
+                dfd.resolve(self.readFileEventually(fileName, maxWait - interval));
+            }, interval);
+        } else {
+            dfd.reject(error);
+        }
+    });
+
+    return dfd.promise;
+};
+
 module.exports.promiseToReadFile = function promiseToReadFile(fileName) {
     return Q.Promise(function(resolve, reject){
         fs.readFile(fileName, 'utf-8', function(error, data) {

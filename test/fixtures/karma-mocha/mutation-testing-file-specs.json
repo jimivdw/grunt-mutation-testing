@@ -1,0 +1,6 @@
+{
+    "karma-mocha/script-mathoperators.js": ["karma-mocha/karma-mathoperators-test.js"],
+    "karma-mocha/script-update-expressions.js": ["karma-mocha/karma-update-expressions-test.js"],
+    "karma-mocha/script1.js": ["karma-mocha/karma-test.js"],
+    "karma-mocha/script2.js": ["karma-mocha/karma-test.js"]
+}
