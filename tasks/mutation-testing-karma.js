@@ -194,8 +194,7 @@ exports.init = function(grunt, opts) {
                 // defaults, but can be overwritten
                 basePath: '.',
                 reporters: [],
-                logLevel: 'INFO',
-                waitForServerTime: 5
+                logLevel: 'INFO'
             },
             opts.karma,
             {
