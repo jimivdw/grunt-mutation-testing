@@ -9,7 +9,7 @@
 var _ = require('lodash'),
     fs = require('fs'),
     path = require('path'),
-    q = require('q'),
+    Q = require('q'),
     xml2js = require('xml2js');
 
 var CopyUtils = require('../utils/CopyUtils'),
@@ -21,38 +21,49 @@ exports.init = function(grunt, opts) {
         return;
     }
 
-    var runner = require('karma').runner,
-        backgroundProcesses = [],
+    var karmaServers = [],
         karmaConfig,
         karmaConfigOrig,
         fileSpecs = {},
-        coverageFile,
         baseCoverage = {},
         port = 12111;
 
-    function startServer(startCallback) {
-        var server = new KarmaServer(karmaConfig, port++);
-        backgroundProcesses.push(server);
-        server.start().done(function() {
-            startCallback();
+    function startServer(config, callback) {
+        var server = new KarmaServer(config, port++);
+        karmaServers.push(server);
+        server.start().done(function(instance) {
+            callback(instance);
         });
     }
 
-    function stopServer() {
-        backgroundProcesses.forEach(function(bgProcess) {
-            bgProcess.kill();
+    function stopServers() {
+        karmaServers.forEach(function(instance) {
+            instance.kill();
         });
-        backgroundProcesses = [];
+        karmaServers = [];
     }
 
-    function getCoverage(files) {
-        var deferred = q.defer();
+    function getCoverage(specFile) {
+        var deferred = Q.defer(),
+            files = specFile ? opts.code.concat(specFile) : opts.code,
+            config = _.merge({}, karmaConfig, { files: files }, {
+                reporters: ['coverage'],
+                preprocessors: _.zipObject(_.map(opts.mutate, function(file) {
+                    return [file, 'coverage'];
+                })),
+                coverageReporter: {
+                    type: 'cobertura',
+                    dir: 'coverage',
+                    subdir: '.',
+                    file: (specFile ? specFile : 'dummy') + 'coverage.xml'
+                }
+            }),
+            coverageFile = path.join(config.basePath, config.coverageReporter.dir, config.coverageReporter.file);
 
-        karmaConfig.files = files;
-        startServer(function() {
-            opts.test(function() {
+        startServer(config, function(instance) {
+            instance.runTests().done(function() {
                 getFileLineCoverage(coverageFile).then(function(fileLineCoverage) {
-                    stopServer();
+                    instance.kill();
                     deferred.resolve(fileLineCoverage);
                 }, function(error) {
                     deferred.reject(error);
@@ -64,7 +75,7 @@ exports.init = function(grunt, opts) {
     }
 
     function parseCoverage(xmlData) {
-        var deferred = q.defer();
+        var deferred = Q.defer();
         xml2js.parseString(xmlData, function(err, data) {
             if(err) {
                 console.warn('Error', err);
@@ -82,7 +93,7 @@ exports.init = function(grunt, opts) {
     }
 
     function getFileLineCoverage(coverageFile) {
-        var deferred = q.defer(),
+        var deferred = Q.defer(),
             fileLineCoverage = {};
 
         try {
@@ -111,31 +122,8 @@ exports.init = function(grunt, opts) {
         return deferred.promise;
     }
 
-    function setKarmaCoverageConfig() {
-        karmaConfigOrig = _.extend({}, karmaConfig);
-        karmaConfig = _.extend(karmaConfig, {
-            reporters: ['coverage'],
-            preprocessors: _.zipObject(_.map(opts.mutate, function(file) {
-                return [file, 'coverage'];
-            })),
-            coverageReporter: {
-                type: 'cobertura',
-                dir: 'coverage',
-                subdir: '.',
-                file: 'coverage.xml'
-            }
-        });
-
-        coverageFile = path.join(karmaConfig.basePath, karmaConfig.coverageReporter.dir,
-            karmaConfig.coverageReporter.file);
-    }
-
-    function resetKarmaConfig() {
-        karmaConfig = karmaConfigOrig;
-    }
-
     function findCodeSpecs() {
-        var deferred = q.defer(),
+        var deferred = Q.defer(),
             codeSpecs = {};
 
         if(karmaConfig.fileSpecs) {
@@ -162,40 +150,34 @@ exports.init = function(grunt, opts) {
 
             deferred.resolve(codeSpecs);
         } else {
-            // Configure Karma for collecting coverage data
-            setKarmaCoverageConfig();
-
-            getCoverage(opts.code).done(function(coverage) {
+            getCoverage().done(function(coverage) {
                 baseCoverage = coverage;
 
-                var specCoveragePromise = new q();
+                var specCoveragePromises = [];
                 _.forEach(opts.specs, function(specFile) {
-                    specCoveragePromise = specCoveragePromise.then(function() {
-                        var deferred = q.defer();
-                        fs.unlinkSync(coverageFile);
-                        getCoverage(opts.code.concat(specFile)).then(function(specCoverage) {
-                            _.forOwn(specCoverage, function(coverage, file) {
-                                var relativeFile = stripOffBasePath(file),
-                                    relativeSpecFile = stripOffBasePath(specFile);
-                                if(coverage > baseCoverage[file]) {
-                                    if(codeSpecs[relativeFile]) {
-                                        codeSpecs[relativeFile].push(relativeSpecFile);
-                                    } else {
-                                        codeSpecs[relativeFile] = [relativeSpecFile];
-                                    }
+                    var deferred = Q.defer();
+
+                    getCoverage(specFile).then(function(specCoverage) {
+                        _.forOwn(specCoverage, function(coverage, file) {
+                            var relativeFile = stripOffBasePath(file),
+                                relativeSpecFile = stripOffBasePath(specFile);
+                            if(coverage > baseCoverage[file]) {
+                                if(codeSpecs[relativeFile]) {
+                                    codeSpecs[relativeFile].push(relativeSpecFile);
+                                } else {
+                                    codeSpecs[relativeFile] = [relativeSpecFile];
                                 }
-                            });
-                            deferred.resolve(specCoverage);
-                        }, function(error) {
-                            deferred.reject(error);
+                            }
                         });
-                        return deferred.promise;
+                        deferred.resolve(specCoverage);
+                    }, function(error) {
+                        deferred.reject(error);
                     });
+
+                    specCoveragePromises.push(deferred.promise);
                 });
 
-                specCoveragePromise.then(function() {
-                    resetKarmaConfig();
-
+                Q.all(specCoveragePromises).then(function() {
                     deferred.resolve(codeSpecs);
                 }, function(error) {
                     deferred.reject(error);
@@ -256,17 +238,12 @@ exports.init = function(grunt, opts) {
         }
 
         process.on('exit', function() {
-            stopServer();
+            stopServers();
         });
     };
 
     opts.beforeEach = function(done) {
         var currentFileSpecs;
-
-        // Kill old server processes (from previous runs)
-        if(backgroundProcesses.length > 0) {
-            stopServer();
-        }
 
         // Find the specs for the current mutation file
         currentFileSpecs = _.find(fileSpecs, function(specs, file) {
@@ -275,21 +252,30 @@ exports.init = function(grunt, opts) {
 
         karmaConfig.files = opts.code.concat(currentFileSpecs || []);
 
-        startServer(done);
+        startServer(karmaConfig, function(instance) {
+            opts.currentInstance = instance;
+            done();
+        });
     };
 
     opts.test = function(done) {
-        backgroundProcesses[0].runTests().then(function(testSuccess) {
+        opts.currentInstance.runTests().then(function(testSuccess) {
             done(testSuccess);
         }, function(error) {
             grunt.log.warn('\n' + error);
-            startServer(function() {
+            startServer(karmaConfig, function(instance) {
+                opts.currentInstance = instance;
                 done(false);
             });
         });
     };
 
+    opts.afterEach = function(done) {
+        opts.currentInstance.kill();
+        done();
+    };
+
     opts.after = function() {
-        stopServer();
+        stopServers();
     };
 };
