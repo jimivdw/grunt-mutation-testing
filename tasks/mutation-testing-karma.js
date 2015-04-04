@@ -97,7 +97,7 @@ exports.init = function(grunt, opts) {
             fileLineCoverage = {};
 
         try {
-            IOUtils.readFileEventually(coverageFile, karmaConfig.waitForServerTime * 1000).done(function(xmlData) {
+            IOUtils.readFileEventually(coverageFile, 5000).done(function(xmlData) {
                 parseCoverage(xmlData).done(function(coverageData) {
                     coverageData.coverage.packages.forEach(function(pkgs) {
                         pkgs['package'].forEach(function(pkg) {
