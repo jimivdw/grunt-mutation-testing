@@ -38,8 +38,7 @@ exports.init = function(grunt, opts) {
             }
         ),
         serverManager = new KarmaServerManager(karmaConfig),
-        fileSpecs = {},
-        baseCoverage = {};
+        fileSpecs = {};
 
     function startServer(config, callback) {
         serverManager.startNewInstance(config).done(function(instance) {
@@ -51,7 +50,7 @@ exports.init = function(grunt, opts) {
         serverManager.killAllInstances();
     }
 
-    function getCoverage(specFile) {
+    function getSpecFileCoverage(specFile) {
         var deferred = Q.defer(),
             files = specFile ? opts.code.concat(specFile) : opts.code,
             config = _.merge({}, karmaConfig, { files: files }, {
@@ -70,7 +69,7 @@ exports.init = function(grunt, opts) {
 
         startServer(config, function(instance) {
             instance.runTests().done(function() {
-                getFileLineCoverage(coverageFile).then(function(fileLineCoverage) {
+                parseXMLCoverageFile(coverageFile).then(function(fileLineCoverage) {
                     instance.kill();
                     deferred.resolve(fileLineCoverage);
                 }, function(error) {
@@ -82,49 +81,44 @@ exports.init = function(grunt, opts) {
         return deferred.promise;
     }
 
-    function parseCoverage(xmlData) {
-        var deferred = Q.defer();
-        xml2js.parseString(xmlData, function(err, data) {
-            if(err) {
-                console.warn('Error', err);
-                deferred.reject(err);
-            } else {
-                deferred.resolve(data);
-            }
-        });
-        return deferred.promise;
-    }
-
-    function stripOffBasePath(fileName) {
-        var basePath = IOUtils.normalizeWindowsPath(_.last(opts.basePath.split(karmaConfig.basePath))).slice(1);
-        return _.last(IOUtils.normalizeWindowsPath(fileName).split(basePath));
-    }
-
-    function getFileLineCoverage(coverageFile) {
+    function parseXMLCoverageData(xmlCoverageData) {
         var deferred = Q.defer(),
             fileLineCoverage = {};
 
-        try {
-            IOUtils.readFileEventually(coverageFile, 5000).done(function(xmlData) {
-                parseCoverage(xmlData).done(function(coverageData) {
-                    coverageData.coverage.packages.forEach(function(pkgs) {
-                        pkgs['package'].forEach(function(pkg) {
-                            pkg.classes.forEach(function(clss) {
-                                clss['class'].forEach(function(cls) {
-                                    var fileName = IOUtils.normalizeWindowsPath(cls.$['filename']),
-                                        lineCoverage = Number(cls.$['line-rate']);
-                                    fileLineCoverage[fileName] = lineCoverage;
-                                });
+        xml2js.parseString(xmlCoverageData, function(error, coverageData) {
+            if(error) {
+                console.warn('Error', error);
+                deferred.reject(error);
+            } else {
+                coverageData.coverage.packages.forEach(function(pkgs) {
+                    pkgs['package'].forEach(function(pkg) {
+                        pkg.classes.forEach(function(clss) {
+                            clss['class'].forEach(function(cls) {
+                                var fileName = IOUtils.normalizeWindowsPath(cls.$['filename']),
+                                    lineCoverage = Number(cls.$['line-rate']);
+                                fileLineCoverage[fileName] = lineCoverage;
                             });
                         });
                     });
-
-                    deferred.resolve(fileLineCoverage);
                 });
+
+                deferred.resolve(fileLineCoverage);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function parseXMLCoverageFile(xmlCoverageFile) {
+        var deferred = Q.defer();
+
+        try {
+            IOUtils.readFileEventually(xmlCoverageFile, 5000).done(function(xmlData) {
+                deferred.resolve(parseXMLCoverageData(xmlData));
             });
-        } catch(err) {
-            console.warn("Error", err);
-            deferred.reject(err);
+        } catch(error) {
+            console.warn("Error", error);
+            deferred.reject(error);
         }
 
         return deferred.promise;
@@ -133,6 +127,21 @@ exports.init = function(grunt, opts) {
     function findCodeSpecs() {
         var deferred = Q.defer(),
             codeSpecs = {};
+
+        function getRelativeFilePath(filePath) {
+            var basePath = IOUtils.normalizeWindowsPath(_.last(opts.basePath.split(karmaConfig.basePath))).slice(1);
+            return _.last(IOUtils.normalizeWindowsPath(filePath).split(basePath));
+        }
+
+        function getAbsoluteSpecPaths(codeSpecs) {
+            var absoluteCodeSpecs = {};
+            _.forOwn(codeSpecs, function(specs, code) {
+                absoluteCodeSpecs[code] = _.map(specs, function(spec) {
+                    return path.join(opts.basePath, spec);
+                });
+            });
+            return absoluteCodeSpecs;
+        }
 
         if(karmaConfig.fileSpecs) {
             if(_.isString(karmaConfig.fileSpecs)) {
@@ -152,31 +161,29 @@ exports.init = function(grunt, opts) {
                 });
 
                 codeSpecs[file] = mutateFileSpecs || _.map(opts.specs, function(spec) {
-                    return stripOffBasePath(spec);
+                    return getRelativeFilePath(spec);
                 });
             });
 
-            deferred.resolve(codeSpecs);
+            deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
         } else {
-            getCoverage().done(function(coverage) {
-                baseCoverage = coverage;
+            getSpecFileCoverage().done(function(coverage) {
+                var baseCoverage = coverage,
+                    specCoveragePromises = [];
 
-                var specCoveragePromises = [];
                 _.forEach(opts.specs, function(specFile) {
                     var deferred = Q.defer();
 
-                    getCoverage(specFile).then(function(specCoverage) {
+                    getSpecFileCoverage(specFile).then(function(specCoverage) {
                         _.forOwn(specCoverage, function(coverage, file) {
-                            var relativeFile = stripOffBasePath(file),
-                                relativeSpecFile = stripOffBasePath(specFile);
+                            var relativeFile = getRelativeFilePath(file),
+                                relativeSpecFile = getRelativeFilePath(specFile);
+
                             if(coverage > baseCoverage[file]) {
-                                if(codeSpecs[relativeFile]) {
-                                    codeSpecs[relativeFile].push(relativeSpecFile);
-                                } else {
-                                    codeSpecs[relativeFile] = [relativeSpecFile];
-                                }
+                                codeSpecs[relativeFile] = _.union(codeSpecs[relativeFile], [relativeSpecFile]);
                             }
                         });
+
                         deferred.resolve(specCoverage);
                     }, function(error) {
                         deferred.reject(error);
@@ -186,7 +193,9 @@ exports.init = function(grunt, opts) {
                 });
 
                 Q.all(specCoveragePromises).then(function() {
-                    deferred.resolve(codeSpecs);
+                    grunt.log.writeln("Found pairs of code files and specs:\n" + JSON.stringify(codeSpecs, null, 2));
+
+                    deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
                 }, function(error) {
                     deferred.reject(error);
                 });
@@ -199,12 +208,7 @@ exports.init = function(grunt, opts) {
     opts.before = function(doneBefore) {
         function finalizeBefore(callback) {
             findCodeSpecs().then(function(codeSpecs) {
-                grunt.log.writeln("Found pairs of code files and specs:\n", JSON.stringify(codeSpecs, null, 2));
-                _.forEach(codeSpecs, function(specs, code) {
-                    fileSpecs[code] = _.map(specs, function(spec) {
-                        return path.join(opts.basePath, spec);
-                    });
-                });
+                fileSpecs = codeSpecs;
                 callback();
             });
         }
@@ -236,10 +240,10 @@ exports.init = function(grunt, opts) {
 
         // Find the specs for the current mutation file
         currentFileSpecs = _.find(fileSpecs, function(specs, file) {
-            return opts.currentFile.replace(/\\/g, '/').indexOf(file) !== -1;
+            return IOUtils.normalizeWindowsPath(opts.currentFile).indexOf(file) !== -1;
         });
 
-        karmaConfig.files = opts.code.concat(currentFileSpecs || []);
+        karmaConfig.files = _.union(opts.code, currentFileSpecs);
 
         startServer(karmaConfig, function(instance) {
             opts.currentInstance = instance;
