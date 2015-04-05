@@ -21,12 +21,25 @@ exports.init = function(grunt, opts) {
         return;
     }
 
-    var serverManager = new KarmaServerManager(),
-        karmaConfig,
-        karmaConfigOrig,
+    var karmaConfig = _.extend(
+            {
+                // defaults, but can be overwritten
+                basePath: '.',
+                reporters: [],
+                logLevel: 'INFO'
+            },
+            opts.karma,
+            {
+                // can't be overwritten, because important for us
+                configFile: opts.karma && opts.karma.configFile ? path.resolve(opts.karma.configFile) : undefined,
+                background: false,
+                singleRun: false,
+                autoWatch: false
+            }
+        ),
+        serverManager = new KarmaServerManager(karmaConfig),
         fileSpecs = {},
-        baseCoverage = {},
-        port = 12111;
+        baseCoverage = {};
 
     function startServer(config, callback) {
         serverManager.startNewInstance(config).done(function(instance) {
@@ -184,24 +197,6 @@ exports.init = function(grunt, opts) {
     }
 
     opts.before = function(doneBefore) {
-        karmaConfig = _.extend(
-            {
-                // defaults, but can be overwritten
-                basePath: '.',
-                reporters: [],
-                logLevel: 'INFO'
-            },
-            opts.karma,
-            {
-                // can't be overwritten, because important for us
-                configFile: opts.karma && opts.karma.configFile ? path.resolve(opts.karma.configFile) : undefined,
-                background: false,
-                singleRun: false,
-                autoWatch: false,
-                port: port
-            }
-        );
-
         function finalizeBefore(callback) {
             findCodeSpecs().then(function(codeSpecs) {
                 grunt.log.writeln("Found pairs of code files and specs:\n", JSON.stringify(codeSpecs, null, 2));
