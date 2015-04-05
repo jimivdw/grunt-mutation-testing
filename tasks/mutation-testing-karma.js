@@ -14,14 +14,14 @@ var _ = require('lodash'),
 
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
-    KarmaServer = require('../lib/KarmaServer');
+    KarmaServerManager = require('../lib/KarmaServerManager');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
         return;
     }
 
-    var karmaServers = [],
+    var serverManager = new KarmaServerManager(),
         karmaConfig,
         karmaConfigOrig,
         fileSpecs = {},
@@ -29,18 +29,13 @@ exports.init = function(grunt, opts) {
         port = 12111;
 
     function startServer(config, callback) {
-        var server = new KarmaServer(config, port++);
-        karmaServers.push(server);
-        server.start().done(function(instance) {
+        serverManager.startNewInstance(config).done(function(instance) {
             callback(instance);
         });
     }
 
     function stopServers() {
-        karmaServers.forEach(function(instance) {
-            instance.kill();
-        });
-        karmaServers = [];
+        serverManager.killAllInstances();
     }
 
     function getCoverage(specFile) {
