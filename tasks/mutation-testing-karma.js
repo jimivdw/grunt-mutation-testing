@@ -7,10 +7,7 @@
  */
 'use strict';
 var _ = require('lodash'),
-    fs = require('fs-extra'),
-    path = require('path'),
-    Q = require('q'),
-    xml2js = require('xml2js');
+    path = require('path');
 
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
