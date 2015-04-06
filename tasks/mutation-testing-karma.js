@@ -15,7 +15,7 @@ var _ = require('lodash'),
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
     KarmaServerManager = require('../lib/KarmaServerManager'),
-    findCodeSpecs = require('../lib/KarmaFindCodeSpecs');
+    KarmaCodeSpecsMatcher = require('../lib/KarmaCodeSpecsMatcher');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
@@ -57,10 +57,11 @@ exports.init = function(grunt, opts) {
 
     opts.before = function(doneBefore) {
         function finalizeBefore(callback) {
-            findCodeSpecs(opts, serverManager, karmaConfig).then(function(codeSpecs) {
-                fileSpecs = codeSpecs;
-                callback();
-            });
+            new KarmaCodeSpecsMatcher(serverManager, _.merge({}, opts, { karma: karmaConfig }))
+                .findCodeSpecs().then(function(codeSpecs) {
+                    fileSpecs = codeSpecs;
+                    callback();
+                });
         }
 
         if(!opts.mutateProductionCode) {
