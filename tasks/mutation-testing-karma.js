@@ -7,7 +7,7 @@
  */
 'use strict';
 var _ = require('lodash'),
-    fs = require('fs'),
+    fs = require('fs-extra'),
     path = require('path'),
     Q = require('q'),
     xml2js = require('xml2js');
@@ -24,14 +24,12 @@ exports.init = function(grunt, opts) {
     var karmaConfig = _.extend(
             {
                 // defaults, but can be overwritten
-                basePath: '.',
-                reporters: [],
-                logLevel: 'INFO'
+                basePath: path.resolve('.'),
+                reporters: []
             },
             opts.karma,
             {
                 // can't be overwritten, because important for us
-                configFile: opts.karma && opts.karma.configFile ? path.resolve(opts.karma.configFile) : undefined,
                 background: false,
                 singleRun: false,
                 autoWatch: false
@@ -39,6 +37,13 @@ exports.init = function(grunt, opts) {
         ),
         serverManager = new KarmaServerManager(karmaConfig),
         fileSpecs = {};
+
+    // Extend the karma configuration with some secondary properties that cannot be overwritten
+    _.merge(karmaConfig, {
+        logLevel: ['INFO', 'DEBUG'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
+        configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined,
+        coverageDir: path.join(karmaConfig.basePath, 'coverage')
+    });
 
     function startServer(config, callback) {
         serverManager.startNewInstance(config).done(function(instance) {
@@ -60,12 +65,12 @@ exports.init = function(grunt, opts) {
                 })),
                 coverageReporter: {
                     type: 'cobertura',
-                    dir: 'coverage',
+                    dir: karmaConfig.coverageDir,
                     subdir: '.',
                     file: (specFile ? specFile : 'dummy') + 'coverage.xml'
                 }
             }),
-            coverageFile = path.join(config.basePath, config.coverageReporter.dir, config.coverageReporter.file);
+            coverageFile = path.join(config.coverageReporter.dir, config.coverageReporter.file);
 
         startServer(config, function(instance) {
             instance.runTests().done(function() {
@@ -194,6 +199,11 @@ exports.init = function(grunt, opts) {
 
                 Q.all(specCoveragePromises).then(function() {
                     grunt.log.writeln("Found pairs of code files and specs:\n" + JSON.stringify(codeSpecs, null, 2));
+
+                    if(opts.mutateProductionCode) {
+                        // Remove the coverage files
+                        fs.remove(karmaConfig.coverageDir);
+                    }
 
                     deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
                 }, function(error) {
