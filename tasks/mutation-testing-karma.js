@@ -14,7 +14,8 @@ var _ = require('lodash'),
 
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
-    KarmaServerManager = require('../lib/KarmaServerManager');
+    KarmaServerManager = require('../lib/KarmaServerManager'),
+    findCodeSpecs = require('../lib/KarmaFindCodeSpecs');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
@@ -44,10 +45,6 @@ exports.init = function(grunt, opts) {
         configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined
     });
 
-    function getCoverageDir() {
-        return path.join(karmaConfig.basePath, 'coverage');
-    }
-
     function startServer(config, callback) {
         serverManager.startNewInstance(config).done(function(instance) {
             callback(instance);
@@ -58,169 +55,9 @@ exports.init = function(grunt, opts) {
         serverManager.killAllInstances();
     }
 
-    function getSpecFileCoverage(specFile) {
-        var deferred = Q.defer(),
-            files = specFile ? opts.code.concat(specFile) : opts.code,
-            config = _.merge({}, karmaConfig, { files: files }, {
-                reporters: ['coverage'],
-                preprocessors: _.zipObject(_.map(opts.mutate, function(file) {
-                    return [file, 'coverage'];
-                })),
-                coverageReporter: {
-                    type: 'cobertura',
-                    dir: getCoverageDir(),
-                    subdir: '.',
-                    file: (specFile ? specFile : 'dummy') + 'coverage.xml'
-                }
-            }),
-            coverageFile = path.join(config.coverageReporter.dir, config.coverageReporter.file);
-
-        startServer(config, function(instance) {
-            instance.runTests().done(function() {
-                parseXMLCoverageFile(coverageFile).then(function(fileLineCoverage) {
-                    instance.kill();
-                    deferred.resolve(fileLineCoverage);
-                }, function(error) {
-                    deferred.reject(error);
-                });
-            });
-        });
-
-        return deferred.promise;
-    }
-
-    function parseXMLCoverageData(xmlCoverageData) {
-        var deferred = Q.defer(),
-            fileLineCoverage = {};
-
-        xml2js.parseString(xmlCoverageData, function(error, coverageData) {
-            if(error) {
-                console.warn('Error', error);
-                deferred.reject(error);
-            } else {
-                coverageData.coverage.packages.forEach(function(pkgs) {
-                    pkgs['package'].forEach(function(pkg) {
-                        pkg.classes.forEach(function(clss) {
-                            clss['class'].forEach(function(cls) {
-                                var fileName = IOUtils.normalizeWindowsPath(cls.$['filename']),
-                                    lineCoverage = Number(cls.$['line-rate']);
-                                fileLineCoverage[fileName] = lineCoverage;
-                            });
-                        });
-                    });
-                });
-
-                deferred.resolve(fileLineCoverage);
-            }
-        });
-
-        return deferred.promise;
-    }
-
-    function parseXMLCoverageFile(xmlCoverageFile) {
-        var deferred = Q.defer();
-
-        try {
-            IOUtils.readFileEventually(xmlCoverageFile, 5000).done(function(xmlData) {
-                deferred.resolve(parseXMLCoverageData(xmlData));
-            });
-        } catch(error) {
-            console.warn("Error", error);
-            deferred.reject(error);
-        }
-
-        return deferred.promise;
-    }
-
-    function findCodeSpecs() {
-        var deferred = Q.defer(),
-            codeSpecs = {};
-
-        function getRelativeFilePath(filePath) {
-            var basePath = IOUtils.normalizeWindowsPath(_.last(opts.basePath.split(karmaConfig.basePath))).slice(1);
-            return _.last(IOUtils.normalizeWindowsPath(filePath).split(basePath));
-        }
-
-        function getAbsoluteSpecPaths(codeSpecs) {
-            var absoluteCodeSpecs = {};
-            _.forOwn(codeSpecs, function(specs, code) {
-                absoluteCodeSpecs[code] = _.map(specs, function(spec) {
-                    return path.join(opts.basePath, spec);
-                });
-            });
-            return absoluteCodeSpecs;
-        }
-
-        if(karmaConfig.fileSpecs) {
-            if(_.isString(karmaConfig.fileSpecs)) {
-                try {
-                    karmaConfig.fileSpecs = JSON.parse(fs.readFileSync(karmaConfig.fileSpecs));
-                } catch(error) {
-                    deferred.reject(error);
-                    return deferred.promise;
-                }
-            }
-
-            // Create a mapping from source code to its specs, or to all specs when not explicitly provided
-            _.forEach(opts.mutate, function(file) {
-                file = IOUtils.normalizeWindowsPath(file);
-                var mutateFileSpecs = _.find(karmaConfig.fileSpecs, function(fsSpecs, fsFile) {
-                    return file.indexOf(IOUtils.normalizeWindowsPath(fsFile)) !== -1;
-                });
-
-                codeSpecs[file] = mutateFileSpecs || _.map(opts.specs, function(spec) {
-                    return getRelativeFilePath(spec);
-                });
-            });
-
-            deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
-        } else {
-            getSpecFileCoverage().done(function(coverage) {
-                var baseCoverage = coverage,
-                    specCoveragePromises = [];
-
-                _.forEach(opts.specs, function(specFile) {
-                    var deferred = Q.defer();
-
-                    getSpecFileCoverage(specFile).then(function(specCoverage) {
-                        _.forOwn(specCoverage, function(coverage, file) {
-                            var relativeFile = getRelativeFilePath(file),
-                                relativeSpecFile = getRelativeFilePath(specFile);
-
-                            if(coverage > baseCoverage[file]) {
-                                codeSpecs[relativeFile] = _.union(codeSpecs[relativeFile], [relativeSpecFile]);
-                            }
-                        });
-
-                        deferred.resolve(specCoverage);
-                    }, function(error) {
-                        deferred.reject(error);
-                    });
-
-                    specCoveragePromises.push(deferred.promise);
-                });
-
-                Q.all(specCoveragePromises).then(function() {
-                    grunt.log.writeln("Found pairs of code files and specs:\n" + JSON.stringify(codeSpecs, null, 2));
-
-                    if(opts.mutateProductionCode) {
-                        // Remove the coverage files
-                        fs.remove(getCoverageDir());
-                    }
-
-                    deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
-                }, function(error) {
-                    deferred.reject(error);
-                });
-            });
-        }
-
-        return deferred.promise;
-    }
-
     opts.before = function(doneBefore) {
         function finalizeBefore(callback) {
-            findCodeSpecs().then(function(codeSpecs) {
+            findCodeSpecs(opts, serverManager, karmaConfig).then(function(codeSpecs) {
                 fileSpecs = codeSpecs;
                 callback();
             });
