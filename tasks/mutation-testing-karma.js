@@ -9,93 +9,61 @@
 var _ = require('lodash'),
     path = require('path');
 
-var CopyUtils = require('../utils/CopyUtils');
+var CopyUtils = require('../utils/CopyUtils'),
+    IOUtils = require('../utils/IOUtils'),
+    KarmaServerManager = require('../lib/KarmaServerManager'),
+    KarmaCodeSpecsMatcher = require('../lib/KarmaCodeSpecsMatcher');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
         return;
     }
 
-    var runner = require('karma').runner,
-        backgroundProcesses = [],
-        karmaConfig,
-        fileSpecs = {},
-        port = 12111;
-
-    function startServer(startCallback) {
-        port = port + 1;
-        karmaConfig.port = port;
-
-        grunt.log.write('\nStarting a Karma server on port ' + port + '...');
-
-        // FIXME: nasty fallback in case of infinite looping owing to code mutations. At least make it non-blocking
-        backgroundProcesses.push(
-            grunt.util.spawn(
-                {
-                    cmd: 'node',
-                    args: [
-                        path.join(__dirname, '..', 'lib', 'run-karma-in-background.js'),
-                        JSON.stringify(karmaConfig)
-                    ]
-                }, function() {
-                }
-            )
-        );
-
-        setTimeout(
-            function() {
-                grunt.log.write('Done\n');
-                startCallback();
-            }, karmaConfig.waitForServerTime * 1000
-        );
-    }
-
-    function stopServer() {
-        backgroundProcesses.forEach(function(bgProcess) {
-            bgProcess.kill();
-        });
-        backgroundProcesses = [];
-    }
-
-    opts.before = function(doneBefore) {
-        karmaConfig = _.extend(
+    var karmaConfig = _.extend(
             {
                 // defaults, but can be overwritten
-                reporters: [],
-                logLevel: 'OFF',
-                waitForServerTime: 5
+                basePath: path.resolve('.'),
+                reporters: []
             },
             opts.karma,
             {
                 // can't be overwritten, because important for us
-                configFile: opts.karma && opts.karma.configFile ? path.resolve(opts.karma.configFile) : undefined,
                 background: false,
                 singleRun: false,
-                autoWatch: false,
-                port: port
+                autoWatch: false
             }
-        );
+        ),
+        serverManager = new KarmaServerManager(karmaConfig),
+        currentInstance,
+        fileSpecs = {};
 
-        // Find which files are used in the unit test
-        karmaConfig.files = opts.code.concat(opts.specs);
+    // Extend the karma configuration with some secondary properties that cannot be overwritten
+    _.merge(karmaConfig, {
+        logLevel: ['INFO', 'DEBUG'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
+        configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined
+    });
 
-        // Create a mapping from source code to its specs, or to all specs when not explicitly provided
-        _.forEach(opts.mutate, function(file) {
-            var mutateFileSpecs = _.find(karmaConfig.fileSpecs, function(fsSpecs, fsFile) {
-                return file.indexOf(fsFile) !== -1;
-            });
-
-            if(mutateFileSpecs) {
-                fileSpecs[file] = _.map(mutateFileSpecs, function(mfsSpec) {
-                    return path.join(opts.basePath, mfsSpec);
-                });
-            } else {
-                fileSpecs[file] = opts.specs;
-            }
+    function startServer(config, callback) {
+        serverManager.startNewInstance(config).done(function(instance) {
+            callback(instance);
         });
+    }
+
+    function stopServers() {
+        serverManager.killAllInstances();
+    }
+
+    opts.before = function(doneBefore) {
+        function finalizeBefore(callback) {
+            new KarmaCodeSpecsMatcher(serverManager, _.merge({}, opts, { karma: karmaConfig }))
+                .findCodeSpecs().then(function(codeSpecs) {
+                    fileSpecs = codeSpecs;
+                    callback();
+                });
+        }
 
         if(!opts.mutateProductionCode) {
-            CopyUtils.copyToTemp(karmaConfig.files, 'mutation-testing').done(function(tempDirPath) {
+            CopyUtils.copyToTemp(opts.code.concat(opts.specs), 'mutation-testing').done(function(tempDirPath) {
                 // Set the basePath relative to the temp dir
                 karmaConfig.basePath = tempDirPath;
                 opts.basePath = path.join(tempDirPath, opts.basePath);
@@ -105,57 +73,53 @@ exports.init = function(grunt, opts) {
                     return path.join(tempDirPath, file);
                 });
 
-                doneBefore();
+                finalizeBefore(doneBefore);
             });
         } else {
-            doneBefore();
+            finalizeBefore(doneBefore);
         }
 
         process.on('exit', function() {
-            stopServer();
+            stopServers();
         });
     };
 
     opts.beforeEach = function(done) {
         var currentFileSpecs;
 
-        // Kill old server processes (from previous runs)
-        if(backgroundProcesses.length > 0) {
-            stopServer();
-        }
-
         // Find the specs for the current mutation file
         currentFileSpecs = _.find(fileSpecs, function(specs, file) {
-            return opts.currentFile.replace(/\\/g, '/').indexOf(file) !== -1;
+            return IOUtils.normalizeWindowsPath(opts.currentFile).indexOf(file) !== -1;
         });
 
-        karmaConfig.files = opts.code.concat(currentFileSpecs || []);
+        karmaConfig.files = _.union(opts.code, currentFileSpecs);
 
-        startServer(done);
+        startServer(karmaConfig, function(instance) {
+            currentInstance = instance;
+            done();
+        });
     };
 
     opts.test = function(done) {
-        setTimeout(function() {
-            runner.run(
-                _.merge(karmaConfig, { port: port }),
-                function(exitCode) {
-                    clearTimeout(timer);
-                    done(exitCode === 0);
-                }
-            );
+        currentInstance.runTests().then(function(testSuccess) {
+            done(testSuccess);
+        }, function(error) {
+            grunt.log.warn('\n' + error);
+            startServer(karmaConfig, function(instance) {
+                currentInstance = instance;
+                done(false);
+            });
+        });
+    };
 
-            var timer = setTimeout(
-                function() {
-                    grunt.log.warn('\nWarning! Infinite loop detected. This may put a strain on your CPU.');
-                    startServer(function() {
-                        done(false);
-                    });
-                }, 2000
-            );
-        }, 100);
+    opts.afterEach = function(done) {
+        // Kill the currently active instance
+        currentInstance.kill();
+
+        done();
     };
 
     opts.after = function() {
-        stopServer();
+        stopServers();
     };
 };

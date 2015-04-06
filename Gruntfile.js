@@ -144,15 +144,7 @@ module.exports = function (grunt) {
                     mutate: 'karma-mocha/script*.js',
                     discardReplacements: ['console'],
                     testFramework: 'karma',
-                    karma: {
-                        configFile: 'test/fixtures/karma-mocha/karma.conf.js',
-                        fileSpecs: {
-                            "karma-mocha/script-mathoperators.js": ["karma-mocha/karma-mathoperators-test.js"],
-                            "karma-mocha/script-update-expressions.js": ["karma-mocha/karma-update-expressions-test.js"],
-                            "karma-mocha/script1.js": ["karma-mocha/karma-test.js"],
-                            "karma-mocha/script2.js": ["karma-mocha/karma-test.js"]
-                        }
-                    },
+                    karma: karmaOptions,
                     reporters: {
                         text: {
                             file: 'karma.txt'
