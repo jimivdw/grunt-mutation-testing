@@ -37,6 +37,7 @@ exports.init = function(grunt, opts) {
             }
         ),
         serverManager = new KarmaServerManager(karmaConfig),
+        currentInstance,
         fileSpecs = {};
 
     // Extend the karma configuration with some secondary properties that cannot be overwritten
@@ -97,25 +98,27 @@ exports.init = function(grunt, opts) {
         karmaConfig.files = _.union(opts.code, currentFileSpecs);
 
         startServer(karmaConfig, function(instance) {
-            opts.currentInstance = instance;
+            currentInstance = instance;
             done();
         });
     };
 
     opts.test = function(done) {
-        opts.currentInstance.runTests().then(function(testSuccess) {
+        currentInstance.runTests().then(function(testSuccess) {
             done(testSuccess);
         }, function(error) {
             grunt.log.warn('\n' + error);
             startServer(karmaConfig, function(instance) {
-                opts.currentInstance = instance;
+                currentInstance = instance;
                 done(false);
             });
         });
     };
 
     opts.afterEach = function(done) {
-        opts.currentInstance.kill();
+        // Kill the currently active instance
+        currentInstance.kill();
+
         done();
     };
 
