@@ -41,9 +41,12 @@ exports.init = function(grunt, opts) {
     // Extend the karma configuration with some secondary properties that cannot be overwritten
     _.merge(karmaConfig, {
         logLevel: ['INFO', 'DEBUG'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
-        configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined,
-        coverageDir: path.join(karmaConfig.basePath, 'coverage')
+        configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined
     });
+
+    function getCoverageDir() {
+        return path.join(karmaConfig.basePath, 'coverage');
+    }
 
     function startServer(config, callback) {
         serverManager.startNewInstance(config).done(function(instance) {
@@ -65,7 +68,7 @@ exports.init = function(grunt, opts) {
                 })),
                 coverageReporter: {
                     type: 'cobertura',
-                    dir: karmaConfig.coverageDir,
+                    dir: getCoverageDir(),
                     subdir: '.',
                     file: (specFile ? specFile : 'dummy') + 'coverage.xml'
                 }
@@ -202,7 +205,7 @@ exports.init = function(grunt, opts) {
 
                     if(opts.mutateProductionCode) {
                         // Remove the coverage files
-                        fs.remove(karmaConfig.coverageDir);
+                        fs.remove(getCoverageDir());
                     }
 
                     deferred.resolve(getAbsoluteSpecPaths(codeSpecs));
