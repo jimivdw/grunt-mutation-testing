@@ -242,12 +242,13 @@ function mutationTest(grunt, task, opts) {
         opts.mutate.forEach(function(file) {
             // Execute beforeEach
             mutationTestPromise = mutationTestPromise.then(function() {
-                opts.currentFile = file;
-
                 var deferred = Q.defer();
+
+                opts.currentFile = file;
                 opts.beforeEach(function(ok) {
                     deferred.resolve(ok);
                 });
+
                 return deferred.promise;
             });
 
@@ -293,11 +294,13 @@ function mutationTest(grunt, task, opts) {
         });
 
         mutationTestPromise.then(function() {
-            createMutationHtmlReport(totalResults);
             var dfd = Q.defer();
+
+            createMutationHtmlReport(totalResults);
             opts.after(function () {
                 dfd.resolve();
             });
+
             return dfd.promise;
         });
 

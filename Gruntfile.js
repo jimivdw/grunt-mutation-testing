@@ -144,10 +144,7 @@ module.exports = function (grunt) {
                     mutate: 'karma-mocha/script*.js',
                     discardReplacements: ['console'],
                     testFramework: 'karma',
-                    karma: {
-                        configFile: 'test/fixtures/karma-mocha/karma.conf.js'/*,
-                         fileSpecs: 'test/fixtures/karma-mocha/mutation-testing-file-specs.json'*/
-                    },
+                    karma: karmaOptions,
                     reporters: {
                         text: {
                             file: 'karma.txt'
