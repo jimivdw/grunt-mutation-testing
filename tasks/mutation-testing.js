@@ -173,9 +173,9 @@ function mutationTestFile(srcFilename, originalFileName, runTests, logMutation, 
         }
         var perc = Math.round((stats.all / mutations.length) * 100);
         mutationPromise = mutationPromise.then(function () {
-            if (infiniteLoop) {
-                return; //infinite loop detected in this file. We have no choice but to skip all remaining mutations so that the looping server instance can be shut down
-            }
+            //if (infiniteLoop) {
+            //    return; //infinite loop detected in this file. We have no choice but to skip all remaining mutations so that the looping server instance can be shut down
+            //}
 
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {

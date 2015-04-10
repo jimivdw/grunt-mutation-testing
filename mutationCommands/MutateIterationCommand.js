@@ -36,8 +36,7 @@ function findDeep(object, token) {
         return typeof child == "object" ? findDeep(child, token) : [];
     }), true);
 
-    var xx = results.concat(childResults);
-    return xx;
+    return results.concat(childResults);
 }
 
 module.exports = MutateIterationCommand;
