@@ -140,13 +140,14 @@ module.exports = function (grunt) {
             karma: {
                 options: {
                     code: 'karma-mocha/script*.js',
-                    specs: ['karma-mocha/karma-test.js', 'karma-mocha/karma-update-expressions-test.js', 'karma-mocha/karma-mathoperators-test.js'],
+                    specs: ['karma-mocha/karma-test.js', 'karma-mocha/karma-update-expressions-test.js', 'karma-mocha/karma-endlessLoop-test.js', 'karma-mocha/karma-mathoperators-test.js'],
                     mutate: 'karma-mocha/script*.js',
                     discardReplacements: ['console'],
                     testFramework: 'karma',
                     karma: {
                         configFile: 'test/fixtures/karma-mocha/karma.conf.js',
                         fileSpecs: {
+                            "karma-mocha/script-endlessLoop.js": ["karma-mocha/karma-endlessLoop-test.js"],
                             "karma-mocha/script-mathoperators.js": ["karma-mocha/karma-mathoperators-test.js"],
                             "karma-mocha/script-update-expressions.js": ["karma-mocha/karma-update-expressions-test.js"],
                             "karma-mocha/script1.js": ["karma-mocha/karma-test.js"],

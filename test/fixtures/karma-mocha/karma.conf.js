@@ -16,6 +16,7 @@ module.exports = function (config) {
             {pattern: 'script*.js'},
             'karma-test.js',
             'karma-update-expressions-test.js',
+            'karma-endlessLoop-test.js',
             'karma-mathoperators-test.js'
         ],
 

@@ -104,9 +104,9 @@ function stripOffBasePath(opts, srcFile) {
     return _.last(normalizedSrcFile.split(normalizedBasePath));
 }
 
-function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+function createMutationLogMessage(opts, srcFilePath, mutation, src, survivalStatus) {
     var srcFileName = stripOffBasePath(opts, srcFilePath),
-        result = testSurvived ? "SURVIVED" : "KILLED",
+        result = survivalStatus ? survivalStatus === 'infiniteLoop' ? "LOOPING. Consider adding @excludeMutations to line." : "SURVIVED" : "KILLED",
         currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1),
         mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin),
         message = currentMutationPosition + (
@@ -117,7 +117,7 @@ function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived
 
     return {
         mutation: mutation,
-        survived: testSurvived,
+        survived: survivalStatus,
         message: message
     };
 }
@@ -150,6 +150,7 @@ function mutationTestFile(srcFilename, originalFileName, runTests, logMutation, 
     var mutator = new Mutator(src);
     var mutations = mutator.collectMutations(opts.excludeMutations);
     var mutationPromise = new Q({});
+    var infiniteLoop = false; //if a test ends up in an infinite loop we should ignore all subsequenst tests for this file
 
     var stats = createStats();
     var fileMutationResult = {
@@ -166,12 +167,16 @@ function mutationTestFile(srcFilename, originalFileName, runTests, logMutation, 
         if (canBeDiscarded(opts, mutation)) {
             return;
         }
-        if (canBeIgnored(opts, src, mutation)) {
+        if (infiniteLoop || canBeIgnored(opts, src, mutation)) {
             stats.ignored += 1;
             return;
         }
         var perc = Math.round((stats.all / mutations.length) * 100);
         mutationPromise = mutationPromise.then(function () {
+            if (infiniteLoop) {
+                return; //infinite loop detected in this file. We have no choice but to skip all remaining mutations so that the looping server instance can be shut down
+            }
+
             log('Line ' + mutation.line + ' (' + perc + '%), ');
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
@@ -179,14 +184,14 @@ function mutationTestFile(srcFilename, originalFileName, runTests, logMutation, 
                 return;
             }
             fs.writeFileSync(srcFilename, mutator.applyMutation(mutation));
-            return runTests().then(function (testSurvived) {
-                //console.log('success!!');
-				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived);
+            return runTests().then(function (survivalStatus) {
+				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, survivalStatus);
                 fileMutationResult.mutationResults.push(mutationResult);
-                if (testSurvived) {
+                if (survivalStatus) {
                     stats.survived += 1;
                     logMutation(mutationResult.message);
                     notFailingMutations.push(mutation.mutationId);
+                    infiniteLoop = survivalStatus === 'infiniteLoop';
                 }
             });
         });

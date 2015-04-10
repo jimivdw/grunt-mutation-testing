@@ -9,6 +9,7 @@
 var _ = require('lodash'),
     path = require('path'),
     KarmaServerManager = require('../lib/KarmaServerManager');
+var Q = require('q');
 
 var CopyUtils = require('../utils/CopyUtils');
 
@@ -89,7 +90,8 @@ exports.init = function(grunt, opts) {
         var currentFileSpecs;
 
         // Kill old server processes (from previous runs) and start new ones with new karma configuration
-        karmaServerManager.killAllServerInstances()
+        karmaServerManager.killAllServerInstances();
+        new Q({})
             .then(function(){
                 // Find the specs for the current mutation file
                 currentFileSpecs = _.find(fileSpecs, function(specs, file) {
@@ -119,14 +121,15 @@ exports.init = function(grunt, opts) {
 
             var timer = setTimeout(
                 function() {
-                    grunt.log.warn('\nWarning! Infinite loop detected. This may put a strain on your CPU.');
+                    grunt.log.warn('\nWarning! Infinite loop detected in process ' + serverInstance.process.pid + '. This may put a strain on your CPU.');
                     karmaServerManager.invalidateServerInstance(serverInstance);
                     karmaServerManager.startServerInstance();
                     karmaServerManager.getServerInstance()
                         .then(function(instance){
                             serverInstance = instance;
                             return karmaServerManager.killExpiredServerInstances();
-                        }).then(function(){
+                        })
+                    .then(function(instance){
                             done('infiniteLoop');
                         });
                 }, 2000
