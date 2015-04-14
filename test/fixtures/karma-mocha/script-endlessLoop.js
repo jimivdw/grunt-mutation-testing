@@ -1,6 +1,6 @@
 /**
  * Created by martin on 25/03/15.
- * @excludeMutations
+ * @exscludeMutations
  */
 (function(exports) {
     exports.provokeEndlessLoop = function(opts) {
