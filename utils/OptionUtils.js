@@ -10,15 +10,17 @@ var _ = require('lodash'),
     path = require('path');
 
 
-// Placeholder function for when no excplicit before, after, or test function is provided
+// Placeholder function for when no explicit before, after, or test function is provided
 function CALL_DONE(done) {
     done(true);
 }
 
 var DEFAULT_OPTIONS = {
     before: CALL_DONE,
-    after: CALL_DONE,
+    beforeEach: CALL_DONE,
     test: CALL_DONE,
+    afterEach: CALL_DONE,
+    after: CALL_DONE,
 
     basePath: '.',
     testFramework: 'karma',

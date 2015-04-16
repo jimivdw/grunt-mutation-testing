@@ -92,7 +92,7 @@ module.exports = function (grunt) {
             testIsFailingWithoutMutation: {
                 options: {
                     testFramework: null,
-                    test: function (done) {
+                    test: function(done) {
                         done(false);
                     },
 
@@ -144,7 +144,10 @@ module.exports = function (grunt) {
                     mutate: 'karma-mocha/script*.js',
                     discardReplacements: ['console'],
                     testFramework: 'karma',
-                    karma: karmaOptions,
+                    karma: {
+                        frameworks: ['mocha', 'chai'],
+                        browsers: ['PhantomJS']
+                    },
                     reporters: {
                         text: {
                             file: 'karma.txt'

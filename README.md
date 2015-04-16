@@ -82,6 +82,8 @@ Type: `Object`
 
 Karma-specific options. See the [Karma documentation](http://karma-runner.github.io/) for available options.
 
+In order for Karma to be able to run properly, it is necessary to at least provide the `frameworks` and `browsers` options. You should usually be able to reuse your existing Karma config file for this (by supplying it in the `configFile` option).
+
 Note that some options (`basePath`, `files`, `background`, `singleRun`, `autoWatch`, and `port`) are overwritten automatically by the mutation testing framework.
 
 ##### options.mocha
