@@ -11,6 +11,7 @@ var _ = require('lodash'),
 
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
+    TestStatus = require('../lib/TestStatus'),
     KarmaServerPool = require('../lib/karma/KarmaServerPool'),
     KarmaCodeSpecsMatcher = require('../lib/karma/KarmaCodeSpecsMatcher');
 
@@ -101,21 +102,27 @@ exports.init = function(grunt, opts) {
     };
 
     opts.test = function(done) {
-        currentInstance.runTests().then(function(testSuccess) {
-            done(testSuccess);
+        currentInstance.runTests().then(function(testStatus) {
+            done(testStatus);
         }, function(error) {
-            grunt.log.warn('\n' + error);
-            startServer(karmaConfig, function(instance) {
-                currentInstance = instance;
-                done(false);
-            });
+            console.error('\n' + error.message);
+            if (error.severity === 'fatal') {
+                console.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
+                serverPool.killAllInstances();
+                currentInstance.kill();
+                done(TestStatus.FATAL);
+            } else {
+                startServer(karmaConfig, function(instance) {
+                    currentInstance = instance;
+                    done(TestStatus.ERROR);
+                });
+            }
         });
     };
 
     opts.afterEach = function(done) {
         // Kill the currently active instance
         currentInstance.stop();
-
         done();
     };
 

@@ -17,13 +17,14 @@ var Q = require('q');
 var _ = require('lodash');
 
 var Mutator = require('../lib/Mutator');
+var TestStatus = require('../lib/TestStatus');
 var mutationTestingKarma = require('./mutation-testing-karma');
 var mutationTestingMocha = require('./mutation-testing-mocha');
 var OptionUtils = require('../utils/OptionUtils');
 
 var IOUtils = require('../utils/IOUtils');
 var reportGenerator = require('../lib/reporting/ReportGenerator');
-var notFailingMutations = [];
+var survivingMutations = [];
 
 function ensureRegExpArray(value) {
     var array = _.isArray(value) ? value : [value];
@@ -92,27 +93,21 @@ function createMutationFileMessage(opts, srcFile) {
     return _.last(normalizedSrcFile.split(normalizedBasePath));
 }
 
-function createMutationLogMessage(opts, srcFilePath, mutation, src, testSurvived) {
+function createMutationLogMessage(opts, srcFilePath, mutation, src, testStatus) {
     var srcFileName = createMutationFileMessage(opts, srcFilePath),
-        result = testSurvived ? "SURVIVED" : "KILLED",
         currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1),
         mutatedCode = src.substr(mutation.begin, mutation.end - mutation.begin),
         message = currentMutationPosition + (
             mutation.replacement ?
-            ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + result :
-            ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + result
+            ' Replaced ' + truncateReplacement(opts, mutatedCode) + ' with ' + truncateReplacement(opts, mutation.replacement) + ' -> ' + testStatus :
+            ' Removed ' + truncateReplacement(opts, mutatedCode) + ' -> ' + testStatus
             );
 
     return {
         mutation: mutation,
-        survived: testSurvived,
+        survived: testStatus === TestStatus.SURVIVED,
         message: message
     };
-}
-
-function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
-    var srcFileName = createMutationFileMessage(opts, srcFilePath);
-    return srcFileName + ' tests fail without mutations';
 }
 
 function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
@@ -127,7 +122,7 @@ function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePat
 }
 
 function isInsideNotFailingMutation(innerMutation) {
-    return _.indexOf(notFailingMutations, innerMutation.parentMutationId) > -1;
+    return _.indexOf(survivingMutations, innerMutation.parentMutationId) > -1;
 }
 
 /**
@@ -171,13 +166,17 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
                 return;
             }
             fs.writeFileSync(srcFilename, mutator.applyMutation(mutation));
-            return runTests().then(function (testSurvived) {
-				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testSurvived);
+            return runTests().then(function (testStatus) {
+				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testStatus);
                 fileMutationResult.mutationResults.push(mutationResult);
-                if (testSurvived) {
+                if (testStatus === TestStatus.SURVIVED) {
                     stats.survived += 1;
                     logMutation(mutationResult.message);
-                    notFailingMutations.push(mutation.mutationId);
+                    survivingMutations.push(mutation.mutationId);
+                } else if (testStatus === TestStatus.FATAL) {
+                    console.error('A fatal exception occurred after mutating file' + srcFilename);
+                    console.error(mutationResult.message);
+                    process.exit(1);
                 }
             });
         });
@@ -220,10 +219,10 @@ function mutationTest(grunt, task, opts) {
         var deferred = Q.defer();
         if (typeof opts.test === 'string') {
             var execResult = exec(opts.test);
-            deferred.resolve(execResult.status === 0);
+            deferred.resolve(execResult.status);
         } else {
-            opts.test(function (ok) {
-                deferred.resolve(ok);
+            opts.test(function (status) {
+                deferred.resolve(status);
             });
         }
         return deferred.promise;
@@ -280,8 +279,8 @@ function mutationTest(grunt, task, opts) {
             // Execute afterEach
             mutationTestPromise = mutationTestPromise.then(function() {
                 var deferred = Q.defer();
-                opts.afterEach(function(ok) {
-                    deferred.resolve(ok);
+                opts.afterEach(function() {
+                    deferred.resolve();
                 });
                 return deferred.promise;
             });

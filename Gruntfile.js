@@ -61,7 +61,7 @@ module.exports = function (grunt) {
                 options: {
                     testFramework: null,
                     test: function(done) {
-                        done(true);
+                        done('SURVIVED');
                     },
 
                     reporters: {
@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                     ignore: require('./.mutation-testing-conf.js').ignore,
                     testFramework: null,
                     test: function(done) {
-                        done(true);
+                        done('SURVIVED');
                     },
 
                     reporters: {
@@ -140,7 +140,7 @@ module.exports = function (grunt) {
             karma: {
                 options: {
                     code: 'karma-mocha/script*.js',
-                    specs: ['karma-mocha/karma-test.js', 'karma-mocha/karma-update-expressions-test.js', 'karma-mocha/karma-mathoperators-test.js'],
+                    specs: ['karma-mocha/karma-test.js', 'karma-mocha/karma-endlessLoop-test.js', 'karma-mocha/karma-update-expressions-test.js', 'karma-mocha/karma-mathoperators-test.js'],
                     mutate: 'karma-mocha/script*.js',
                     discardReplacements: ['console'],
                     testFramework: 'karma',
