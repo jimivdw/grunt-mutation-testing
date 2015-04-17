@@ -49,7 +49,8 @@ module.exports = function (grunt) {
                 maxReportedMutationLength: 0,
                 reporters: {
                     html: {
-                        dir: 'reports/mutation-test'
+                        dir: 'reports/mutation-test',
+                        successThreshold: 70
                     },
                     text: {
                         dir: 'tmp'

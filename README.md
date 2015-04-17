@@ -123,6 +123,13 @@ Default: `"reports/grunt-mutation-testing"`
 
 Directory to place the HTML report in.
 
+##### options.reporters.html.successThreshold
+_optional_
+Type: `Number`
+Default: `80`
+
+Percentage of mutations that should be killed in order for a test result to be considered successful.
+
 ##### options.maxReportedMutationLength
 _optional_
 Type: `Number`
