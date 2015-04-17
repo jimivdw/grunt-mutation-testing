@@ -100,7 +100,7 @@ _optional_
 Type: `Object`
 Default: `{ console: true }`
 
-Configuration of reporters to use. Available options: `console`, `text`.
+Configuration of reporters to use. Available options: `console`, `text`, `html`.
 
 ##### options.reporters.text.dir
 _optional_
@@ -115,6 +115,13 @@ Type: `String`
 Default: `grunt-mutation-testing.txt`
 
 Filename of the text report.
+
+##### options.reporters.html.dir
+_optional_
+Type: `String`
+Default: `"reports/grunt-mutation-testing"`
+
+Directory to place the HTML report in.
 
 ##### options.maxReportedMutationLength
 _optional_
@@ -151,19 +158,6 @@ Type: `String` or `Function`
 Default value: No Default value
 
 This test is executed for every Mutation. If it succeeds, this mutation is reported.
-
-
-### options.mutationCoverageReporter.type
-Type: `String`
-Default value: undefined
-
-Type of the mutation coverage (HTML) report that should be generated. Available values: `"html"`.
-
-### options.mutationCoverageReporter.dir
-Type: `String`
-Default value: undefined
-
-Directory to place the mutation coverage report in.
 
 
 ### Usage Examples
@@ -328,8 +322,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Planned for the next release
 - Configuration overhaul;
+- Improved console output;
 - Karma:
-  - Auto-detecting which unit test file belongs to which source code file(s).
+  - Auto-detecting which unit test file belongs to which source code file(s);
+  - Cleaner way of dealing with infinite loops introduced by mutating the code.
 - Mocha:
   - Better way of inferring which files should be copied to the temporary location.
 
