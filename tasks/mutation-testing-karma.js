@@ -51,7 +51,7 @@ exports.init = function(grunt, opts) {
     }
 
     function stopServers() {
-        serverPool.killAllInstances();
+        serverPool.stopAllInstances();
     }
 
     opts.before = function(doneBefore) {
@@ -108,7 +108,7 @@ exports.init = function(grunt, opts) {
             console.error('\n' + error.message);
             if (error.severity === 'fatal') {
                 console.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
-                serverPool.killAllInstances();
+                serverPool.stopAllInstances();
                 currentInstance.kill();
                 done(TestStatus.FATAL);
             } else {
