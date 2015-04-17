@@ -57,7 +57,7 @@ function getExclusions(astNode) {
                     if(commandCodes.indexOf(exclusion) !== -1) {
                         exclusions[exclusion] = true;
                     } else {
-                        logger.warn('Encountered an unknown exclusion:', exclusion);
+                        logger.warn('Encountered an unknown exclusion: %s', exclusion);
                     }
                 });
             }

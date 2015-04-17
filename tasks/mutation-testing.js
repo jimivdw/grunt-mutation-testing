@@ -260,7 +260,7 @@ function mutationTest(grunt, task, opts) {
                 return runTests().then(function(testOk) {
                     if(testOk) {
                         if(!grunt.file.exists(file)) {
-                            logger.error('Source file "' + file + '" not found.');
+                            logger.error('Source file "%s" not found.', file);
                             return false;
                         }
 
@@ -269,7 +269,7 @@ function mutationTest(grunt, task, opts) {
                             totalResults.push(opts.fileMutationResult);
                         });
                     } else {
-                        logger.warn('Tests fail without mutations for file ' + path.resolve(file));
+                        logger.warn('Tests fail without mutations for file: %s', path.resolve(file));
                         logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
                     }
                 });

@@ -21,7 +21,7 @@ exports.init = function(grunt, opts) {
 
     var testFiles = opts.specs;
     if(testFiles.length === 0) {
-        logger.error('No test files found in' + testFiles);
+        logger.warn('No test files configured; opts.specs is empty');
     }
 
     opts.before = function(doneBefore) {
