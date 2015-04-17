@@ -46,6 +46,7 @@ module.exports = function (grunt) {
                 testFramework: 'mocha',
                 ignore: [/use strict/],
 
+                logLevel: 'WARN',
                 maxReportedMutationLength: 0,
                 reporters: {
                     html: {
@@ -149,6 +150,7 @@ module.exports = function (grunt) {
                         frameworks: ['mocha', 'chai'],
                         browsers: ['PhantomJS']
                     },
+                    logLevel: 'DEBUG',
                     reporters: {
                         text: {
                             file: 'karma.txt'

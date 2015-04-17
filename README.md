@@ -95,6 +95,13 @@ Mocha-specific options. See the [Mocha documentation](http://mochajs.org/) for a
 
 #### Reporting options
 
+##### options.logLevel
+_optional_
+Type: `String`
+Default: `INFO`
+
+The used log level. Available options: `ALL`, `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`, `OFF`.
+
 ##### options.reporters
 _optional_
 Type: `Object`
