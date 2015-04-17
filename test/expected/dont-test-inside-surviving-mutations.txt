@@ -1,3 +1,4 @@
+mocha/script1.js:40:1 Removed console.log = function() { // Mock console log to prevent output from leaking to mutation test console }; -> SURVIVED
 mocha/script1.js:13:5 Removed sum = sum + 0; -> SURVIVED
 mocha/script1.js:14:5 Removed console.log(sum); -> SURVIVED
 mocha/script1.js:13:14 is inside a surviving mutation
@@ -9,4 +10,4 @@ mocha/script2.js:5:5 Removed array = array; -> SURVIVED
 mocha/script2.js:6:5 Removed log(array); -> SURVIVED
 mocha/script2.js:6:9 is inside a surviving mutation
 mocha/script2.js:6:5 is inside a surviving mutation
-28 of 39 unignored mutations are tested (71%).
+28 of 40 unignored mutations are tested (70%).
