@@ -309,9 +309,6 @@ function mutationTest(grunt, task, opts) {
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the code.', function() {
         var opts = OptionUtils.getOptions(grunt, this);
-
-        log4js.setGlobalLogLevel(log4js.levels[opts.logLevel || 'INFO']);
-
         mutationTestingKarma.init(grunt, opts);
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);

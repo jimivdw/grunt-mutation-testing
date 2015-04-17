@@ -7,6 +7,7 @@
 
 var _ = require('lodash'),
     glob = require('glob'),
+    log4js = require('log4js'),
     path = require('path');
 
 
@@ -24,6 +25,7 @@ var DEFAULT_OPTIONS = {
 
     basePath: '.',
     testFramework: 'karma',
+    logLevel: 'INFO',
     maxReportedMutationLength: 80,
     mutateProductionCode: false
 };
@@ -86,6 +88,20 @@ function getOptions(grunt, task) {
         grunt.warn('Not all required options have been set');
         return null;
     }
+
+    // Set logging options
+    log4js.setGlobalLogLevel(log4js.levels[opts.logLevel]);
+    log4js.configure({
+        appenders: [
+            {
+                type: 'console',
+                layout: {
+                    type: 'pattern',
+                    pattern: '%[(%d{ABSOLUTE}) %p [%c]:%] %m'
+                }
+            }
+        ]
+    });
 
     opts.code = expandFiles(opts.code, opts.basePath);
     opts.specs = expandFiles(opts.specs, opts.basePath);
