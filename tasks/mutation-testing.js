@@ -9,22 +9,24 @@
  */
 
 'use strict';
-var esprima = require('esprima');
-var fs = require('fs');
-var exec = require('sync-exec');
-var path = require('path');
-var Q = require('q');
-var _ = require('lodash');
+var _ = require('lodash'),
+    esprima = require('esprima'),
+    exec = require('sync-exec'),
+    fs = require('fs'),
+    log4js = require('log4js'),
+    path = require('path'),
+    Q = require('q');
 
-var Mutator = require('../lib/Mutator');
-var TestStatus = require('../lib/TestStatus');
-var mutationTestingKarma = require('./mutation-testing-karma');
-var mutationTestingMocha = require('./mutation-testing-mocha');
-var OptionUtils = require('../utils/OptionUtils');
+var Mutator = require('../lib/Mutator'),
+    mutationTestingKarma = require('./mutation-testing-karma'),
+    mutationTestingMocha = require('./mutation-testing-mocha'),
+    OptionUtils = require('../utils/OptionUtils'),
+    TestStatus = require('../lib/TestStatus'),
+    IOUtils = require('../utils/IOUtils'),
+    reportGenerator = require('../lib/reporting/ReportGenerator');
 
-var IOUtils = require('../utils/IOUtils');
-var reportGenerator = require('../lib/reporting/ReportGenerator');
-var survivingMutations = [];
+var logger = log4js.getLogger('mutation-testing'),
+    survivingMutations = [];
 
 function ensureRegExpArray(value) {
     var array = _.isArray(value) ? value : [value];
@@ -129,10 +131,9 @@ function isInsideNotFailingMutation(innerMutation) {
  * @param {string} srcFilename
  * @param {function} runTests
  * @param {function} logMutation
- * @param {function} log the logger
  * @param {object} opts the config options
  */
-function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
+function mutationTestFile(srcFilename, runTests, logMutation, opts) {
     var src = fs.readFileSync(path.resolve(srcFilename), 'UTF8');
     var mutator = new Mutator(src);
     var mutations = mutator.collectMutations(opts.excludeMutations);
@@ -146,7 +147,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
         mutationResults: []
     };
 
-    log('\nMutating file ' + srcFilename + '\n');
+    logger.info('Mutating file: %s', srcFilename);
 
     mutations.forEach(function (mutation) {
         stats.all += 1;
@@ -157,9 +158,10 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
             stats.ignored += 1;
             return;
         }
-        var perc = Math.round((stats.all / mutations.length) * 100);
+        var currentIndex = stats.all,
+            perc = Math.round((currentIndex / mutations.length) * 100);
         mutationPromise = mutationPromise.then(function () {
-            log('Line ' + mutation.line + ' (' + perc + '%), ');
+            logger.info('Mutating line %d, %d/%d (%d%%)', mutation.line, currentIndex, mutations.length, perc);
             if (opts.dontTestInsideNotFailingMutations && isInsideNotFailingMutation(mutation)) {
                 stats.untested += 1;
                 logMutation(createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilename, mutation));
@@ -174,8 +176,8 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
                     logMutation(mutationResult.message);
                     survivingMutations.push(mutation.mutationId);
                 } else if (testStatus === TestStatus.FATAL) {
-                    console.error('A fatal exception occurred after mutating file' + srcFilename);
-                    console.error(mutationResult.message);
+                    logger.error('A fatal exception occurred after mutating the file: %s', srcFilename);
+                    logger.error('Error message was: %s', mutationResult.message);
                     process.exit(1);
                 }
             });
@@ -187,8 +189,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, log, opts) {
     });
 
     return mutationPromise.fin(function () {
-        console.log('\nRestore ', srcFilename);
+        logger.debug('Restore file: %s', srcFilename);
         fs.writeFileSync(srcFilename, src);
+        logger.info('Done mutating file: %s', srcFilename);
     });
 }
 
@@ -255,22 +258,18 @@ function mutationTest(grunt, task, opts) {
             mutationTestPromise = mutationTestPromise.then(function() {
                 // Run tests first to see if they pass without mutations
                 return runTests().then(function(testOk) {
-                    function log(msg) {
-                        grunt.log.write(msg);
-                    }
-
                     if(testOk) {
                         if(!grunt.file.exists(file)) {
-                            grunt.log.warn('Source file "' + file + '" not found.');
+                            logger.error('Source file "' + file + '" not found.');
                             return false;
                         }
 
-                        return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, log, opts).then(function(opts) {
+                        return mutationTestFile(path.resolve(file), runTests, logMutationToFileDest, opts).then(function(opts) {
                             statsSummary = addStats(statsSummary, opts.stats);
                             totalResults.push(opts.fileMutationResult);
                         });
                     } else {
-                        log('\nTests fail without mutations for file ' + path.resolve(file) + '\n');
+                        logger.warn('Tests fail without mutations for file ' + path.resolve(file));
                         logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
                     }
                 });
@@ -310,6 +309,9 @@ function mutationTest(grunt, task, opts) {
 module.exports = function (grunt) {
     grunt.registerMultiTask('mutationTest', 'Test your tests by mutating the code.', function() {
         var opts = OptionUtils.getOptions(grunt, this);
+
+        log4js.setGlobalLogLevel(log4js.levels['INFO']);
+
         mutationTestingKarma.init(grunt, opts);
         mutationTestingMocha.init(grunt, opts);
         mutationTest(grunt, this, opts);

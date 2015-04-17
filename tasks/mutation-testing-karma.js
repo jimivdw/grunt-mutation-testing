@@ -7,6 +7,7 @@
  */
 'use strict';
 var _ = require('lodash'),
+    log4js = require('log4js'),
     path = require('path');
 
 var CopyUtils = require('../utils/CopyUtils'),
@@ -14,6 +15,8 @@ var CopyUtils = require('../utils/CopyUtils'),
     TestStatus = require('../lib/TestStatus'),
     KarmaServerPool = require('../lib/karma/KarmaServerPool'),
     KarmaCodeSpecsMatcher = require('../lib/karma/KarmaCodeSpecsMatcher');
+
+var logger = log4js.getLogger('mutation-testing-karma');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
@@ -40,7 +43,7 @@ exports.init = function(grunt, opts) {
 
     // Extend the karma configuration with some secondary properties that cannot be overwritten
     _.merge(karmaConfig, {
-        logLevel: ['INFO', 'DEBUG'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
+        logLevel: ['INFO', 'DEBUG', 'TRACE'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
         configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined
     });
 
@@ -65,6 +68,8 @@ exports.init = function(grunt, opts) {
 
         if(!opts.mutateProductionCode) {
             CopyUtils.copyToTemp(opts.code.concat(opts.specs), 'mutation-testing').done(function(tempDirPath) {
+                logger.trace('Copied %j to %s', opts.code.concat(opts.specs), tempDirPath);
+
                 // Set the basePath relative to the temp dir
                 karmaConfig.basePath = tempDirPath;
                 opts.basePath = path.join(tempDirPath, opts.basePath);
@@ -105,11 +110,13 @@ exports.init = function(grunt, opts) {
         currentInstance.runTests().then(function(testStatus) {
             done(testStatus);
         }, function(error) {
-            console.error('\n' + error.message);
+            logger.warn(error.message);
             if (error.severity === 'fatal') {
-                console.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
+                logger.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
+
                 serverPool.stopAllInstances();
                 currentInstance.kill();
+
                 done(TestStatus.FATAL);
             } else {
                 startServer(karmaConfig, function(instance) {
