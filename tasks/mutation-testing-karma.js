@@ -11,8 +11,9 @@ var _ = require('lodash'),
 
 var CopyUtils = require('../utils/CopyUtils'),
     IOUtils = require('../utils/IOUtils'),
-    KarmaServerManager = require('../lib/KarmaServerManager'),
-    KarmaCodeSpecsMatcher = require('../lib/KarmaCodeSpecsMatcher');
+    TestStatus = require('../lib/TestStatus'),
+    KarmaServerPool = require('../lib/karma/KarmaServerPool'),
+    KarmaCodeSpecsMatcher = require('../lib/karma/KarmaCodeSpecsMatcher');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'karma') {
@@ -33,7 +34,7 @@ exports.init = function(grunt, opts) {
                 autoWatch: false
             }
         ),
-        serverManager = new KarmaServerManager(karmaConfig),
+        serverPool = new KarmaServerPool({maxActiveServers: karmaConfig.maxActiveServers, startInterval: karmaConfig.startInterval}),
         currentInstance,
         fileSpecs = {};
 
@@ -44,18 +45,18 @@ exports.init = function(grunt, opts) {
     });
 
     function startServer(config, callback) {
-        serverManager.startNewInstance(config).done(function(instance) {
+        serverPool.startNewInstance(config).done(function(instance) {
             callback(instance);
         });
     }
 
     function stopServers() {
-        serverManager.killAllInstances();
+        serverPool.stopAllInstances();
     }
 
     opts.before = function(doneBefore) {
         function finalizeBefore(callback) {
-            new KarmaCodeSpecsMatcher(serverManager, _.merge({}, opts, { karma: karmaConfig }))
+            new KarmaCodeSpecsMatcher(serverPool, _.merge({}, opts, { karma: karmaConfig }))
                 .findCodeSpecs().then(function(codeSpecs) {
                     fileSpecs = codeSpecs;
                     callback();
@@ -101,21 +102,27 @@ exports.init = function(grunt, opts) {
     };
 
     opts.test = function(done) {
-        currentInstance.runTests().then(function(testSuccess) {
-            done(testSuccess);
+        currentInstance.runTests().then(function(testStatus) {
+            done(testStatus);
         }, function(error) {
-            grunt.log.warn('\n' + error);
-            startServer(karmaConfig, function(instance) {
-                currentInstance = instance;
-                done(false);
-            });
+            console.error('\n' + error.message);
+            if (error.severity === 'fatal') {
+                console.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
+                serverPool.stopAllInstances();
+                currentInstance.kill();
+                done(TestStatus.FATAL);
+            } else {
+                startServer(karmaConfig, function(instance) {
+                    currentInstance = instance;
+                    done(TestStatus.ERROR);
+                });
+            }
         });
     };
 
     opts.afterEach = function(done) {
         // Kill the currently active instance
-        currentInstance.kill();
-
+        currentInstance.stop();
         done();
     };
 

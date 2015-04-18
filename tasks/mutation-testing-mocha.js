@@ -2,6 +2,7 @@ var Mocha = require('mocha');
 var requireUncache = require('require-uncache');
 var _ = require('lodash');
 var path = require('path');
+var TestStatus = require('../lib/TestStatus');
 var CopyUtils = require('../utils/CopyUtils');
 
 exports.init = function(grunt, opts) {
@@ -64,11 +65,11 @@ exports.init = function(grunt, opts) {
 
         try {
             mocha.run(function(errCount) {
-                var withoutErrors = (errCount === 0);
-                done(withoutErrors);
+                var testStatus = (errCount === 0) ? TestStatus.SURVIVED : TestStatus.KILLED;
+                done(testStatus);
             });
         } catch(error) {
-            done(false);
+            done(TestStatus.KILLED);
         }
     };
 };
