@@ -313,6 +313,20 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v 1.0.0
+- Configuration overhaul;
+- Improved console output;
+- Karma:
+  - Auto-detecting which unit test file belongs to which source code file(s);
+  - Cleaner way of dealing with infinite loops introduced by mutating the code.
+- Mocha:
+  - Better way of inferring which files should be copied to the temporary location.
+
+#### Upgrading from v0.x to v1.0
+When upgrading from v0.x to v1.0, one will notice that a lot has changed. Most important of these changes is the new way in which the grunt-mutation-test task needs to be configured.
+
+Rather than supplying a map of output files to a list of files that should be mutated, one now needs to configure which files are needed to run the unit tests, which unit test files should be included, and which files should be mutated. This is done by supplying the `code`, `specs`, and `mutate` options respectively. Take a look at the usage examples above for a few example configurations.
+
 ### v 0.7.0
 - Local mutation exclusions;
 - HTML mutation coverage reporting.
@@ -335,24 +349,17 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - Improved reporting.
 
 ## Planned for the next release
-- Configuration overhaul;
-- Improved console output;
-- Karma:
-  - Auto-detecting which unit test file belongs to which source code file(s);
-  - Cleaner way of dealing with infinite loops introduced by mutating the code.
-- Mocha:
-  - Better way of inferring which files should be copied to the temporary location.
+- Improve documentation;
+- Improve console output;
+- Some more code refactoring.
 
 ## Planned for the future
 - Performance improvements (mainly for Karma);
-- Improve documentation;
-- Improve console output;
 - Karma:
   - Cleaner way of dealing with infinite loops introduced by mutating the code.
 - Mocha:
   - Deal with infinite loops introduced by mutations.
 - Perform mutations on AST nodes rather than source file locations;
-- Some more code refactoring;
 - Splitting the project into separate modules for grunt, mutations, karma, and mocha.
 
 
