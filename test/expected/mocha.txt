@@ -1,3 +1,4 @@
+mocha/script1.js:40:1 Removed console.log = function() { // Mock console log to prevent output from leaking to mutation test console }; -> SURVIVED
 mocha/script1.js:13:5 Removed sum = sum + 0; -> SURVIVED
 mocha/script1.js:14:5 Removed console.log(sum); -> SURVIVED
 mocha/script1.js:13:14 Replaced  +  with - -> SURVIVED
@@ -5,4 +6,4 @@ mocha/script1.js:14:17 Replaced sum with "MUTATION!" -> SURVIVED
 mocha/script1.js:14:5 Replaced console.log(sum) with sum -> SURVIVED
 mocha/script2.js:5:5 Removed array = array; -> SURVIVED
 mocha/script2.js:6:9 Replaced array with "MUTATION!" -> SURVIVED
-30 of 37 unignored mutations are tested (81%). 2 mutations were ignored.
+30 of 38 unignored mutations are tested (78%). 2 mutations were ignored.

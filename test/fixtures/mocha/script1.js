@@ -36,3 +36,7 @@ exports.sub = sub;
 
 //@excludeMutations
 exports.mul = mul;
+
+console.log = function() {
+    // Mock console log to prevent output from leaking to mutation test console
+};

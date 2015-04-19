@@ -1,9 +1,18 @@
-var Mocha = require('mocha');
-var requireUncache = require('require-uncache');
-var _ = require('lodash');
-var path = require('path');
-var TestStatus = require('../lib/TestStatus');
-var CopyUtils = require('../utils/CopyUtils');
+/**
+ * mutation-testing-mocha
+ */
+'use strict';
+
+var _ = require('lodash'),
+    log4js = require('log4js'),
+    Mocha = require('mocha'),
+    path = require('path'),
+    requireUncache = require('require-uncache');
+
+var CopyUtils = require('../utils/CopyUtils'),
+    TestStatus = require('../lib/TestStatus');
+
+var logger = log4js.getLogger('mutation-testing-mocha');
 
 exports.init = function(grunt, opts) {
     if(opts.testFramework !== 'mocha') {
@@ -12,7 +21,7 @@ exports.init = function(grunt, opts) {
 
     var testFiles = opts.specs;
     if(testFiles.length === 0) {
-        grunt.log.error('No test files found in' + testFiles);
+        logger.warn('No test files configured; opts.specs is empty');
     }
 
     opts.before = function(doneBefore) {
@@ -21,6 +30,8 @@ exports.init = function(grunt, opts) {
         } else {
             // Find which files are used in the unit test such that they can be copied
             CopyUtils.copyToTemp(opts.code.concat(opts.specs), 'mutation-testing').done(function(tempDirPath) {
+                logger.trace('Copied %j to %s', opts.code.concat(opts.specs), tempDirPath);
+
                 // Set the basePath relative to the temp dir
                 opts.basePath = path.join(tempDirPath, opts.basePath);
 

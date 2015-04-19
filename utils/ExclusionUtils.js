@@ -7,7 +7,11 @@
 var EXCLUSION_KEYWORD = '@excludeMutations';
 
 var _ = require('lodash'),
-    CommandRegistry = require('../mutationCommands/CommandRegistry');
+    log4js = require('log4js');
+
+var CommandRegistry = require('../mutationCommands/CommandRegistry');
+
+var logger = log4js.getLogger('ExclusionUtils');
 
 /**
  * Parse the comments from a given astNode. It removes all leading asterisks from multiline comments, as
@@ -53,7 +57,7 @@ function getExclusions(astNode) {
                     if(commandCodes.indexOf(exclusion) !== -1) {
                         exclusions[exclusion] = true;
                     } else {
-                        console.warn('Encountered an unknown exclusion:', exclusion);
+                        logger.warn('Encountered an unknown exclusion: %s', exclusion);
                     }
                 });
             }
