@@ -3,10 +3,10 @@
  * Created by Martin Koster on 2/12/15.
  */
 var _ = require('lodash');
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
+var BaseCommand = require('./BaseCommand');
 var Utils = require('../utils/MutationUtils');
 function MutateObjectCommand (src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
 }
 
 MutateObjectCommand.prototype.execute = function () {

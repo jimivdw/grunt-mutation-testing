@@ -3,7 +3,7 @@
  * Each operator will be mutated to it's opposite
  * Created by Martin Koster on 2/11/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
+var BaseCommand = require('./BaseCommand'),
     _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var operators = {
@@ -15,7 +15,7 @@ var operators = {
 };
 
 function MutateArithmeticOperatorCommand(src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
 }
 
 MutateArithmeticOperatorCommand.prototype.execute = function () {

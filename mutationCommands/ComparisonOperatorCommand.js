@@ -4,7 +4,7 @@
  * '<' has '<=' as boundary and '>=' as negation (opposite)
  * Created by Martin Koster on 2/11/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
+var BaseCommand = require('./BaseCommand');
 var Utils = require('../utils/MutationUtils');
 var operators = {
     '<': {boundary: '<=', negation: '>='},
@@ -18,7 +18,7 @@ var operators = {
 };
 
 function MutateComparisonOperatorCommand (src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
 }
 
 MutateComparisonOperatorCommand.prototype.execute = function () {

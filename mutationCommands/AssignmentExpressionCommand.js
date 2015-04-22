@@ -6,10 +6,19 @@
  * Created by Martin Koster on 2/26/15.
  */
 var _ = require('lodash'),
-    MutateBaseCommand = require('./MutateBaseCommand');
+    BaseCommand = require('./BaseCommand');
+
 function AssignmentExpressionCommand (src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback)
-};
+    BaseCommand.call(this, src, subTree, callback);
+}
+
+function canMutate(astNode, loopVariables) {
+    var left = astNode.left;
+    if (left && left.type === 'Identifier') {
+        return (loopVariables.indexOf(left.name) < 0);
+    }
+    return true;
+}
 
 AssignmentExpressionCommand.prototype.execute = function() {
     var childNodes = [];
@@ -21,11 +30,4 @@ AssignmentExpressionCommand.prototype.execute = function() {
     return childNodes;
 };
 
-function canMutate(astNode, loopVariables) {
-    var left = astNode.left;
-    if (left && left.type === 'Identifier') {
-        return (loopVariables.indexOf(left.name) < 0);
-    }
-    return true;
-}
 module.exports = AssignmentExpressionCommand;

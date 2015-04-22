@@ -1,10 +1,15 @@
 /**
+ * This command creates mutations on an update expression
  * Created by Martin Koster on 2/16/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
+var BaseCommand = require('./BaseCommand');
 var Utils = require('../utils/MutationUtils');
 function MutateUpdateExpressionCommand (src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
+}
+
+function canMutate(astNode, loopVariables) {
+    return (loopVariables.indexOf(astNode.argument.name) < 0);
 }
 
 MutateUpdateExpressionCommand.prototype.execute = function () {
@@ -37,10 +42,6 @@ MutateUpdateExpressionCommand.prototype.execute = function () {
 
     return [];
 };
-
-function canMutate(astNode, loopVariables) {
-    return (loopVariables.indexOf(astNode.argument.name) < 0);
-}
 
 module.exports = MutateUpdateExpressionCommand;
 module.exports.code = 'UPDATE_EXPRESSION';

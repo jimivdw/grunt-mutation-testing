@@ -1,11 +1,12 @@
 /**
+ * This command creates mutations on a given for loop
  * Created by Martin Koster on 24/02/15.
  */
-var MutateIterationCommand = require('../mutationCommands/MutateIterationCommand');
+var IterationCommand = require('./IterationCommand');
 
 
 function MutateForLoopCommand (src, subTree, callback) {
-    MutateIterationCommand.call(this, src, subTree, callback);
+    IterationCommand.call(this, src, subTree, callback);
 }
 
 MutateForLoopCommand.prototype.execute = function () {

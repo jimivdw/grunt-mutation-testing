@@ -7,20 +7,25 @@
  * Created by Martin Koster on 2/20/15.
  */
 var _ = require('lodash'),
-    MutateComparisonOperatorCommand = require('../mutationCommands/MutateComparisonOperatorCommand'),
-    MutateArithmeticOperatorCommand = require('../mutationCommands/MutateArithmeticOperatorCommand'),
-    MutateArrayExpressionCommand = require('../mutationCommands/MutateArrayExpressionCommand'),
-    MutateBlockStatementCommand = require('../mutationCommands/MutateBlockStatementCommand'),
-    MutateObjectCommand = require('../mutationCommands/MutateObjectCommand'),
-    MutateLiteralCommand = require('../mutationCommands/MutateLiteralCommand'),
-    MutateUnaryExpressionCommand = require('../mutationCommands/MutateUnaryExpressionCommand'),
-    MutateLogicalExpressionCommand = require('../mutationCommands/MutateLogicalExpressionCommand'),
-    MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
-    MutateCallExpressionCommand = require('../mutationCommands/MutateCallExpressionCommand'),
-    MutateUpdateExpressionCommand = require('../mutationCommands/MutateUpdateExpressionCommand'),
-    MutateIterationCommand = require('../mutationCommands/MutateIterationCommand'),
-    MutateForLoopCommand = require('../mutationCommands/MutateForLoopCommand'),
-    AssignmentExpressionCommand = require('../mutationCommands/AssignmentExpressionCommand');
+    MutateComparisonOperatorCommand = require('./ComparisonOperatorCommand'),
+    MutateArithmeticOperatorCommand = require('./ArithmeticOperatorCommand'),
+    MutateArrayExpressionCommand = require('./ArrayExpressionCommand'),
+    MutateBlockStatementCommand = require('./BlockStatementCommand'),
+    MutateObjectCommand = require('./ObjectCommand'),
+    MutateLiteralCommand = require('./LiteralCommand'),
+    MutateUnaryExpressionCommand = require('./UnaryExpressionCommand'),
+    MutateLogicalExpressionCommand = require('./LogicalExpressionCommand'),
+    BaseCommand = require('./BaseCommand'),
+    MutateCallExpressionCommand = require('./CallExpressionCommand'),
+    MutateUpdateExpressionCommand = require('./UpdateExpressionCommand'),
+    MutateIterationCommand = require('./IterationCommand'),
+    MutateForLoopCommand = require('./ForLoopCommand'),
+    AssignmentExpressionCommand = require('./AssignmentExpressionCommand');
+
+
+function isArithmeticExpression(node) {
+    return _.indexOf(['+', '-', '*', '/', '%'], node.operator) > -1;
+}
 
 /*
  * Add a new command to this registry together with its predicate. It will automatically be included in the system
@@ -39,12 +44,9 @@ var registry  = [
     {predicate: function(node) {return node && node.type === 'Literal';}, Command: MutateLiteralCommand},
     {predicate: function(node) {return node && node.type === 'UnaryExpression';}, Command: MutateUnaryExpressionCommand},
     {predicate: function(node) {return node && node.type === 'LogicalExpression';}, Command: MutateLogicalExpressionCommand},
-    {predicate: function(node) {return _.isObject(node);}, Command: MutateBaseCommand}
+    {predicate: function(node) {return _.isObject(node);}, Command: BaseCommand}
 ];
 
-function isArithmeticExpression(node) {
-    return _.indexOf(['+', '-', '*', '/', '%'], node.operator) > -1;
-}
 (function CommandRegistry(exports) {
 
     /**

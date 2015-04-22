@@ -3,7 +3,7 @@
  *
  * Created by Merlin Weemaes on 2/24/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand'),
+var BaseCommand = require('./BaseCommand'),
     _ = require('lodash');
 var Utils = require('../utils/MutationUtils');
 var operators = {
@@ -12,7 +12,7 @@ var operators = {
 };
 
 function MutateLogicalExpressionCommand(src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
 }
 
 MutateLogicalExpressionCommand.prototype.execute = function () {

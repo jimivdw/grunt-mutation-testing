@@ -3,11 +3,11 @@
  * Please note: any parameters that are actually literals are processed via the MutateLiteralCommand
  * Created by Martin Koster on 2/16/15.
  */
-var MutateBaseCommand = require('../mutationCommands/MutateBaseCommand');
+var BaseCommand = require('./BaseCommand');
 var Utils = require('../utils/MutationUtils');
 var LiteralUtils = require('../utils/LiteralUtils');
 function MutateCallExpressionCommand (src, subTree, callback) {
-    MutateBaseCommand.call(this, src, subTree, callback);
+    BaseCommand.call(this, src, subTree, callback);
 }
 
 MutateCallExpressionCommand.prototype.execute = function () {

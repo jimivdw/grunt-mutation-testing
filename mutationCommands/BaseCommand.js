@@ -4,7 +4,7 @@
  */
 var _ = require('lodash'),
     ScopeUtils = require('../utils/ScopeUtils');
-function MutateBaseCommand(src, subTree, callback) {
+function BaseCommand(src, subTree, callback) {
     var astNode = subTree.node,
         body = astNode.body;
 
@@ -24,7 +24,7 @@ function MutateBaseCommand(src, subTree, callback) {
     }
 }
 
-MutateBaseCommand.prototype.execute = function () {
+BaseCommand.prototype.execute = function () {
     var childNodes = [];
     _.forOwn(this._astNode, function (child) {
         childNodes.push({node: child, parentMutationId: this._parentMutationId, loopVariables: this._loopVariables}); //no own mutations so use parent mutation id
@@ -32,4 +32,4 @@ MutateBaseCommand.prototype.execute = function () {
     return childNodes;
 };
 
-module.exports = MutateBaseCommand;
+module.exports = BaseCommand;
