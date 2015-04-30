@@ -4,6 +4,7 @@ mocha/script1.js:24:1 Removed function mul(array) { var x = array[0]; var y = ar
 mocha/script1.js:34:1 Removed exports.add = add; -> SURVIVED
 mocha/script1.js:35:1 Removed exports.sub = sub; -> SURVIVED
 mocha/script1.js:38:1 Removed exports.mul = mul; -> SURVIVED
+mocha/script1.js:40:1 Removed console.log = function() { // Mock console log to prevent output from leaking to mutation test console }; -> SURVIVED
 mocha/script1.js:2:5 Removed var sum = 0; -> SURVIVED
 mocha/script1.js:3:5 Removed for (var i = 0; i < array.length; i = i + 1) { sum += array[i]; } -> SURVIVED
 mocha/script1.js:6:5 Removed return sum; -> SURVIVED
@@ -24,15 +25,25 @@ mocha/script1.js:13:17 Replaced 0 with 1 -> SURVIVED
 mocha/script1.js:14:17 Replaced sum with "MUTATION!" -> SURVIVED
 mocha/script1.js:14:5 Replaced console.log(sum) with sum -> SURVIVED
 mocha/script1.js:14:5 Replaced console.log(sum) with console -> SURVIVED
-mocha/script2.js:1:1 Removed function log() { } -> SURVIVED
-mocha/script2.js:4:1 Removed function mul(array) { array = array; log(array); return array.reduce(function (x, y) { return x * y; }); } -> SURVIVED
-mocha/script2.js:12:1 Removed exports.mul = mul; -> SURVIVED
-mocha/script2.js:5:5 Removed array = array; -> SURVIVED
-mocha/script2.js:7:5 Removed return array.reduce(function (x, y) { return x * y; }); -> SURVIVED
-mocha/script2.js:6:9 Replaced array with "MUTATION!" -> SURVIVED
-mocha/script2.js:7:25 Replaced function (x, y) { return x * y; } with "MUTATION!" -> SURVIVED
-mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with function (x, y) { return x * y; } -> SURVIVED
-mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> SURVIVED
-mocha/script2.js:8:9 Removed return x * y; -> SURVIVED
-mocha/script2.js:8:17 Replaced  *  with / -> SURVIVED
-0 of 37 unignored mutations are tested (0%). 2 mutations were ignored.
+mocha/script2.js:1:1 Removed function log() { var htmlPartial = '<span class=\'someClass\'>some content</span>'; console.log('<div>' + htmlPartial + '</div>'); } -> SURVIVED
+mocha/script2.js:6:1 Removed function mul(array) { array = array; log(array); return array.reduce(function (x, y) { return x * y; }); } -> SURVIVED
+mocha/script2.js:14:1 Removed exports.mul = mul; -> SURVIVED
+mocha/script2.js:2:5 Removed var htmlPartial = '<span class=\'someClass\'>some content</span>'; -> SURVIVED
+mocha/script2.js:3:5 Removed console.log('<div>' + htmlPartial + '</div>'); -> SURVIVED
+mocha/script2.js:2:23 Replaced '<span class=\'someClass\'>some content</span>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:17 Replaced '<div>' + htmlPartial + '</div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:5 Replaced console.log('<div>' + htmlPartial + '</div>') with '<div>' + htmlPartial + '</div>' -> SURVIVED
+mocha/script2.js:3:5 Replaced console.log('<div>' + htmlPartial + '</div>') with console -> SURVIVED
+mocha/script2.js:3:38 Replaced  +  with - -> SURVIVED
+mocha/script2.js:3:24 Replaced  +  with - -> SURVIVED
+mocha/script2.js:3:17 Replaced '<div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:41 Replaced '</div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:7:5 Removed array = array; -> SURVIVED
+mocha/script2.js:9:5 Removed return array.reduce(function (x, y) { return x * y; }); -> SURVIVED
+mocha/script2.js:8:9 Replaced array with "MUTATION!" -> SURVIVED
+mocha/script2.js:9:25 Replaced function (x, y) { return x * y; } with "MUTATION!" -> SURVIVED
+mocha/script2.js:9:12 Replaced array.reduce(function (x, y) { return x * y; }) with function (x, y) { return x * y; } -> SURVIVED
+mocha/script2.js:9:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> SURVIVED
+mocha/script2.js:10:9 Removed return x * y; -> SURVIVED
+mocha/script2.js:10:17 Replaced  *  with / -> SURVIVED
+0 of 48 unignored mutations are tested (0%). 2 mutations were ignored.

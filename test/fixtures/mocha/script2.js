@@ -1,4 +1,6 @@
 function log() {
+    var htmlPartial = '<span class=\'someClass\'>some content</span>';
+    console.log('<div>' + htmlPartial + '</div>');
 }
 
 function mul(array) {

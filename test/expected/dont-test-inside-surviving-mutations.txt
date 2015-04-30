@@ -6,8 +6,17 @@ mocha/script1.js:13:17 is inside a surviving mutation
 mocha/script1.js:14:17 is inside a surviving mutation
 mocha/script1.js:14:5 is inside a surviving mutation
 mocha/script1.js:14:5 is inside a surviving mutation
-mocha/script2.js:5:5 Removed array = array; -> SURVIVED
-mocha/script2.js:6:5 Removed log(array); -> SURVIVED
-mocha/script2.js:6:9 is inside a surviving mutation
-mocha/script2.js:6:5 is inside a surviving mutation
-28 of 40 unignored mutations are tested (70%).
+mocha/script2.js:3:5 Removed console.log('<div>' + htmlPartial + '</div>'); -> SURVIVED
+mocha/script2.js:2:23 Replaced '<span class=\'someClass\'>some content</span>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:17 is inside a surviving mutation
+mocha/script2.js:3:5 is inside a surviving mutation
+mocha/script2.js:3:5 is inside a surviving mutation
+mocha/script2.js:3:38 is inside a surviving mutation
+mocha/script2.js:3:24 is inside a surviving mutation
+mocha/script2.js:3:17 is inside a surviving mutation
+mocha/script2.js:3:41 is inside a surviving mutation
+mocha/script2.js:7:5 Removed array = array; -> SURVIVED
+mocha/script2.js:8:5 Removed log(array); -> SURVIVED
+mocha/script2.js:8:9 is inside a surviving mutation
+mocha/script2.js:8:5 is inside a surviving mutation
+29 of 50 unignored mutations are tested (57%).

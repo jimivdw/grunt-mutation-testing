@@ -4,6 +4,14 @@ mocha/script1.js:14:5 Removed console.log(sum); -> SURVIVED
 mocha/script1.js:13:14 Replaced  +  with - -> SURVIVED
 mocha/script1.js:14:17 Replaced sum with "MUTATION!" -> SURVIVED
 mocha/script1.js:14:5 Replaced console.log(sum) with sum -> SURVIVED
-mocha/script2.js:5:5 Removed array = array; -> SURVIVED
-mocha/script2.js:6:9 Replaced array with "MUTATION!" -> SURVIVED
-30 of 38 unignored mutations are tested (78%). 2 mutations were ignored.
+mocha/script2.js:3:5 Removed console.log('<div>' + htmlPartial + '</div>'); -> SURVIVED
+mocha/script2.js:2:23 Replaced '<span class=\'someClass\'>some content</span>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:17 Replaced '<div>' + htmlPartial + '</div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:5 Replaced console.log('<div>' + htmlPartial + '</div>') with '<div>' + htmlPartial + '</div>' -> SURVIVED
+mocha/script2.js:3:38 Replaced  +  with - -> SURVIVED
+mocha/script2.js:3:24 Replaced  +  with - -> SURVIVED
+mocha/script2.js:3:17 Replaced '<div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:3:41 Replaced '</div>' with "MUTATION!" -> SURVIVED
+mocha/script2.js:7:5 Removed array = array; -> SURVIVED
+mocha/script2.js:8:9 Replaced array with "MUTATION!" -> SURVIVED
+32 of 48 unignored mutations are tested (66%). 2 mutations were ignored.
