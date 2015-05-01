@@ -1,0 +1,21 @@
+mocha/html-fragments.js:3:5 Removed htmlPartial += '<span class=\'someClass\'>some content <br/></span>'; -> SURVIVED
+mocha/html-fragments.js:4:5 Removed htmlPartial += '</p>'; -> SURVIVED
+mocha/html-fragments.js:6:5 Removed console.log('<div>' + htmlPartial + '</div>'); -> SURVIVED
+mocha/html-fragments.js:7:5 Removed console.log('[CDATA[<table><tr><td>bla</td>'); -> SURVIVED
+mocha/html-fragments.js:8:5 Removed console.log('<td/></tr></table>]]'); -> SURVIVED
+mocha/html-fragments.js:3:20 Replaced '<span class=\'someClass\'>some content <br/></span>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:4:20 Replaced '</p>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:6:17 Replaced '<div>' + htmlPartial + '</div>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:6:5 Replaced console.log('<div>' + htmlPartial + '</div>') with '<div>' + htmlPartial + '</div>' -> SURVIVED
+mocha/html-fragments.js:6:5 Replaced console.log('<div>' + htmlPartial + '</div>') with console -> SURVIVED
+mocha/html-fragments.js:6:38 Replaced  +  with - -> SURVIVED
+mocha/html-fragments.js:6:24 Replaced  +  with - -> SURVIVED
+mocha/html-fragments.js:6:17 Replaced '<div>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:6:41 Replaced '</div>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:7:17 Replaced '[CDATA[<table><tr><td>bla</td>' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:7:5 Replaced console.log('[CDATA[<table><tr><td>bla</td>') with '[CDATA[<table><tr><td>bla</td>' -> SURVIVED
+mocha/html-fragments.js:7:5 Replaced console.log('[CDATA[<table><tr><td>bla</td>') with console -> SURVIVED
+mocha/html-fragments.js:8:17 Replaced '<td/></tr></table>]]' with "MUTATION!" -> SURVIVED
+mocha/html-fragments.js:8:5 Replaced console.log('<td/></tr></table>]]') with '<td/></tr></table>]]' -> SURVIVED
+mocha/html-fragments.js:8:5 Replaced console.log('<td/></tr></table>]]') with console -> SURVIVED
+5 of 25 unignored mutations are tested (20%).

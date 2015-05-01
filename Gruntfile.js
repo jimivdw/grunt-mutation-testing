@@ -281,6 +281,18 @@ module.exports = function (grunt) {
                     }
                 }
             },
+            htmlFragments: {
+                options: {
+                    code: ['mocha/html-fragments.js', chaiCode],
+                    specs: 'mocha/html-fragments-test.js',
+                    mutate: 'mocha/html-fragments.js',
+                    reporters: {
+                        text: {
+                            file: 'html-fragments.txt'
+                        }
+                    }
+                }
+            },
 
             dontTestInsideNotFailingMutations: {
                 options: {
@@ -355,6 +367,7 @@ module.exports = function (grunt) {
         'mutationTest:comparisons',
         'mutationTest:mathoperators',
         'mutationTest:updateExpressions',
+        'mutationTest:htmlFragments',
         'mutationTest:literals',
         'mutationTest:unaryExpression',
         'mutationTest:logicalExpression',
@@ -381,6 +394,7 @@ module.exports = function (grunt) {
         'mutationTest:comparisons',
         'mutationTest:mathoperators',
         'mutationTest:updateExpressions',
+        'mutationTest:htmlFragments',
         'mutationTest:literals',
         'mutationTest:unaryExpression',
         'mutationTest:logicalExpression',
