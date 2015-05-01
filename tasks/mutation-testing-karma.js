@@ -63,6 +63,18 @@ exports.init = function(grunt, opts) {
                 .findCodeSpecs().then(function(codeSpecs) {
                     fileSpecs = codeSpecs;
                     callback();
+                }, function(error) {
+                    logger.warn('Code could not be automatically matched with specs: %s', error.message);
+                    logger.warn(
+                        'It is still possible to manually provide the code-specs mappings. As a fallback, all tests ' +
+                        'will be run against all code'
+                    );
+
+                    _.forEach(opts.code, function(codeFile) {
+                        fileSpecs[codeFile] = opts.specs;
+                    });
+                    logger.debug('Using code-specs mappings: %j', fileSpecs);
+                    callback();
                 });
         }
 
