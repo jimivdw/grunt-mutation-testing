@@ -36,7 +36,9 @@
     "grunt-karma": "~0.8.3",
     "grunt-mocha-test": "~0.11.0",
     "jshint-stylish": "~0.1.5",
+    "karma": "~0.12.16",
     "karma-chai": "~0.1.0",
+    "karma-coverage": "~0.2.7",
     "karma-mocha": "~0.1.4",
     "karma-phantomjs-launcher": "~0.1.4",
     "load-grunt-tasks": "~0.3.0"
@@ -52,8 +54,6 @@
     "grunt-shell": "~0.7.0",
     "handlebars": "^3.0.0",
     "istanbul": "~0.3.0",
-    "karma": "~0.12.16",
-    "karma-coverage": "^0.2.7",
     "lodash": "~2.4.1",
     "log4js": "^0.6.24",
     "mocha": "~1.20.1",
