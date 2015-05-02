@@ -89,7 +89,7 @@ module.exports.readFileEventually = function(fileName, maxWait, interval) {
     }, function(error) {
         if(maxWait > 0) {
             setTimeout(function() {
-                dfd.resolve(self.readFileEventually(fileName, maxWait - interval));
+                dfd.resolve(self.readFileEventually(fileName, maxWait - interval, interval));
             }, interval);
         } else {
             dfd.reject(error);
@@ -97,6 +97,88 @@ module.exports.readFileEventually = function(fileName, maxWait, interval) {
     });
 
     return dfd.promise;
+};
+
+/**
+ * Try to find a file eventually. Keep trying every (interval || 100) milliseconds.
+ *
+ * @param fileName {string}
+ * @param path {string}
+ * @param maxDepth {number=}
+ * @param maxWait {number=} maximum time that should be waited for the file to be read
+ * @param interval {number=} [interval] number of milliseconds between each try, DEFAULT: 100
+ * @returns {promise|*|Q.promise} a promise that will resolve with the file contents or rejected with any error
+ */
+module.exports.findEventually = function(fileName, path, maxDepth, maxWait, interval) {
+    var self = this,
+        dfd = Q.defer();
+
+    interval = interval || 100;
+
+    self.find(fileName, path, maxDepth).then(function(filePath) {
+        dfd.resolve(filePath);
+    }, function(error) {
+        if(maxWait > 0) {
+            setTimeout(function() {
+                dfd.resolve(self.findEventually(fileName, path, maxDepth, maxWait - interval, interval));
+            }, interval);
+        } else {
+            dfd.reject(error);
+        }
+    });
+
+    return dfd.promise;
+};
+
+/**
+ * Find a file recursively in a given path.
+ *
+ * @param fileName {string} name of the file that should be found
+ * @param path {string} path to the directory in which the file should be found
+ * @param maxDepth {number=} maximum directory depth for finding the file. When undefined or negative, it will continue indefinitely
+ * @returns {*|promise} a promise that will resolve with the path to the file, or be rejected with any error
+ */
+module.exports.find = function(fileName, path, maxDepth) {
+    var self = this,
+        deferred = Q.defer();
+
+    self.promiseToReadDir(path).then(function(directoryContents) {
+        var contentPromises = [];
+        _.forEach(directoryContents, function(item) {
+            var itemPath = pathAux.join(path, item);
+            contentPromises.push(Q.Promise(function(resolve, reject) {
+                self.promiseToStat(itemPath).then(function(stats) {
+                    if(stats.isDirectory()) {
+                        if(maxDepth !== 0) {
+                            resolve(self.find(fileName, itemPath, maxDepth - 1));
+                        } else {
+                            reject(new Error('Reached max. depth of ' + maxDepth));
+                        }
+                    } else {
+                        if(item === fileName) {
+                            resolve(itemPath);
+                        } else {
+                            reject(new Error('File ' + item + ' does not match ' + fileName));
+                        }
+                    }
+                }, function(error) {
+                    reject(error);
+                })
+            }));
+        });
+
+        Q.allSettled(contentPromises).spread(function() {
+            var resolvedPromise = _.find(arguments, function(contentPromise) {
+                return contentPromise.state === "fulfilled";
+            });
+            resolvedPromise ? deferred.resolve(resolvedPromise.value) :
+                deferred.reject(new Error('Could not find ' + fileName));
+        });
+    }, function(error) {
+        deferred.reject(new Error('Could not read dir "' + path + '": ' + error.message));
+    });
+
+    return deferred.promise;
 };
 
 module.exports.promiseToReadFile = function promiseToReadFile(fileName) {
