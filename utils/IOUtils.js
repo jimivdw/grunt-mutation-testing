@@ -102,9 +102,9 @@ module.exports.readFileEventually = function(fileName, maxWait, interval) {
 /**
  * Try to find a file eventually. Keep trying every (interval || 100) milliseconds.
  *
- * @param fileName {string}
- * @param path {string}
- * @param maxDepth {number=}
+ * @param fileName {string} name of the file that should be found
+ * @param path {string} path to the directory in which the file should be found
+ * @param maxDepth {number=} maximum directory depth for finding the file. When undefined or negative, it will continue indefinitely
  * @param maxWait {number=} maximum time that should be waited for the file to be read
  * @param interval {number=} [interval] number of milliseconds between each try, DEFAULT: 100
  * @returns {promise|*|Q.promise} a promise that will resolve with the file contents or rejected with any error
