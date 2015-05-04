@@ -49,6 +49,9 @@ describe('Mutation Testing', function () {
     it('flags all mutations of replacing update expressions', function() {
         assertExpectedReport('tmp/update-expressions.txt', 'test/expected/update-expressions.txt');
     });
+    it('flags mutations in code containing HTML fragments', function() {
+        assertExpectedReport('tmp/html-fragments.txt', 'test/expected/html-fragments.txt');
+    });
     it('dont test inside of surviving mutations', function() {
         assertExpectedReport('tmp/dont-test-inside-surviving-mutations.txt', 'test/expected/dont-test-inside-surviving-mutations.txt');
     });

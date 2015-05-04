@@ -4,6 +4,7 @@ mocha/script1.js:24:1 Removed function mul(array) { var x = array[0]; var y = ar
 mocha/script1.js:34:1 Removed exports.add = add; -> SURVIVED
 mocha/script1.js:35:1 Removed exports.sub = sub; -> SURVIVED
 mocha/script1.js:38:1 Removed exports.mul = mul; -> SURVIVED
+mocha/script1.js:40:1 Removed console.log = function() { // Mock console log to prevent output from leaking to mutation test console }; -> SURVIVED
 mocha/script1.js:2:5 Removed var sum = 0; -> SURVIVED
 mocha/script1.js:3:5 Removed for (var i = 0; i < array.length; i = i + 1) { sum += array[i]; } -> SURVIVED
 mocha/script1.js:6:5 Removed return sum; -> SURVIVED
@@ -35,4 +36,4 @@ mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) w
 mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> SURVIVED
 mocha/script2.js:8:9 Removed return x * y; -> SURVIVED
 mocha/script2.js:8:17 Replaced  *  with / -> SURVIVED
-0 of 37 unignored mutations are tested (0%). 2 mutations were ignored.
+0 of 38 unignored mutations are tested (0%). 2 mutations were ignored.
