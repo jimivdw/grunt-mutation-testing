@@ -313,6 +313,13 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v 1.0.1
+- Fixed HTML reporter not properly escaping HTML; 
+- Fixed Karma not working when coverage reports could not be generated or found:
+  - Added fallback where all tests are run against all code;
+  - Made the coverage detection framework also work with KarmaCoverage v0.1.x;
+  - Moved Karma and KarmaCoverage to devDependencies.
+
 ### v 1.0.0
 - Configuration overhaul;
 - Improved console output;
