@@ -41,7 +41,7 @@ module.exports = function (grunt) {
             options: {
                 basePath: 'test/fixtures/',
                 code: 'mocha/script*.js',
-                specs: [],
+                specs: 'mocha/mocha-test.js',
                 mutate: 'mocha/script*.js',
 
                 testFramework: 'mocha',
@@ -108,6 +108,11 @@ module.exports = function (grunt) {
             },
             flagAllMutationsDefault: {
                 options: {
+                    testFramework: null,
+                    test: function(done) {
+                        done('SURVIVED');
+                    },
+
                     reporters: {
                         text: {
                             file: 'flag-all-mutations-default.txt'

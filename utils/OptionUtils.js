@@ -35,8 +35,17 @@ var DEFAULT_REPORTER = {
     console: true
 };
 
-// The code, specs and mutate options need to be configured to be able to perform the mutation tests
-var REQUIRED_OPTIONS = ['code', 'specs', 'mutate'];
+var LOG_OPTIONS = {
+    appenders: [
+        {
+            type: 'console',
+            layout: {
+                type: 'pattern',
+                pattern: '%[(%d{ABSOLUTE}) %p [%c]:%] %m'
+            }
+        }
+    ]
+};
 
 
 /**
@@ -45,9 +54,9 @@ var REQUIRED_OPTIONS = ['code', 'specs', 'mutate'];
  * @returns {boolean} indicator of all required options have been set or not
  */
 function areRequiredOptionsSet(opts) {
-    return !_.find(REQUIRED_OPTIONS, function(option) {
-        return !opts.hasOwnProperty(option);
-    });
+    return opts.hasOwnProperty('code')   && opts.code.length   > 0 &&
+           opts.hasOwnProperty('specs')  && opts.specs.length  > 0 &&
+           opts.hasOwnProperty('mutate') && opts.mutate.length > 0;
 }
 
 /**
@@ -58,10 +67,7 @@ function areRequiredOptionsSet(opts) {
  */
 function expandFiles(files, basePath) {
     var expandedFiles = [];
-
-    if(!_.isArray(files)) {
-        files = [files];
-    }
+    files = files ? _.isArray(files) ? files : [files] : [];
 
     _.forEach(files, function(fileName) {
         expandedFiles = _.union(
@@ -84,28 +90,18 @@ function getOptions(grunt, task) {
     var localOpts = grunt.config([task.name, task.target]).options;
     var opts = _.merge({}, DEFAULT_OPTIONS, globalOpts, localOpts);
 
-    if(!areRequiredOptionsSet(opts)) {
-        grunt.warn('Not all required options have been set');
-        return null;
-    }
-
     // Set logging options
     log4js.setGlobalLogLevel(log4js.levels[opts.logLevel]);
-    log4js.configure({
-        appenders: [
-            {
-                type: 'console',
-                layout: {
-                    type: 'pattern',
-                    pattern: '%[(%d{ABSOLUTE}) %p [%c]:%] %m'
-                }
-            }
-        ]
-    });
+    log4js.configure(LOG_OPTIONS);
 
     opts.code = expandFiles(opts.code, opts.basePath);
     opts.specs = expandFiles(opts.specs, opts.basePath);
     opts.mutate = expandFiles(opts.mutate, opts.basePath);
+
+    if(!areRequiredOptionsSet(opts)) {
+        grunt.warn('Not all required options have been set properly');
+        return null;
+    }
 
     // Only set the default reporter when no explicit reporter configuration is provided
     if(!opts.hasOwnProperty('reporters')) {
