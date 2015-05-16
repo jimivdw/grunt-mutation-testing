@@ -45,7 +45,6 @@ module.exports = function (grunt) {
                 mutate: 'mocha/script*.js',
 
                 testFramework: 'mocha',
-                ignore: [/use strict/],
 
                 logLevel: 'WARN',
                 maxReportedMutationLength: 0,
@@ -243,6 +242,7 @@ module.exports = function (grunt) {
                     code: ['mocha/unaryExpression.js', chaiCode],
                     specs: 'mocha/unaryExpression-test.js',
                     mutate: 'mocha/unaryExpression.js',
+                    mutateStrictModeKeyword: true,
                     reporters: {
                         text: {
                             file: 'unaryExpression.txt'
