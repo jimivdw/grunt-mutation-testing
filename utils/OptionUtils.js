@@ -47,6 +47,9 @@ var LOG_OPTIONS = {
     ]
 };
 
+// By default, always ignore mutations of the 'use strict' keyword
+var DEFAULT_IGNORE = /('use strict'|"use strict");/;
+
 
 /**
  * Check if all required options are set on the given opts object
@@ -57,6 +60,19 @@ function areRequiredOptionsSet(opts) {
     return opts.hasOwnProperty('code')   && opts.code.length   > 0 &&
            opts.hasOwnProperty('specs')  && opts.specs.length  > 0 &&
            opts.hasOwnProperty('mutate') && opts.mutate.length > 0;
+}
+
+function ensureReportersConfig(opts) {
+    // Only set the default reporter when no explicit reporter configuration is provided
+    if(!opts.hasOwnProperty('reporters')) {
+        opts.reporters = DEFAULT_REPORTER;
+    }
+}
+
+function ensureIgnoreConfig(opts) {
+    if(!opts.discardDefaultIgnore) {
+        opts.ignore = opts.ignore ? [DEFAULT_IGNORE].concat(opts.ignore) : DEFAULT_IGNORE;
+    }
 }
 
 /**
@@ -103,10 +119,8 @@ function getOptions(grunt, task) {
         return null;
     }
 
-    // Only set the default reporter when no explicit reporter configuration is provided
-    if(!opts.hasOwnProperty('reporters')) {
-        opts.reporters = DEFAULT_REPORTER;
-    }
+    ensureReportersConfig(opts);
+    ensureIgnoreConfig(opts);
 
     return opts;
 }
