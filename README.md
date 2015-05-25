@@ -1,8 +1,12 @@
 # grunt-mutation-testing
 
-> JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
+[![NPM latest version](https://img.shields.io/npm/v/grunt-mutation-testing.svg)](https://www.npmjs.com/package/grunt-mutation-testing)
+[![Travis build status](https://img.shields.io/travis/jimivdw/grunt-mutation-testing/master.svg)](https://travis-ci.org/jimivdw/grunt-mutation-testing)
+[![NPM downloads](http://img.shields.io/npm/dm/grunt-mutation-testing.svg)](https://www.npmjs.com/package/grunt-mutation-testing)
+[![GitHub issues](https://img.shields.io/github/issues/jimivdw/grunt-mutation-testing.svg)](https://github.com/jimivdw/grunt-mutation-testing)
+[![GitHub license](https://img.shields.io/github/license/jimivdw/grunt-mutation-testing.svg)](https://github.com/jimivdw/grunt-mutation-testing)
 
-[![Build Status](https://api.travis-ci.org/jimivdw/grunt-mutation-testing.svg?branch=master)](https://travis-ci.org/jimivdw/grunt-mutation-testing)
+> JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
 
 ## Getting Started
 This plugin requires Grunt.
@@ -331,6 +335,25 @@ All javascript comment types are supported, i.e. one can use both `// @excludeMu
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+### v1.1.0
+- Fixed possible to run without code, specs and/or mutate files specified;
+- Fixed runner timeout also active for initial (unmutated) test run;
+- Fixed Karma coverage file format errors resulting in unrecoverable errors;
+- Fixes and graphical improvements in HTML reporter:
+  - Fixed tooltip only in correct position in Chrome;
+  - Fixed HTML report not being valid HTML;
+  - Fixed `options.successThreshold` not working in File view;
+  - Graphical improvements for 'Folder' view;
+  - Graphical improvements for 'File' view.
+- Resolved \#18:
+  - Disabled mutations from strict to weak equality and vice versa;
+  - `'use strict';` is now ignored by default.
+- Improved the ignore options:
+  - `ignore` now also works for file portions larger than just the mutations;
+  - Reimplemented `discardReplacements` as `ignoreReplacement`, which will ignore mutation replacements that match the configuration option:
+    - Added actual documentation for this option.
+  - Added `discardDefaultIgnore` config option in case the user wants to override the default value of `options.ignore`.
 
 ### v 1.0.1
 - Fixed HTML reporter not properly escaping HTML; 
