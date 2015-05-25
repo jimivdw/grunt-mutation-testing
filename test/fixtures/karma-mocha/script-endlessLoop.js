@@ -19,7 +19,7 @@
             var count = temp;
             modulus = count % 83;
             if (opts.input.length > 5) {
-                opts.input = modulus + opts.input.substring(6)
+                opts.input = modulus + opts.input.substring(6);
             }
         }
         return modulus;
