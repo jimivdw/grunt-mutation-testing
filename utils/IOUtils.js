@@ -15,7 +15,7 @@ var fs = require('fs'),
  * @returns {Array} the directory segments in the path
  */
 module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSegment) {
-    return this.normalizeWindowsPath(excludeLastSegment ? pathAux.dirname(path) : path).split(/\/+/);
+    return this.normalizeWindowsPath(path).split(/\/+/).slice(0, (excludeLastSegment ? -1 : undefined));
 };
 
 /**
