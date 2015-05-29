@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Verdana', 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Verdana', 'Arial', sans-serif;
     font-size: 14px;
 }
 
@@ -16,44 +16,47 @@ header {
 }
 
 header.survived {
-    border-bottom-color: #a10;
+    border-bottom-color: #b46767;
 }
 
 header.killed {
-    border-bottom-color: #1a0;
+    border-bottom-color: #516948;
 }
 
 header h1 {
-    margin: 0;
+    font-size: 18px;
+    font-weight: normal;
 }
 
-#mutationStats, #coverage {
-    padding: 10px 0;
+header h1 .fileName {
+    font-weight: bold;
 }
 
-#coverage {
-    font-size: 16px;
-}
-
-#coverage .stat {
-    width: auto;
+#mutationStats {
+    margin-top: 10px;
 }
 
 .stat {
     display: inline-block;
-    width: 220px;
+    width: 250px;
 }
 
-.statValue {
-    border: 2px solid black;
-    padding: 2px;
+.stat .statValue {
+    border: 1px solid black;
+    padding: 4px;
     background-color: white;
     font-weight: bold;
 }
 
+.stat .statValue small {
+    color: #666;
+    font-weight: normal;
+    font-size: 11px;
+}
+
 nav {
-    background-color: #fff5a0;
-    border-bottom: 1px solid #ddd130;
+    background-color: #ffe87c;
+    border-bottom: 1px solid #b49d5e;
 }
 
 nav .link {
@@ -63,23 +66,53 @@ nav .link {
 
 #files {
     border-collapse: collapse;
-    width: 100%;
 }
 
 #files th, #files td {
-    padding: 5px 10px;
-    border: 1px solid black;
+    padding: 5px 15px;
+    border: 1px solid #666;
 }
 
 #files th {
-    background-color: #ddd;
+    background-color: #eee;
     font-weight: normal;
     text-align: left;
 }
 
 #files .link {
     color: black;
-    /*text-decoration: none;*/
+}
+
+#files td.filePath, #files td.rate {
+    border-right: none;
+}
+#files td.fileCoverage, #files td.value {
+    border-left: none;
+}
+
+#files td.rate {
+    text-align: right;
+}
+
+#files td.value {
+    padding-left: 0;
+    font-size: 12px;
+    color: #333;
+}
+
+.coverageBar {
+    background-color: #eee;
+    border: 1px solid #666;
+    font-size: 12px;
+    width: 120px;
+    position: relative;
+    display: block;
+}
+
+.coverageBar > span {
+    background-color: #666;
+    display: block;
+    text-indent: -9999px;
 }
 
 footer {
@@ -92,13 +125,13 @@ footer p {
 }
 
 .killed {
-    background-color: #bfb
+    background-color: #b5d592;
 }
 
 .survived {
-    background-color: #f66
+    background-color: #fc8c84;
 }
 
 .neutral {
-    background-color: #fff5a0
+    background-color: #ffe87c;
 }
