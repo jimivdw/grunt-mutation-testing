@@ -2,10 +2,12 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8"/>
+        <meta data-mutation-stats="{{{json stats}}}"/>
         <title>{{#if fileName}}{{fileName}} - {{/if}}Mutation test results</title>
-        <style type="text/css">{{{style}}}</style>
-        <script type="application/javascript">{{{script}}}</script>
+        {{{style}}}
+        {{{script}}}
     </head>
+
     <body>
         <header class="{{status}}">
             <h1>
@@ -62,23 +64,7 @@
         <nav>{{{breadcrumb}}}</nav>
 
         <main>
-            <section>
-                <table id="files">
-                    <thead>
-                    <tr>
-                        <th colspan="2">File</th>
-                        <th colspan="2">Success rate</th>
-                        <th colspan="2">Killed</th>
-                        <th colspan="2">Survived</th>
-                        <th colspan="2">Ignored</th>
-                        <th colspan="2">Untested</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {{{rows}}}
-                    </tbody>
-                </table>
-            </section>
+            {{{content}}}
         </main>
 
         <footer>

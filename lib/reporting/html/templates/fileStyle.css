@@ -1,0 +1,35 @@
+#source {
+    font-family: 'Consolas', 'Courier New', 'Lucida Sans Typewriter', monospace;
+    white-space: pre;
+}
+
+#mutations {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#mutations th, #mutations td {
+    padding: 5px 10px;
+    border: 1px solid black;
+}
+
+#mutations th {
+    background-color: #ddd;
+    font-weight: normal;
+    text-align: left;
+}
+
+#popup {
+    position: fixed;
+    border: solid 1px black;
+    padding: 3px;
+    display: none;
+}
+
+#popup.show {
+    display: block;
+}
+
+code .killed, code .survived {
+    border: solid 1px white;
+}
