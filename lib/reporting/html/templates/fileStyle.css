@@ -5,16 +5,15 @@
 
 #mutations {
     border-collapse: collapse;
-    width: 100%;
 }
 
 #mutations th, #mutations td {
-    padding: 5px 10px;
-    border: 1px solid black;
+    padding: 5px 15px;
+    border: 1px solid #666;
 }
 
 #mutations th {
-    background-color: #ddd;
+    background-color: #eee;
     font-weight: normal;
     text-align: left;
 }

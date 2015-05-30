@@ -4,17 +4,21 @@
 
 <section>
     <h2>Mutations</h2>
-    <table id="mutations">
-        <thead>
-        <tr>
-            <th>Mutation</th>
-            <th>Result</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{{mutations}}}
-        </tbody>
-    </table>
+    {{#if mutations}}
+        <table id="mutations">
+            <thead>
+            <tr>
+                <th>Mutation</th>
+                <th>Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{{mutations}}}
+            </tbody>
+        </table>
+    {{ else }}
+        <p>No mutations could be performed on this file</p>
+    {{/if}}
 </section>
 
 <div id="popup" aria-hidden="true"></div>
