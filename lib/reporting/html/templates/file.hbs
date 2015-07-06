@@ -1,3 +1,9 @@
+{{#if mutations}}
+<section>
+    <button id="toggleKilledMutations" onclick="toggleKilledMutations()">Hide killed mutations</button>
+</section>
+{{/if}}
+
 <section>
     <code id="source"><ol>{{#each sourceLines}}<li>{{{this}}}</li>{{/each}}</ol></code>
 </section>
