@@ -1,0 +1,51 @@
+#files {
+    border-collapse: collapse;
+}
+
+#files th, #files td {
+    padding: 5px 15px;
+    border: 1px solid #666;
+}
+
+#files th {
+    background-color: #eee;
+    font-weight: normal;
+    text-align: left;
+}
+
+#files .link {
+    color: black;
+}
+
+#files td.filePath, #files td.rate {
+    border-right: none;
+}
+
+#files td.fileCoverage, #files td.value {
+    border-left: none;
+}
+
+#files td.rate {
+    text-align: right;
+}
+
+#files td.value {
+    padding-left: 0;
+    font-size: 12px;
+    color: #333;
+}
+
+.coverageBar {
+    background-color: #eee;
+    border: 1px solid #666;
+    font-size: 12px;
+    width: 120px;
+    position: relative;
+    display: block;
+}
+
+.coverageBar > span {
+    background-color: #666;
+    display: block;
+    text-indent: -9999px;
+}
