@@ -208,7 +208,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, opts) {
         return {stats: stats, fileMutationResult: fileMutationResult};
     });
 
-    return mutationPromise.fin(function () {
+    return mutationPromise.finally(function () {
         logger.debug('Restore file: %s', srcFilename);
         fs.writeFileSync(srcFilename, src);
         logger.info('Done mutating file: %s', srcFilename);
