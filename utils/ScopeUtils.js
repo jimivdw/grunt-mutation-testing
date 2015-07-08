@@ -4,7 +4,6 @@
  *
  * Created by Martin Koster on 2/25/15.
  */
-var esprima = require('esprima');
 var _ = require('lodash');
 
 /**
@@ -28,7 +27,9 @@ function removeOverriddenLoopVariables(astNode, loopVariables) {
         result = processScopeVariables(astNode, loopVariables);
     }
     _.forOwn(astNode, function (childNode) {
-        result = removeOverriddenLoopVariables(childNode, result);
+        if(astNode !== childNode) {
+            result = removeOverriddenLoopVariables(childNode, result);
+        }
     });
 
     return result;

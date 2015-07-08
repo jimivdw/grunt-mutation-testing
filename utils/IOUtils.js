@@ -15,20 +15,7 @@ var fs = require('fs'),
  * @returns {Array} the directory segments in the path
  */
 module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSegment) {
-    var pathRegex = /([^\\\/]+)/g,
-        currentSegment,
-        segment = pathRegex.exec(path),
-        directoryList = [];
-
-    while (segment) {
-        currentSegment = segment[0];
-        segment = pathRegex.exec(path);
-        if (!excludeLastSegment || segment) {
-            directoryList.push(currentSegment);
-        }
-    }
-
-    return directoryList;
+    return this.normalizeWindowsPath(path).split(/\/+/).slice(0, (excludeLastSegment ? -1 : undefined));
 };
 
 /**
@@ -37,7 +24,7 @@ module.exports.getDirectoryList = function getDirectoryList(path, excludeLastSeg
  * @param {string} parentDir parent directory to create path from
  */
 module.exports.createPathIfNotExists = function createPathIfNotExists(path, parentDir) {
-    var directoryList = (path === 'string') ? path.split(pathAux.sep) : path;
+    var directoryList = (_.isArray(path) ? path : this.getDirectoryList(path));
 
     _.forEach(directoryList, function(segment) {
         parentDir = pathAux.join(parentDir, segment);

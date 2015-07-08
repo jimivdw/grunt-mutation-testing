@@ -1,0 +1,26 @@
+<tr class="{{status}}">
+    <td class="filePath">{{{pathSegments}}}</td>
+    <td class="fileCoverage">
+        <div class="coverageBar"><span style="width: {{stats.successRate}}%">&nbsp;</span></div>
+    </td>
+    <td class="rate">{{stats.successRate}}%</td>
+    <td class="value">
+        ({{stats.success}} / {{stats.all}})
+    </td>
+    <td class="rate">{{stats.killedRate}}%</td>
+    <td class="value">
+        ({{stats.killed}} / {{stats.all}})
+    </td>
+    <td class="rate">{{stats.survivedRate}}%</td>
+    <td class="value">
+        ({{stats.survived}} / {{stats.all}})
+    </td>
+    <td class="rate">{{stats.ignoredRate}}%</td>
+    <td class="value">
+        ({{stats.ignored}} / {{stats.all}})
+    </td>
+    <td class="rate">{{stats.untestedRate}}%</td>
+    <td class="value">
+        ({{stats.untested}} / {{stats.all}})
+    </td>
+</tr>

@@ -79,9 +79,10 @@ function replacementIsIgnored(mutation, ignoredReplacements) {
 function createStats() {
     return {
         all: 0,
+        killed: 0,
+        survived: 0,
         ignored: 0,
-        untested: 0,
-        survived: 0
+        untested: 0
     };
 }
 
@@ -191,7 +192,9 @@ function mutationTestFile(srcFilename, runTests, logMutation, opts) {
             return runTests().then(function (testStatus) {
 				var mutationResult = createMutationLogMessage(opts, srcFilename, mutation, src, testStatus);
                 fileMutationResult.mutationResults.push(mutationResult);
-                if (testStatus === TestStatus.SURVIVED) {
+                if(testStatus === TestStatus.KILLED) {
+                    stats.killed += 1;
+                } else if (testStatus === TestStatus.SURVIVED) {
                     stats.survived += 1;
                     logMutation(mutationResult.message);
                     survivingMutations.push(mutation.mutationId);
@@ -208,7 +211,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, opts) {
         return {stats: stats, fileMutationResult: fileMutationResult};
     });
 
-    return mutationPromise.fin(function () {
+    return mutationPromise.finally(function () {
         logger.debug('Restore file: %s', srcFilename);
         fs.writeFileSync(srcFilename, src);
         logger.info('Done mutating file: %s', srcFilename);
