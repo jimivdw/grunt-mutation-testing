@@ -336,6 +336,14 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v1.2.0
+- Updated all dependencies to their latest possible versions;
+- Improvements in HTML reporter:
+  - Added toggle for only showing surviving mutations;
+  - Fixed ignored file shown as 'too low coverage';
+  - Fixed colour scheme too strong;
+  - Graphical improvements.
+
 ### v1.1.0
 - Fixed possible to run without code, specs and/or mutate files specified;
 - Fixed runner timeout also active for initial (unmutated) test run;
