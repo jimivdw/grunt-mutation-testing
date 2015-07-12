@@ -336,6 +336,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v1.2.1
+- Fixed \#36, grunt-mutation-testing no longer working without installing mocha.
+
 ### v1.2.0
 - Updated all dependencies to their latest possible versions;
 - Improvements in HTML reporter:
