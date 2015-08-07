@@ -95,7 +95,7 @@ module.exports = function (grunt) {
                 options: {
                     testFramework: null,
                     test: function(done) {
-                        done(false);
+                        done('KILLED');
                     },
 
                     reporters: {

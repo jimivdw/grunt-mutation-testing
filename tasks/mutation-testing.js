@@ -280,8 +280,8 @@ function mutationTest(grunt, task, opts) {
             // Execute test
             mutationTestPromise = mutationTestPromise.then(function() {
                 // Run tests first to see if they pass without mutations
-                return runTests().then(function(testOk) {
-                    if(testOk) {
+                return runTests().then(function(testStatus) {
+                    if(testStatus === TestStatus.SURVIVED) {
                         if(!grunt.file.exists(file)) {
                             logger.error('Source file "%s" not found.', file);
                             return false;
