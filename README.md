@@ -336,6 +336,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### v1.2.2
+- Fixed \#37, 'Tests fail without mutations' not working anymore;
+- Directories are no longer included when de-globbing 'code', 'specs', and 'mutate' options.
+
 ### v1.2.1
 - Fixed \#36, grunt-mutation-testing no longer working without installing mocha.
 
