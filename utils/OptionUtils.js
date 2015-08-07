@@ -88,7 +88,7 @@ function expandFiles(files, basePath) {
     _.forEach(files, function(fileName) {
         expandedFiles = _.union(
             expandedFiles,
-            glob.sync(path.join(basePath, fileName), { dot: true })
+            glob.sync(path.join(basePath, fileName), { dot: true, nodir: true })
         );
     });
 
