@@ -293,6 +293,7 @@ function mutationTest(grunt, task, opts) {
                         });
                     } else {
                         logger.warn('Tests fail without mutations for file: %s', path.resolve(file));
+                        logger.warn('This failure may be due to a misconfiguration of either `code` or `specs`. Did you include your external libraries?');
                         logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
                     }
                 });
