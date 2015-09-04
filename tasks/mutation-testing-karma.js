@@ -43,7 +43,7 @@ exports.init = function(grunt, opts) {
 
     // Extend the karma configuration with some secondary properties that cannot be overwritten
     _.merge(karmaConfig, {
-        logLevel: ['INFO', 'DEBUG', 'TRACE'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
+        logLevel: ['INFO', 'DEBUG', 'TRACE', 'ALL'].indexOf(karmaConfig.logLevel) !== -1 ? karmaConfig.logLevel : 'INFO',
         configFile: karmaConfig.configFile ? path.resolve(karmaConfig.configFile) : undefined
     });
 
