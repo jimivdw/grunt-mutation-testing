@@ -23,7 +23,15 @@
             </tbody>
         </table>
     {{ else }}
-        <p>No mutations could be performed on this file</p>
+        <p>
+            No mutations could be performed on this file. This may be due to one of the following reasons:
+        </p>
+        <ul>
+            <li>No unit tests exist for this file</li>
+            <li>No specs were configured for this file</li>
+            <li>Unit tests are failing already without applying any mutations</li>
+            <li>All possible mutations in this file were excluded</li>
+        </ul>
     {{/if}}
 </section>
 
