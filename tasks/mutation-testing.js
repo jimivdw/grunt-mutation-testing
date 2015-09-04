@@ -86,6 +86,15 @@ function createStats() {
     };
 }
 
+function createFileMutationResult(opts, srcFileName, stats, src) {
+    return {
+        stats: stats || createStats(),
+        src: src || fs.readFileSync(path.resolve(srcFileName), 'UTF8'),
+        fileName: createMutationFileMessage(opts, srcFileName),
+        mutationResults: []
+    };
+}
+
 function addStats(stats1, stats2) {
     return _.mapValues(stats1, function (value, key) {
         return value + stats2[key];
@@ -138,6 +147,11 @@ function createTestsFailWithoutMutationsLogMessage(opts, srcFilePath) {
     return srcFileName + ' tests fail without mutations';
 }
 
+function createNotTestedBecauseKarmaSetupErrorLogMessage(opts, srcFilePath) {
+    var srcFileName = createMutationFileMessage(opts, srcFilePath);
+    return srcFileName + ' could not properly set up Karma server';
+}
+
 function createNotTestedBecauseInsideUntestedMutationLogMessage(opts, srcFilePath, mutation) {
     var srcFileName = createMutationFileMessage(opts, srcFilePath);
     var currentMutationPosition = srcFileName + ':' + mutation.line + ':' + (mutation.col + 1);
@@ -162,12 +176,7 @@ function mutationTestFile(srcFilename, runTests, logMutation, opts) {
     var ignoredRanges = getIgnoredRanges(opts, src);
 
     var stats = createStats();
-    var fileMutationResult = {
-        stats: stats,
-        src: src,
-        fileName: createMutationFileMessage(opts, srcFilename),
-        mutationResults: []
-    };
+    var fileMutationResult = createFileMutationResult(opts, srcFilename, stats, src);
 
     logger.info('Mutating file: %s', srcFilename);
 
@@ -271,7 +280,11 @@ function mutationTest(grunt, task, opts) {
 
                 opts.currentFile = file;
                 opts.beforeEach(function(ok) {
-                    deferred.resolve(ok);
+                    if(ok) {
+                        deferred.resolve();
+                    } else {
+                        deferred.reject();
+                    }
                 });
 
                 return deferred.promise;
@@ -294,9 +307,14 @@ function mutationTest(grunt, task, opts) {
                     } else {
                         logger.warn('Tests fail without mutations for file: %s', path.resolve(file));
                         logger.warn('This failure may be due to a misconfiguration of either `code` or `specs`. Did you include your external libraries?');
+                        totalResults.push(createFileMutationResult(opts, path.resolve(file)));
                         logMutationToFileDest(createTestsFailWithoutMutationsLogMessage(opts, file));
                     }
                 });
+            }, function() {
+                logger.warn('Could not properly set up Karma server for file: %s, skipping...', path.resolve(file));
+                totalResults.push(createFileMutationResult(opts, path.resolve(file)));
+                logMutationToFileDest(createNotTestedBecauseKarmaSetupErrorLogMessage(opts, file));
             });
 
             // Execute afterEach

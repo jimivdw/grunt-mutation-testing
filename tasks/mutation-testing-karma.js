@@ -110,12 +110,17 @@ exports.init = function(grunt, opts) {
             return IOUtils.normalizeWindowsPath(opts.currentFile).indexOf(file) !== -1;
         });
 
-        karmaConfig.files = _.union(opts.code, currentFileSpecs);
+        if(currentFileSpecs && currentFileSpecs.length) {
+            karmaConfig.files = _.union(opts.code, currentFileSpecs);
 
-        startServer(karmaConfig, function(instance) {
-            currentInstance = instance;
-            done();
-        });
+            startServer(karmaConfig, function(instance) {
+                currentInstance = instance;
+                done(true);
+            });
+        } else {
+            logger.warn('Could not find specs for file: %s', path.resolve(opts.currentFile));
+            done(false);
+        }
     };
 
     opts.test = function(done) {
