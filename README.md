@@ -332,18 +332,25 @@ would disable the `MATH` and `OBJECT` mutations on the `bar` method and its cont
 All javascript comment types are supported, i.e. one can use both `// @excludeMutations` _and_ `/* @excludeMutations ["ARRAY"] */`. These comments can also be placed in the middle of a line of code, object, or function call, to allow for very specific configuration.
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
 
-### v1.2.2
+### v 1.2.3
+- Fixed \#39, Karma `files` configuration being merged instead of overwritten;
+- Fixed \#41, Untested files either scoring 100% success, or marked as 'fails without mutations';
+- Fixed `ALL` log configuration option for Karma not being allowed;
+- Fixed files for which tests fail without mutations not included in HTML report;
+- More extensive explanation of 'No mutations could be performed on this file' note in HTML report.
+
+### v 1.2.2
 - Fixed \#37, 'Tests fail without mutations' not working anymore;
 - Directories are no longer included when de-globbing 'code', 'specs', and 'mutate' options.
 
-### v1.2.1
+### v 1.2.1
 - Fixed \#36, grunt-mutation-testing no longer working without installing mocha.
 
-### v1.2.0
+### v 1.2.0
 - Updated all dependencies to their latest possible versions;
 - Improvements in HTML reporter:
   - Added toggle for only showing surviving mutations;
@@ -351,7 +358,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
   - Fixed colour scheme too strong;
   - Graphical improvements.
 
-### v1.1.0
+### v 1.1.0
 - Fixed possible to run without code, specs and/or mutate files specified;
 - Fixed runner timeout also active for initial (unmutated) test run;
 - Fixed Karma coverage file format errors resulting in unrecoverable errors;
