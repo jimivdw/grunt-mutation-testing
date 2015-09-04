@@ -1,6 +1,6 @@
 {
   "name": "grunt-mutation-testing",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.",
   "repository": {
     "type": "git",
