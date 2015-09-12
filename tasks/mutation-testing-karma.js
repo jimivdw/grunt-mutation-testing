@@ -37,7 +37,7 @@ exports.init = function(grunt, opts) {
                 autoWatch: false
             }
         ),
-        serverPool = new KarmaServerPool({maxActiveServers: karmaConfig.maxActiveServers, startInterval: karmaConfig.startInterval}),
+        serverPool = new KarmaServerPool({port: karmaConfig.port, maxActiveServers: karmaConfig.maxActiveServers, startInterval: karmaConfig.startInterval}),
         currentInstance,
         fileSpecs = {};
 
