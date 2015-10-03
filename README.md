@@ -88,7 +88,14 @@ Karma-specific options. See the [Karma documentation](http://karma-runner.github
 
 In order for Karma to be able to run properly, it is necessary to at least provide the `frameworks` and `browsers` options. You should usually be able to reuse your existing Karma config file for this (by supplying it in the `configFile` option).
 
-Note that some options (`basePath`, `files`, `background`, `singleRun`, `autoWatch`, and `port`) are overwritten automatically by the mutation testing framework.
+Note that some options (`basePath`, `files`, `background`, `singleRun`, and `autoWatch`) are overwritten automatically by the mutation testing framework.
+
+##### options.karma.maxActiveServers
+_optional_
+Type: `Number`
+Default: `5`
+
+Maximum number of Karma servers that can be active at the same time. They run on ports subsequent to the configured Karma port, e.g. by default, Karma servers can be started on ports: `12111`, `12112`, `12113`, `12114`, and `12115`; the next server will then be started on port `12111` again.
 
 ##### options.mocha
 _optional_
