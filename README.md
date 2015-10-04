@@ -343,6 +343,10 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## Release History
 
+### v 1.3.0
+- Karma port is now configurable (fixes \#45);
+- Karma runner now only uses a limited number of ports.
+
 ### v 1.2.3
 - Fixed \#39, Karma `files` configuration being merged instead of overwritten;
 - Fixed \#41, Untested files either scoring 100% success, or marked as 'fails without mutations';
