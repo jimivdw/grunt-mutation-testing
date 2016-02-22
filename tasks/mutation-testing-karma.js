@@ -124,29 +124,41 @@ exports.init = function(grunt, opts) {
     };
 
     opts.test = function(done) {
-        currentInstance.runTests().then(function(testStatus) {
-            done(testStatus);
-        }, function(error) {
-            logger.warn(error.message);
-            if (error.severity === 'fatal') {
-                logger.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
+        if(currentInstance) {
+            currentInstance.runTests().then(function(testStatus) {
+                done(testStatus);
+            }, function(error) {
+                logger.warn(error.message);
+                if(error.severity === 'fatal') {
+                    logger.error('Fatal: Unfortunately the mutation test cannot recover from this error and will shut down');
 
-                serverPool.stopAllInstances();
-                currentInstance.kill();
+                    stopServers();
+                    currentInstance.kill();
 
-                done(TestStatus.FATAL);
-            } else {
-                startServer(karmaConfig, function(instance) {
-                    currentInstance = instance;
-                    done(TestStatus.ERROR);
-                });
-            }
-        });
+                    done(TestStatus.FATAL);
+                } else {
+                    startServer(karmaConfig, function(instance) {
+                        currentInstance = instance;
+                        done(TestStatus.ERROR);
+                    });
+                }
+            });
+        } else {
+            logger.warn('No Karma server was present to run the tests');
+            startServer(karmaConfig, function(instance) {
+                currentInstance = instance;
+                done(TestStatus.ERROR);
+            });
+        }
     };
 
     opts.afterEach = function(done) {
-        // Kill the currently active instance
-        currentInstance.stop();
+        if(currentInstance) {
+            // Kill the currently active instance
+            currentInstance.stop();
+            currentInstance = null;
+        }
+
         done();
     };
 
