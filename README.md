@@ -343,6 +343,14 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## Release History
 
+### v 1.3.1
+- Karma is now a regular dependency again:
+  - Updated to 0.13.x;
+  - Needed to fix \#50.
+- Fixed \#50, Karma server processes not properly killed;
+- Fixed \#52, Relative paths not properly interpreted in Karma coverage files;
+- Fixed \#53, Failure to gracefully shutdown when no code-specs mapping is found at all.
+
 ### v 1.3.0
 - Karma port is now configurable (fixes \#45);
 - Karma runner now only uses a limited number of ports.
