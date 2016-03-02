@@ -52,14 +52,19 @@ var DEFAULT_IGNORE = /('use strict'|"use strict");/;
 
 
 /**
+ * @private
  * Check if all required options are set on the given opts object
  * @param opts the options object to check
- * @returns {boolean} indicator of all required options have been set or not
+ * @returns {String|null} indicator of all required options have been set or not. String with error message or null if no error was set
  */
 function areRequiredOptionsSet(opts) {
-    return opts.hasOwnProperty('code')   && opts.code.length   > 0 &&
-           opts.hasOwnProperty('specs')  && opts.specs.length  > 0 &&
-           opts.hasOwnProperty('mutate') && opts.mutate.length > 0;
+    return  !opts.hasOwnProperty('code')  ? 'Options has no own code property' :
+            !opts.hasOwnProperty('specs')  ? 'Options has no own specs property' :
+            !opts.hasOwnProperty('mutate')  ? 'Options has no own mutate property' :
+            opts.code.length === 0 ? 'Code property is empty' :
+            opts.specs.length === 0 ? 'Specs property is empty' :
+            opts.mutate.length === 0 ? 'Mutate property is empty' :
+            null;
 }
 
 function ensureReportersConfig(opts) {
@@ -114,8 +119,9 @@ function getOptions(grunt, task) {
     opts.specs = expandFiles(opts.specs, opts.basePath);
     opts.mutate = expandFiles(opts.mutate, opts.basePath);
 
-    if(!areRequiredOptionsSet(opts)) {
-        grunt.warn('Not all required options have been set properly. Your options object requires a code, mutate and specs property. The paths will be resolved and should return at least one filepath.');
+    var requiredOptionsSetErr = areRequiredOptionsSet(opts);
+    if(requiredOptionsSetErr !== null) {
+        grunt.warn('Not all required options have been set properly. ' + requiredOptionsSetErr);
         return null;
     }
 
