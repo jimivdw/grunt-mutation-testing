@@ -115,7 +115,7 @@ function getOptions(grunt, task) {
     opts.mutate = expandFiles(opts.mutate, opts.basePath);
 
     if(!areRequiredOptionsSet(opts)) {
-        grunt.warn('Not all required options have been set properly');
+        grunt.warn('Not all required options have been set properly. Your options object requires a code, mutate and specs property. The paths will be resolved and should return at least one filepath.');
         return null;
     }
 
