@@ -343,6 +343,9 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## Release History
 
+### v 1.3.2
+- Fixed misleading configuration error message when paths could not be resolved.
+
 ### v 1.3.1
 - Karma is now a regular dependency again:
   - Updated to 0.13.x;
