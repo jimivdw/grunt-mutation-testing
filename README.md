@@ -6,7 +6,14 @@
 [![GitHub issues](https://img.shields.io/github/issues/jimivdw/grunt-mutation-testing.svg)](https://github.com/jimivdw/grunt-mutation-testing)
 [![GitHub license](https://img.shields.io/github/license/jimivdw/grunt-mutation-testing.svg)](https://github.com/jimivdw/grunt-mutation-testing)
 
-> JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
+JavaScript Mutation Testing as grunt plugin. Tests your tests by mutating the code.
+
+> **Note**
+>
+> We will be working on (gradually) migrating the majority of the code base to the [Stryker](https://www.npmjs.com/package/stryker) project.
+>
+> For now, Stryker only supports Jasmine tests, but support for other frameworks will be added in the future. If you are currently using grunt-mutation-testing to assess your Jasmine tests, or planning to do so, please consider trying out Stryker. We would be happy to receive some feedback, either through [GitHub issues](https://github.com/stryker-mutator/stryker/issues) or on [Gitter](https://gitter.im/stryker-mutator/stryker).
+
 
 ## Getting Started
 This plugin requires Grunt.
