@@ -244,10 +244,8 @@ function mutationTest(grunt, task, opts) {
         fs.appendFileSync(fileDest, msg + '\n');
     }
 
-    function createMutationHtmlReport(results) {
-        if(opts.reporters.html) {
-            reportGenerator.generate(opts.reporters.html, results);
-        }
+    function createMutationReports(results) {
+        reportGenerator.generate(opts.reporters, results);
     }
 
     function runTests() {
@@ -336,7 +334,7 @@ function mutationTest(grunt, task, opts) {
         mutationTestPromise.then(function() {
             var dfd = Q.defer();
 
-            createMutationHtmlReport(totalResults);
+            createMutationReports(totalResults);
             opts.after(function () {
                 dfd.resolve();
             });
