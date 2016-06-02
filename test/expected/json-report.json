@@ -1,0 +1,1785 @@
+{
+    "karma-mocha": {
+        "script-endlessLoop.js": {
+            "stats": {
+                "all": 0,
+                "killed": 0,
+                "survived": 0,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "/**\n * Created by martin on 25/03/15.\n *\n * >> remove or rename the comment below to trigger an endless loop <<\n * @excludeMutations\n */\n(function(exports) {\n    exports.provokeEndlessLoop = function(opts) {\n        var modulus = -1;\n        while(opts.input.length > 0) {\n            var temp = '';\n            if (opts.input.length > 5) {\n                temp = opts.input.substring(0, 6);\n            } else {\n                temp = opts.input;\n                opts.input = '';\n            }\n\n            var count = temp;\n            modulus = count % 83;\n            if (opts.input.length > 5) {\n                opts.input = modulus + opts.input.substring(6);\n            }\n        }\n        return modulus;\n    };\n})(this);\n",
+            "fileName": "karma-mocha/script-endlessLoop.js",
+            "mutationResults": [],
+            "mutationScore": {
+                "total": null,
+                "killed": null,
+                "survived": null,
+                "ignored": null,
+                "untested": null
+            }
+        },
+        "script-mathoperators.js": {
+            "stats": {
+                "all": 34,
+                "killed": 28,
+                "survived": 6,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "(function (exports) {\n    exports.addOperator = function (a, b) {\n        return a + b;\n    };\n\n    exports.subtractOperator = function (a, b) {\n        return a - b;\n    };\n\n    exports.multiplyOperator = function (a, b) {\n        return a * b;\n    };\n\n    exports.divideOperator = function (a, b) {\n        if (b > 0) {\n            return a / b;\n        }\n        return 0;\n    };\n\n    exports.modulusOperator = function (a, b) {\n        return a % b;\n    };\n\n    exports.looping = function (array) {\n        var prev = 0, _new;\n        for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop\n            _new = prev + array[i];\n            prev = array[i];\n            array[i] = _new;\n        }\n        return array;\n    };\n})(this);\n",
+            "fileName": "karma-mocha/script-mathoperators.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            836
+                        ],
+                        "begin": 0,
+                        "end": 836,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "463",
+                        "mutationId": "464",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:1:1 Removed (function (exports) { exports.addOperator = function (a, b) { return a + b; }; exports.subtractOperator = function (a, b) { return a - b; }; exports.multiplyOperator = function (a, b) { return a * b; }; exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; exports.modulusOperator = function (a, b) { return a % b; }; exports.looping = function (array) { var prev = 0, _new; for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop _new = prev + array[i]; prev = array[i]; array[i] = _new; } return array; }; })(this); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            830,
+                            834
+                        ],
+                        "begin": 830,
+                        "end": 834,
+                        "line": 34,
+                        "col": 3,
+                        "parentMutationId": "464",
+                        "mutationId": "465",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:34:4 Replaced this with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            835
+                        ],
+                        "begin": 0,
+                        "end": 835,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "464",
+                        "mutationId": "466",
+                        "replacement": "this"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:1:1 Replaced (function (exports) { exports.addOperator = function (a, b) { return a + b; }; exports.subtractOperator = function (a, b) { return a - b; }; exports.multiplyOperator = function (a, b) { return a * b; }; exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; exports.modulusOperator = function (a, b) { return a % b; }; exports.looping = function (array) { var prev = 0, _new; for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop _new = prev + array[i]; prev = array[i]; array[i] = _new; } return array; }; })(this) with this -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            26,
+                            94
+                        ],
+                        "begin": 26,
+                        "end": 94,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "467",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:2:5 Removed exports.addOperator = function (a, b) { return a + b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            100,
+                            173
+                        ],
+                        "begin": 100,
+                        "end": 173,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "468",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:6:5 Removed exports.subtractOperator = function (a, b) { return a - b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            179,
+                            252
+                        ],
+                        "begin": 179,
+                        "end": 252,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "469",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:10:5 Removed exports.multiplyOperator = function (a, b) { return a * b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            258,
+                            382
+                        ],
+                        "begin": 258,
+                        "end": 382,
+                        "line": 14,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "470",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:14:5 Removed exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            388,
+                            460
+                        ],
+                        "begin": 388,
+                        "end": 460,
+                        "line": 21,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "471",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:21:5 Removed exports.modulusOperator = function (a, b) { return a % b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            466,
+                            826
+                        ],
+                        "begin": 466,
+                        "end": 826,
+                        "line": 25,
+                        "col": 4,
+                        "parentMutationId": "464",
+                        "mutationId": "472",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:25:5 Removed exports.looping = function (array) { var prev = 0, _new; for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop _new = prev + array[i]; prev = array[i]; array[i] = _new; } return array; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            74,
+                            87
+                        ],
+                        "begin": 74,
+                        "end": 87,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "467",
+                        "mutationId": "473",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:3:9 Removed return a + b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            81,
+                            86
+                        ],
+                        "begin": 82,
+                        "end": 85,
+                        "line": 3,
+                        "col": 16,
+                        "mutationId": "474",
+                        "parentMutationId": "473",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:3:17 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            153,
+                            166
+                        ],
+                        "begin": 153,
+                        "end": 166,
+                        "line": 7,
+                        "col": 8,
+                        "parentMutationId": "468",
+                        "mutationId": "475",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:7:9 Removed return a - b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            160,
+                            165
+                        ],
+                        "begin": 161,
+                        "end": 164,
+                        "line": 7,
+                        "col": 16,
+                        "mutationId": "476",
+                        "parentMutationId": "475",
+                        "replacement": "+"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:7:17 Replaced  -  with + -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            232,
+                            245
+                        ],
+                        "begin": 232,
+                        "end": 245,
+                        "line": 11,
+                        "col": 8,
+                        "parentMutationId": "469",
+                        "mutationId": "477",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:11:9 Removed return a * b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            239,
+                            244
+                        ],
+                        "begin": 240,
+                        "end": 243,
+                        "line": 11,
+                        "col": 16,
+                        "mutationId": "478",
+                        "parentMutationId": "477",
+                        "replacement": "/"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:11:17 Replaced  *  with / -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            309,
+                            357
+                        ],
+                        "begin": 309,
+                        "end": 357,
+                        "line": 15,
+                        "col": 8,
+                        "parentMutationId": "470",
+                        "mutationId": "479",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:15:9 Removed if (b > 0) { return a / b; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            366,
+                            375
+                        ],
+                        "begin": 366,
+                        "end": 375,
+                        "line": 18,
+                        "col": 8,
+                        "parentMutationId": "470",
+                        "mutationId": "480",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:18:9 Removed return 0; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            313,
+                            318
+                        ],
+                        "begin": 314,
+                        "end": 317,
+                        "line": 15,
+                        "col": 13,
+                        "mutationId": "481",
+                        "parentMutationId": "479",
+                        "replacement": ">="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:15:14 Replaced  >  with >= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            313,
+                            318
+                        ],
+                        "begin": 314,
+                        "end": 317,
+                        "line": 15,
+                        "col": 13,
+                        "mutationId": "482",
+                        "parentMutationId": "479",
+                        "replacement": "<="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:15:14 Replaced  >  with <= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            317,
+                            318
+                        ],
+                        "begin": 317,
+                        "end": 318,
+                        "line": 15,
+                        "col": 16,
+                        "parentMutationId": "479",
+                        "mutationId": "483",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:15:17 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            334,
+                            347
+                        ],
+                        "begin": 334,
+                        "end": 347,
+                        "line": 16,
+                        "col": 12,
+                        "parentMutationId": "479",
+                        "mutationId": "484",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:16:13 Removed return a / b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            341,
+                            346
+                        ],
+                        "begin": 342,
+                        "end": 345,
+                        "line": 16,
+                        "col": 20,
+                        "mutationId": "485",
+                        "parentMutationId": "484",
+                        "replacement": "*"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:16:21 Replaced  /  with * -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            373,
+                            374
+                        ],
+                        "begin": 373,
+                        "end": 374,
+                        "line": 18,
+                        "col": 15,
+                        "parentMutationId": "480",
+                        "mutationId": "486",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:18:16 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            440,
+                            453
+                        ],
+                        "begin": 440,
+                        "end": 453,
+                        "line": 22,
+                        "col": 8,
+                        "parentMutationId": "471",
+                        "mutationId": "487",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:22:9 Removed return a % b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            447,
+                            452
+                        ],
+                        "begin": 448,
+                        "end": 451,
+                        "line": 22,
+                        "col": 16,
+                        "mutationId": "488",
+                        "parentMutationId": "487",
+                        "replacement": "*"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:22:17 Replaced  %  with * -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            511,
+                            530
+                        ],
+                        "begin": 511,
+                        "end": 530,
+                        "line": 26,
+                        "col": 8,
+                        "parentMutationId": "472",
+                        "mutationId": "489",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:26:9 Removed var prev = 0, _new; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            539,
+                            797
+                        ],
+                        "begin": 539,
+                        "end": 797,
+                        "line": 27,
+                        "col": 8,
+                        "parentMutationId": "472",
+                        "mutationId": "490",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:27:9 Removed for (var i = 0; i < array.length; i = i + 1) { // purposefully incrementing like this to check that the arithmetic mutation doesn't cause an infinite loop _new = prev + array[i]; prev = array[i]; array[i] = _new; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            806,
+                            819
+                        ],
+                        "begin": 806,
+                        "end": 819,
+                        "line": 32,
+                        "col": 8,
+                        "parentMutationId": "472",
+                        "mutationId": "491",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:32:9 Removed return array; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            522,
+                            523
+                        ],
+                        "begin": 522,
+                        "end": 523,
+                        "line": 26,
+                        "col": 19,
+                        "parentMutationId": "489",
+                        "mutationId": "492",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:26:20 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            552,
+                            553
+                        ],
+                        "begin": 552,
+                        "end": 553,
+                        "line": 27,
+                        "col": 21,
+                        "parentMutationId": "490",
+                        "mutationId": "493",
+                        "replacement": "1"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-mathoperators.js:27:22 Replaced 0 with 1 -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            706,
+                            729
+                        ],
+                        "begin": 706,
+                        "end": 729,
+                        "line": 28,
+                        "col": 12,
+                        "parentMutationId": "490",
+                        "mutationId": "494",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:28:13 Removed _new = prev + array[i]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            742,
+                            758
+                        ],
+                        "begin": 742,
+                        "end": 758,
+                        "line": 29,
+                        "col": 12,
+                        "parentMutationId": "490",
+                        "mutationId": "495",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:29:13 Removed prev = array[i]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            771,
+                            787
+                        ],
+                        "begin": 771,
+                        "end": 787,
+                        "line": 30,
+                        "col": 12,
+                        "parentMutationId": "490",
+                        "mutationId": "496",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:30:13 Removed array[i] = _new; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            713,
+                            728
+                        ],
+                        "begin": 717,
+                        "end": 720,
+                        "line": 28,
+                        "col": 23,
+                        "mutationId": "497",
+                        "parentMutationId": "494",
+                        "replacement": "-"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-mathoperators.js:28:24 Replaced  +  with - -> KILLED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.8235294117647058,
+                "killed": 0.8235294117647058,
+                "survived": 0.17647058823529413,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "script-update-expressions.js": {
+            "stats": {
+                "all": 27,
+                "killed": 15,
+                "survived": 12,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "(function (exports) {\n    exports.incrementA = function (x) {\n        return ++x < 10;\n    };\n\n    exports.decrementA = function (x) {\n        return --x > 10;\n    };\n\n    exports.incrementB = function (x) {\n        return x++ < 10;\n    };\n\n    exports.decrementB = function (x) {\n        return x-- > 10;\n    };\n})(this);\n",
+            "fileName": "karma-mocha/script-update-expressions.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            322
+                        ],
+                        "begin": 0,
+                        "end": 322,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "498",
+                        "mutationId": "499",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:1:1 Removed (function (exports) { exports.incrementA = function (x) { return ++x < 10; }; exports.decrementA = function (x) { return --x > 10; }; exports.incrementB = function (x) { return x++ < 10; }; exports.decrementB = function (x) { return x-- > 10; }; })(this); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            316,
+                            320
+                        ],
+                        "begin": 316,
+                        "end": 320,
+                        "line": 17,
+                        "col": 3,
+                        "parentMutationId": "499",
+                        "mutationId": "500",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:17:4 Replaced this with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            321
+                        ],
+                        "begin": 0,
+                        "end": 321,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "499",
+                        "mutationId": "501",
+                        "replacement": "this"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:1:1 Replaced (function (exports) { exports.incrementA = function (x) { return ++x < 10; }; exports.decrementA = function (x) { return --x > 10; }; exports.incrementB = function (x) { return x++ < 10; }; exports.decrementB = function (x) { return x-- > 10; }; })(this) with this -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            26,
+                            93
+                        ],
+                        "begin": 26,
+                        "end": 93,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "499",
+                        "mutationId": "502",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:2:5 Removed exports.incrementA = function (x) { return ++x < 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            99,
+                            166
+                        ],
+                        "begin": 99,
+                        "end": 166,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "499",
+                        "mutationId": "503",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:6:5 Removed exports.decrementA = function (x) { return --x > 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            172,
+                            239
+                        ],
+                        "begin": 172,
+                        "end": 239,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "499",
+                        "mutationId": "504",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:10:5 Removed exports.incrementB = function (x) { return x++ < 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            245,
+                            312
+                        ],
+                        "begin": 245,
+                        "end": 312,
+                        "line": 14,
+                        "col": 4,
+                        "parentMutationId": "499",
+                        "mutationId": "505",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:14:5 Removed exports.decrementB = function (x) { return x-- > 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            70,
+                            86
+                        ],
+                        "begin": 70,
+                        "end": 86,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "502",
+                        "mutationId": "506",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:3:9 Removed return ++x < 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            77,
+                            85
+                        ],
+                        "begin": 80,
+                        "end": 83,
+                        "line": 3,
+                        "col": 18,
+                        "mutationId": "507",
+                        "parentMutationId": "506",
+                        "replacement": "<="
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:3:19 Replaced  <  with <= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            77,
+                            85
+                        ],
+                        "begin": 80,
+                        "end": 83,
+                        "line": 3,
+                        "col": 18,
+                        "mutationId": "508",
+                        "parentMutationId": "506",
+                        "replacement": ">="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:3:19 Replaced  <  with >= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            77,
+                            80
+                        ],
+                        "begin": 77,
+                        "end": 79,
+                        "line": 3,
+                        "col": 15,
+                        "parentMutationId": "506",
+                        "mutationId": "509",
+                        "replacement": "--"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:3:16 Replaced ++ with -- -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            83,
+                            85
+                        ],
+                        "begin": 83,
+                        "end": 85,
+                        "line": 3,
+                        "col": 21,
+                        "parentMutationId": "506",
+                        "mutationId": "510",
+                        "replacement": "11"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:3:22 Replaced 10 with 11 -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            143,
+                            159
+                        ],
+                        "begin": 143,
+                        "end": 159,
+                        "line": 7,
+                        "col": 8,
+                        "parentMutationId": "503",
+                        "mutationId": "511",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:7:9 Removed return --x > 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            150,
+                            158
+                        ],
+                        "begin": 153,
+                        "end": 156,
+                        "line": 7,
+                        "col": 18,
+                        "mutationId": "512",
+                        "parentMutationId": "511",
+                        "replacement": ">="
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:7:19 Replaced  >  with >= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            150,
+                            158
+                        ],
+                        "begin": 153,
+                        "end": 156,
+                        "line": 7,
+                        "col": 18,
+                        "mutationId": "513",
+                        "parentMutationId": "511",
+                        "replacement": "<="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:7:19 Replaced  >  with <= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            150,
+                            153
+                        ],
+                        "begin": 150,
+                        "end": 152,
+                        "line": 7,
+                        "col": 15,
+                        "parentMutationId": "511",
+                        "mutationId": "514",
+                        "replacement": "++"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:7:16 Replaced -- with ++ -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            156,
+                            158
+                        ],
+                        "begin": 156,
+                        "end": 158,
+                        "line": 7,
+                        "col": 21,
+                        "parentMutationId": "511",
+                        "mutationId": "515",
+                        "replacement": "11"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:7:22 Replaced 10 with 11 -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            216,
+                            232
+                        ],
+                        "begin": 216,
+                        "end": 232,
+                        "line": 11,
+                        "col": 8,
+                        "parentMutationId": "504",
+                        "mutationId": "516",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:11:9 Removed return x++ < 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            223,
+                            231
+                        ],
+                        "begin": 226,
+                        "end": 229,
+                        "line": 11,
+                        "col": 18,
+                        "mutationId": "517",
+                        "parentMutationId": "516",
+                        "replacement": "<="
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:11:19 Replaced  <  with <= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            223,
+                            231
+                        ],
+                        "begin": 226,
+                        "end": 229,
+                        "line": 11,
+                        "col": 18,
+                        "mutationId": "518",
+                        "parentMutationId": "516",
+                        "replacement": ">="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:11:19 Replaced  <  with >= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "begin": 224,
+                        "end": 226,
+                        "line": 11,
+                        "col": 16,
+                        "replacement": "--"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:11:17 Replaced ++ with -- -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            229,
+                            231
+                        ],
+                        "begin": 229,
+                        "end": 231,
+                        "line": 11,
+                        "col": 21,
+                        "parentMutationId": "516",
+                        "mutationId": "519",
+                        "replacement": "11"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:11:22 Replaced 10 with 11 -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            289,
+                            305
+                        ],
+                        "begin": 289,
+                        "end": 305,
+                        "line": 15,
+                        "col": 8,
+                        "parentMutationId": "505",
+                        "mutationId": "520",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:15:9 Removed return x-- > 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            296,
+                            304
+                        ],
+                        "begin": 299,
+                        "end": 302,
+                        "line": 15,
+                        "col": 18,
+                        "mutationId": "521",
+                        "parentMutationId": "520",
+                        "replacement": ">="
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:15:19 Replaced  >  with >= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            296,
+                            304
+                        ],
+                        "begin": 299,
+                        "end": 302,
+                        "line": 15,
+                        "col": 18,
+                        "mutationId": "522",
+                        "parentMutationId": "520",
+                        "replacement": "<="
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script-update-expressions.js:15:19 Replaced  >  with <= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "begin": 297,
+                        "end": 299,
+                        "line": 15,
+                        "col": 16,
+                        "replacement": "++"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:15:17 Replaced -- with ++ -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            302,
+                            304
+                        ],
+                        "begin": 302,
+                        "end": 304,
+                        "line": 15,
+                        "col": 21,
+                        "parentMutationId": "520",
+                        "mutationId": "523",
+                        "replacement": "11"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script-update-expressions.js:15:22 Replaced 10 with 11 -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.5555555555555556,
+                "killed": 0.5555555555555556,
+                "survived": 0.4444444444444444,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "script1.js": {
+            "stats": {
+                "all": 27,
+                "killed": 21,
+                "survived": 5,
+                "ignored": 1,
+                "untested": 0
+            },
+            "src": "(function (exports) {\n    function add(array) {\n        var sum = 0;\n        for (var i = 0; i < array.length; i++) {\n            sum += array[i];\n        }\n        return sum;\n    }\n\n    function sub(array) {\n        var x = array[0];\n        var y = array[1];\n        var sum = x - y;\n        sum = sum + 0;\n        console.log(sum);\n        return sum;\n    }\n\n    exports.add = add;\n    exports.sub = sub;\n})(this);\n\n\n",
+            "fileName": "karma-mocha/script1.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            418
+                        ],
+                        "begin": 0,
+                        "end": 418,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "524",
+                        "mutationId": "525",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:1:1 Removed (function (exports) { function add(array) { var sum = 0; for (var i = 0; i < array.length; i++) { sum += array[i]; } return sum; } function sub(array) { var x = array[0]; var y = array[1]; var sum = x - y; sum = sum + 0; console.log(sum); return sum; } exports.add = add; exports.sub = sub; })(this); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            412,
+                            416
+                        ],
+                        "begin": 412,
+                        "end": 416,
+                        "line": 21,
+                        "col": 3,
+                        "parentMutationId": "525",
+                        "mutationId": "526",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:21:4 Replaced this with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            417
+                        ],
+                        "begin": 0,
+                        "end": 417,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "525",
+                        "mutationId": "527",
+                        "replacement": "this"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:1:1 Replaced (function (exports) { function add(array) { var sum = 0; for (var i = 0; i < array.length; i++) { sum += array[i]; } return sum; } function sub(array) { var x = array[0]; var y = array[1]; var sum = x - y; sum = sum + 0; console.log(sum); return sum; } exports.add = add; exports.sub = sub; })(this) with this -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            26,
+                            182
+                        ],
+                        "begin": 26,
+                        "end": 182,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "525",
+                        "mutationId": "528",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:2:5 Removed function add(array) { var sum = 0; for (var i = 0; i < array.length; i++) { sum += array[i]; } return sum; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            188,
+                            361
+                        ],
+                        "begin": 188,
+                        "end": 361,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "525",
+                        "mutationId": "529",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:10:5 Removed function sub(array) { var x = array[0]; var y = array[1]; var sum = x - y; sum = sum + 0; console.log(sum); return sum; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            367,
+                            385
+                        ],
+                        "begin": 367,
+                        "end": 385,
+                        "line": 19,
+                        "col": 4,
+                        "parentMutationId": "525",
+                        "mutationId": "530",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:19:5 Removed exports.add = add; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            390,
+                            408
+                        ],
+                        "begin": 390,
+                        "end": 408,
+                        "line": 20,
+                        "col": 4,
+                        "parentMutationId": "525",
+                        "mutationId": "531",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:20:5 Removed exports.sub = sub; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            68
+                        ],
+                        "begin": 56,
+                        "end": 68,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "528",
+                        "mutationId": "532",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:3:9 Removed var sum = 0; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            77,
+                            156
+                        ],
+                        "begin": 77,
+                        "end": 156,
+                        "line": 4,
+                        "col": 8,
+                        "parentMutationId": "528",
+                        "mutationId": "533",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:4:9 Removed for (var i = 0; i < array.length; i++) { sum += array[i]; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            165,
+                            176
+                        ],
+                        "begin": 165,
+                        "end": 176,
+                        "line": 7,
+                        "col": 8,
+                        "parentMutationId": "528",
+                        "mutationId": "534",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:7:9 Removed return sum; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            66,
+                            67
+                        ],
+                        "begin": 66,
+                        "end": 67,
+                        "line": 3,
+                        "col": 18,
+                        "parentMutationId": "532",
+                        "mutationId": "535",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:3:19 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            90,
+                            91
+                        ],
+                        "begin": 90,
+                        "end": 91,
+                        "line": 4,
+                        "col": 21,
+                        "parentMutationId": "533",
+                        "mutationId": "536",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:4:22 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            130,
+                            146
+                        ],
+                        "begin": 130,
+                        "end": 146,
+                        "line": 5,
+                        "col": 12,
+                        "parentMutationId": "533",
+                        "mutationId": "537",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:5:13 Removed sum += array[i]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            218,
+                            235
+                        ],
+                        "begin": 218,
+                        "end": 235,
+                        "line": 11,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "538",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:11:9 Removed var x = array[0]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            244,
+                            261
+                        ],
+                        "begin": 244,
+                        "end": 261,
+                        "line": 12,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "539",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:12:9 Removed var y = array[1]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            270,
+                            286
+                        ],
+                        "begin": 270,
+                        "end": 286,
+                        "line": 13,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "540",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:13:9 Removed var sum = x - y; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            295,
+                            309
+                        ],
+                        "begin": 295,
+                        "end": 309,
+                        "line": 14,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "541",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script1.js:14:9 Removed sum = sum + 0; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            318,
+                            335
+                        ],
+                        "begin": 318,
+                        "end": 335,
+                        "line": 15,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "542",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script1.js:15:9 Removed console.log(sum); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            344,
+                            355
+                        ],
+                        "begin": 344,
+                        "end": 355,
+                        "line": 16,
+                        "col": 8,
+                        "parentMutationId": "529",
+                        "mutationId": "543",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:16:9 Removed return sum; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            232,
+                            233
+                        ],
+                        "begin": 232,
+                        "end": 233,
+                        "line": 11,
+                        "col": 22,
+                        "parentMutationId": "538",
+                        "mutationId": "544",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:11:23 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            258,
+                            259
+                        ],
+                        "begin": 258,
+                        "end": 259,
+                        "line": 12,
+                        "col": 22,
+                        "parentMutationId": "539",
+                        "mutationId": "545",
+                        "replacement": "2"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:12:23 Replaced 1 with 2 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            280,
+                            285
+                        ],
+                        "begin": 281,
+                        "end": 284,
+                        "line": 13,
+                        "col": 19,
+                        "mutationId": "546",
+                        "parentMutationId": "540",
+                        "replacement": "+"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:13:20 Replaced  -  with + -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            301,
+                            308
+                        ],
+                        "begin": 304,
+                        "end": 307,
+                        "line": 14,
+                        "col": 17,
+                        "mutationId": "547",
+                        "parentMutationId": "541",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script1.js:14:18 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            307,
+                            308
+                        ],
+                        "begin": 307,
+                        "end": 308,
+                        "line": 14,
+                        "col": 20,
+                        "parentMutationId": "541",
+                        "mutationId": "548",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script1.js:14:21 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            330,
+                            333
+                        ],
+                        "begin": 330,
+                        "end": 333,
+                        "line": 15,
+                        "col": 20,
+                        "parentMutationId": "542",
+                        "mutationId": "549",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script1.js:15:21 Replaced sum with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            318,
+                            334
+                        ],
+                        "begin": 318,
+                        "end": 334,
+                        "line": 15,
+                        "col": 8,
+                        "parentMutationId": "542",
+                        "mutationId": "550",
+                        "replacement": "sum"
+                    },
+                    "survived": true,
+                    "message": "karma-mocha/script1.js:15:9 Replaced console.log(sum) with sum -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.8148148148148148,
+                "killed": 0.7777777777777778,
+                "survived": 0.18518518518518517,
+                "ignored": 0.037037037037037035,
+                "untested": 0
+            }
+        },
+        "script2.js": {
+            "stats": {
+                "all": 11,
+                "killed": 11,
+                "survived": 0,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "(function (exports) {\n    function mul(array) {\n        return array.reduce(function (x, y) {\n            return x * y;\n        });\n    }\n\n    exports.mul = mul;\n})(this);\n\n",
+            "fileName": "karma-mocha/script2.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            171
+                        ],
+                        "begin": 0,
+                        "end": 171,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "552",
+                        "mutationId": "553",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:1:1 Removed (function (exports) { function mul(array) { return array.reduce(function (x, y) { return x * y; }); } exports.mul = mul; })(this); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            165,
+                            169
+                        ],
+                        "begin": 165,
+                        "end": 169,
+                        "line": 9,
+                        "col": 3,
+                        "parentMutationId": "553",
+                        "mutationId": "554",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:9:4 Replaced this with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            170
+                        ],
+                        "begin": 0,
+                        "end": 170,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "553",
+                        "mutationId": "555",
+                        "replacement": "this"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:1:1 Replaced (function (exports) { function mul(array) { return array.reduce(function (x, y) { return x * y; }); } exports.mul = mul; })(this) with this -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            26,
+                            137
+                        ],
+                        "begin": 26,
+                        "end": 137,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "553",
+                        "mutationId": "556",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:2:5 Removed function mul(array) { return array.reduce(function (x, y) { return x * y; }); } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            143,
+                            161
+                        ],
+                        "begin": 143,
+                        "end": 161,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "553",
+                        "mutationId": "557",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:8:5 Removed exports.mul = mul; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            131
+                        ],
+                        "begin": 56,
+                        "end": 131,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "556",
+                        "mutationId": "558",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:3:9 Removed return array.reduce(function (x, y) { return x * y; }); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            76,
+                            129
+                        ],
+                        "begin": 76,
+                        "end": 129,
+                        "line": 3,
+                        "col": 28,
+                        "parentMutationId": "558",
+                        "mutationId": "559",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:3:29 Replaced function (x, y) { return x * y; } with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            63,
+                            130
+                        ],
+                        "begin": 63,
+                        "end": 130,
+                        "line": 3,
+                        "col": 15,
+                        "parentMutationId": "558",
+                        "mutationId": "560",
+                        "replacement": "function (x, y) {\n            return x * y;\n        }"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:3:16 Replaced array.reduce(function (x, y) { return x * y; }) with function (x, y) { return x * y; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            63,
+                            130
+                        ],
+                        "begin": 63,
+                        "end": 130,
+                        "line": 3,
+                        "col": 15,
+                        "parentMutationId": "558",
+                        "mutationId": "561",
+                        "replacement": "array"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:3:16 Replaced array.reduce(function (x, y) { return x * y; }) with array -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            106,
+                            119
+                        ],
+                        "begin": 106,
+                        "end": 119,
+                        "line": 4,
+                        "col": 12,
+                        "parentMutationId": "558",
+                        "mutationId": "562",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:4:13 Removed return x * y; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            113,
+                            118
+                        ],
+                        "begin": 114,
+                        "end": 117,
+                        "line": 4,
+                        "col": 20,
+                        "mutationId": "563",
+                        "parentMutationId": "562",
+                        "replacement": "/"
+                    },
+                    "survived": false,
+                    "message": "karma-mocha/script2.js:4:21 Replaced  *  with / -> KILLED"
+                }
+            ],
+            "mutationScore": {
+                "total": 1,
+                "killed": 1,
+                "survived": 0,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 99,
+            "killed": 75,
+            "survived": 23,
+            "ignored": 1,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.7676767676767676,
+            "killed": 0.7575757575757576,
+            "survived": 0.23232323232323232,
+            "ignored": 0.010101010101010102,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 99,
+        "killed": 75,
+        "survived": 23,
+        "ignored": 1,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.7676767676767676,
+        "killed": 0.7575757575757576,
+        "survived": 0.23232323232323232,
+        "ignored": 0.010101010101010102,
+        "untested": 0
+    }
+}

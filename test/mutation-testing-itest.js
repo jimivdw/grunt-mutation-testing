@@ -55,4 +55,7 @@ describe('Mutation Testing', function () {
     it('dont test inside of surviving mutations', function() {
         assertExpectedReport('tmp/dont-test-inside-surviving-mutations.txt', 'test/expected/dont-test-inside-surviving-mutations.txt');
     });
+    it('generates a JSON report', function() {
+        assertExpectedReport('reports/mutation-test/mutations.json', 'test/expected/json-report.json');
+    });
 });

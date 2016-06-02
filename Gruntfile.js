@@ -55,6 +55,10 @@ module.exports = function (grunt) {
                     },
                     text: {
                         dir: 'tmp'
+                    },
+                    json: {
+                        dir: 'reports/mutation-test',
+                        file: 'mutations.json'
                     }
                 }
             },
