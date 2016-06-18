@@ -179,7 +179,7 @@ Directory to place the JSON report in.
 ##### options.reporters.json.file
 _optional_
 Type: `String`
-Default: `mutations.txt`
+Default: `mutations.json`
 
 Filename of the JSON report.
 
@@ -320,7 +320,7 @@ grunt.initConfig({
 In this section, you can find an overview of the most common errors you may encounter.
 
 ### Tests fail without mutations
-When you get the 'Tests fail without mutations [...]' error, it is most likely that something is wrong with your configuration. Usually, this means that something is wrong in the `code`, `specs`, `mutate` part. You should check if `code` really points to all your source files _and the libraries you need_, and if the paths to `specs` and `mutate` follow the correct base path. For more information on these options, check the [Options](#Options) section above.
+When you get the 'Tests fail without mutations [...]' error, it is most likely that something is wrong with your configuration. Usually, this means that something is wrong in the `code`, `specs`, `mutate` part. You should check if `code` really points to all your source files _and the libraries you need_, and if the paths to `specs` and `mutate` follow the correct base path. For more information on these options, check the [Options](#options) section above.
 
 ### Infinite loop detected
 Whereas usually, this means a mutation caused your code to enter an infinite loop (from which it cannot recover), it can also mean that the default timeout setting is too short for your tests to finish. You can test this by modifying the `options.karma.waitForRunnerTime` config property, by which you set the maximum duration of a single test run (in _seconds_).
