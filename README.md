@@ -139,7 +139,7 @@ _optional_
 Type: `Object`
 Default: `{ console: true }`
 
-Configuration of reporters to use. Available options: `console`, `text`, `html`.
+Configuration of reporters to use. Available options: `console`, `text`, `html`, `json`.
 
 ##### options.reporters.text.dir
 _optional_
@@ -158,7 +158,7 @@ Filename of the text report.
 ##### options.reporters.html.dir
 _optional_
 Type: `String`
-Default: `"reports/grunt-mutation-testing"`
+Default: `"reports/grunt-mutation-testing/html"`
 
 Directory to place the HTML report in.
 
@@ -168,6 +168,20 @@ Type: `Number`
 Default: `80`
 
 Percentage of mutations that should be killed in order for a test result to be considered successful.
+
+##### options.reporters.json.dir
+_optional_
+Type: `String`
+Default: `"reports/grunt-mutation-testing/json"`
+
+Directory to place the JSON report in.
+
+##### options.reporters.json.file
+_optional_
+Type: `String`
+Default: `mutations.txt`
+
+Filename of the JSON report.
 
 ##### options.maxReportedMutationLength
 _optional_
@@ -373,6 +387,9 @@ All javascript comment types are supported, i.e. one can use both `// @excludeMu
 In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+### v 1.4.0
+- Added JSON reporter.
 
 ### v 1.3.2
 - Fixed misleading configuration error message when paths could not be resolved.
