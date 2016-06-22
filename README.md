@@ -388,6 +388,10 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## Release History
 
+### v 1.4.1
+- Added notIncluded option for Karma (thanks @divido):
+  - Fixes \#60, Not possible to exclude files in Karma config.
+
 ### v 1.4.0
 - Added JSON reporter.
 
