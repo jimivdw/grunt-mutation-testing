@@ -119,6 +119,10 @@ function getOptions(grunt, task) {
     opts.specs = expandFiles(opts.specs, opts.basePath);
     opts.mutate = expandFiles(opts.mutate, opts.basePath);
 
+    if (opts.karma) {
+        opts.karma.notIncluded = expandFiles(opts.karma.notIncluded, opts.basePath);
+    }
+
     var requiredOptionsSetErr = areRequiredOptionsSet(opts);
     if(requiredOptionsSetErr !== null) {
         grunt.warn('Not all required options have been set properly. ' + requiredOptionsSetErr);
