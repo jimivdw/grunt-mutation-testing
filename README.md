@@ -388,6 +388,13 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 
 ## Release History
 
+### v 1.4.2
+- Fixed HTML reporter not checking if files in report directory are actual HTML report files:
+  - This posed an issue when other files were present in the same directory, causing the whole mutation test run to fail.
+- Fixed reporters not being part of the main promise chain, causing the grunt task to be 'done' before the reports were generated properly;
+- Fixed karma not invoking the callback function of the `after` lifecycle method;
+- Improved tests for JSON and TXT reports.
+
 ### v 1.4.1
 - Added notIncluded option for Karma (thanks @divido):
   - Fixes \#60, Not possible to exclude files in Karma config.
