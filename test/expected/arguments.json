@@ -1,0 +1,222 @@
+{
+    "mocha": {
+        "arguments.js": {
+            "stats": {
+                "all": 12,
+                "killed": 6,
+                "survived": 4,
+                "ignored": 2,
+                "untested": 0
+            },
+            "src": "var _ = require('lodash');\n\nfunction containsName(persons, name) {\n    return _.contains(_.pluck(persons, 'name'), name);\n}\n\nexports.containsName = containsName;\n",
+            "fileName": "mocha/arguments.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            26
+                        ],
+                        "begin": 0,
+                        "end": 26,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "286",
+                        "mutationId": "287",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:1:1 Removed var _ = require('lodash'); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            28,
+                            123
+                        ],
+                        "begin": 28,
+                        "end": 123,
+                        "line": 3,
+                        "col": 0,
+                        "parentMutationId": "286",
+                        "mutationId": "288",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:3:1 Removed function containsName(persons, name) { return _.contains(_.pluck(persons, 'name'), name); } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            125,
+                            161
+                        ],
+                        "begin": 125,
+                        "end": 161,
+                        "line": 7,
+                        "col": 0,
+                        "parentMutationId": "286",
+                        "mutationId": "289",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:7:1 Removed exports.containsName = containsName; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            16,
+                            24
+                        ],
+                        "begin": 16,
+                        "end": 24,
+                        "line": 1,
+                        "col": 16,
+                        "parentMutationId": "287",
+                        "mutationId": "290",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:1:17 Replaced 'lodash' with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            8,
+                            25
+                        ],
+                        "begin": 8,
+                        "end": 25,
+                        "line": 1,
+                        "col": 8,
+                        "parentMutationId": "287",
+                        "mutationId": "291",
+                        "replacement": "'lodash'"
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:1:9 Replaced require('lodash') with 'lodash' -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            71,
+                            121
+                        ],
+                        "begin": 71,
+                        "end": 121,
+                        "line": 4,
+                        "col": 4,
+                        "parentMutationId": "288",
+                        "mutationId": "292",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/arguments.js:4:5 Removed return _.contains(_.pluck(persons, 'name'), name); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            89,
+                            113
+                        ],
+                        "begin": 89,
+                        "end": 113,
+                        "line": 4,
+                        "col": 22,
+                        "parentMutationId": "292",
+                        "mutationId": "293",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/arguments.js:4:23 Replaced _.pluck(persons, 'name') with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            115,
+                            119
+                        ],
+                        "begin": 115,
+                        "end": 119,
+                        "line": 4,
+                        "col": 48,
+                        "parentMutationId": "292",
+                        "mutationId": "294",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/arguments.js:4:49 Replaced name with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            97,
+                            104
+                        ],
+                        "begin": 97,
+                        "end": 104,
+                        "line": 4,
+                        "col": 30,
+                        "parentMutationId": "292",
+                        "mutationId": "296",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/arguments.js:4:31 Replaced persons with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            106,
+                            112
+                        ],
+                        "begin": 106,
+                        "end": 112,
+                        "line": 4,
+                        "col": 39,
+                        "parentMutationId": "292",
+                        "mutationId": "297",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/arguments.js:4:40 Replaced 'name' with \"MUTATION!\" -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.6666666666666666,
+                "killed": 0.5,
+                "survived": 0.3333333333333333,
+                "ignored": 0.16666666666666666,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 12,
+            "killed": 6,
+            "survived": 4,
+            "ignored": 2,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.6666666666666666,
+            "killed": 0.5,
+            "survived": 0.3333333333333333,
+            "ignored": 0.16666666666666666,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 12,
+        "killed": 6,
+        "survived": 4,
+        "ignored": 2,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.6666666666666666,
+        "killed": 0.5,
+        "survived": 0.3333333333333333,
+        "ignored": 0.16666666666666666,
+        "untested": 0
+    }
+}

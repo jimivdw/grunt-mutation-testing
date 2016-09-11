@@ -1,0 +1,244 @@
+{
+    "mocha": {
+        "update-expressions.js": {
+            "stats": {
+                "all": 12,
+                "killed": 8,
+                "survived": 4,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "exports.incrementA = function (x) {\n    // @excludeMutations ['COMPARISON', 'LITERAL']\n    return ++x < 10;\n};\n\nexports.decrementA = function (x) {\n    /* @excludeMutations ['COMPARISON', 'LITERAL'] */\n    return --x > 10;\n};\n\n// @excludeMutations ['COMPARISON', 'LITERAL']\nexports.incrementB = function (x) {\n    return x++ < 10;\n};\n\n/**\n *  @excludeMutations ['COMPARISON', 'LITERAL']\n */\nexports.decrementB = function (x) {\n    return x-- > 10;\n};\n",
+            "fileName": "mocha/update-expressions.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            110
+                        ],
+                        "begin": 0,
+                        "end": 110,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "356",
+                        "mutationId": "357",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:1:1 Removed exports.incrementA = function (x) { // @excludeMutations ['COMPARISON', 'LITERAL'] return ++x < 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            112,
+                            225
+                        ],
+                        "begin": 112,
+                        "end": 225,
+                        "line": 6,
+                        "col": 0,
+                        "parentMutationId": "356",
+                        "mutationId": "358",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:6:1 Removed exports.decrementA = function (x) { /* @excludeMutations ['COMPARISON', 'LITERAL'] */ return --x > 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            274,
+                            333
+                        ],
+                        "begin": 274,
+                        "end": 333,
+                        "line": 12,
+                        "col": 0,
+                        "parentMutationId": "356",
+                        "mutationId": "359",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:12:1 Removed exports.incrementB = function (x) { return x++ < 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            391,
+                            450
+                        ],
+                        "begin": 391,
+                        "end": 450,
+                        "line": 19,
+                        "col": 0,
+                        "parentMutationId": "356",
+                        "mutationId": "360",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:19:1 Removed exports.decrementB = function (x) { return x-- > 10; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            91,
+                            107
+                        ],
+                        "begin": 91,
+                        "end": 107,
+                        "line": 3,
+                        "col": 4,
+                        "parentMutationId": "357",
+                        "mutationId": "361",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:3:5 Removed return ++x < 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            98,
+                            101
+                        ],
+                        "begin": 98,
+                        "end": 100,
+                        "line": 3,
+                        "col": 11,
+                        "parentMutationId": "361",
+                        "mutationId": "362",
+                        "replacement": "--"
+                    },
+                    "survived": true,
+                    "message": "mocha/update-expressions.js:3:12 Replaced ++ with -- -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            206,
+                            222
+                        ],
+                        "begin": 206,
+                        "end": 222,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "358",
+                        "mutationId": "363",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:8:5 Removed return --x > 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            213,
+                            216
+                        ],
+                        "begin": 213,
+                        "end": 215,
+                        "line": 8,
+                        "col": 11,
+                        "parentMutationId": "363",
+                        "mutationId": "364",
+                        "replacement": "++"
+                    },
+                    "survived": true,
+                    "message": "mocha/update-expressions.js:8:12 Replaced -- with ++ -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            314,
+                            330
+                        ],
+                        "begin": 314,
+                        "end": 330,
+                        "line": 13,
+                        "col": 4,
+                        "parentMutationId": "359",
+                        "mutationId": "365",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:13:5 Removed return x++ < 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "begin": 322,
+                        "end": 324,
+                        "line": 13,
+                        "col": 12,
+                        "replacement": "--"
+                    },
+                    "survived": true,
+                    "message": "mocha/update-expressions.js:13:13 Replaced ++ with -- -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            431,
+                            447
+                        ],
+                        "begin": 431,
+                        "end": 447,
+                        "line": 20,
+                        "col": 4,
+                        "parentMutationId": "360",
+                        "mutationId": "366",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/update-expressions.js:20:5 Removed return x-- > 10; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "begin": 439,
+                        "end": 441,
+                        "line": 20,
+                        "col": 12,
+                        "replacement": "++"
+                    },
+                    "survived": true,
+                    "message": "mocha/update-expressions.js:20:13 Replaced -- with ++ -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.6666666666666666,
+                "killed": 0.6666666666666666,
+                "survived": 0.3333333333333333,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 12,
+            "killed": 8,
+            "survived": 4,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.6666666666666666,
+            "killed": 0.6666666666666666,
+            "survived": 0.3333333333333333,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 12,
+        "killed": 8,
+        "survived": 4,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.6666666666666666,
+        "killed": 0.6666666666666666,
+        "survived": 0.3333333333333333,
+        "ignored": 0,
+        "untested": 0
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "mocha": {
+        "script1.js": {
+            "stats": {
+                "all": 0,
+                "killed": 0,
+                "survived": 0,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function add(array) {\n    var sum = 0;\n    for (var i = 0; i < array.length; i = i + 1) {\n        sum += array[i];\n    }\n    return sum;\n}\n\nfunction sub(array) {\n    var x = array[0];\n    var y = array[1];\n    var sum = x - y;\n    sum = sum + 0;\n    console.log(sum);\n    return sum;\n}\n\n/**\n * multiplies some stuff\n * @excludeMutations\n * @param array\n * @returns {number}\n */\nfunction mul(array) {\n    var x = array[0];\n    var y = array[1];\n    var sum = x * y;\n    if (sum > 9){\n        console.log(sum);\n    }\n    return sum;\n}\n\nexports.add = add;\nexports.sub = sub;\n\n//@excludeMutations\nexports.mul = mul;\n\nconsole.log = function() {\n    // Mock console log to prevent output from leaking to mutation test console\n};\n",
+            "fileName": "mocha/script1.js",
+            "mutationResults": [],
+            "mutationScore": {
+                "total": null,
+                "killed": null,
+                "survived": null,
+                "ignored": null,
+                "untested": null
+            }
+        },
+        "script2.js": {
+            "stats": {
+                "all": 0,
+                "killed": 0,
+                "survived": 0,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function log() {\n}\n\nfunction mul(array) {\n    array = array;\n    log(array);\n    return array.reduce(function (x, y) {\n        return x * y;\n    });\n}\n\nexports.mul = mul;\n",
+            "fileName": "mocha/script2.js",
+            "mutationResults": [],
+            "mutationScore": {
+                "total": null,
+                "killed": null,
+                "survived": null,
+                "ignored": null,
+                "untested": null
+            }
+        },
+        "stats": {
+            "all": 0,
+            "killed": 0,
+            "survived": 0,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": null,
+            "killed": null,
+            "survived": null,
+            "ignored": null,
+            "untested": null
+        }
+    },
+    "stats": {
+        "all": 0,
+        "killed": 0,
+        "survived": 0,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": null,
+        "killed": null,
+        "survived": null,
+        "ignored": null,
+        "untested": null
+    }
+}

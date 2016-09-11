@@ -1,0 +1,477 @@
+{
+    "mocha": {
+        "html-fragments.js": {
+            "stats": {
+                "all": 25,
+                "killed": 5,
+                "survived": 20,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function printHtml() {\n    var htmlPartial = '<p>';\n    htmlPartial += '<span class=\\'someClass\\'>some content <br/></span>';\n    htmlPartial += '</p>';\n\n    console.log('<div>' + htmlPartial + '</div>');\n    console.log('[CDATA[<table><tr><td>bla</td>');\n    console.log('<td/></tr></table>]]');\n\n    return htmlPartial;\n}\n\nexports.printHtml = printHtml;",
+            "fileName": "mocha/html-fragments.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            323
+                        ],
+                        "begin": 0,
+                        "end": 323,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "367",
+                        "mutationId": "368",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/html-fragments.js:1:1 Removed function printHtml() { var htmlPartial = '<p>'; htmlPartial += '<span class=\\'someClass\\'>some content <br/></span>'; htmlPartial += '</p>'; console.log('<div>' + htmlPartial + '</div>'); console.log('[CDATA[<table><tr><td>bla</td>'); console.log('<td/></tr></table>]]'); return htmlPartial; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            325,
+                            355
+                        ],
+                        "begin": 325,
+                        "end": 355,
+                        "line": 13,
+                        "col": 0,
+                        "parentMutationId": "367",
+                        "mutationId": "369",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/html-fragments.js:13:1 Removed exports.printHtml = printHtml; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            27,
+                            51
+                        ],
+                        "begin": 27,
+                        "end": 51,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "370",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/html-fragments.js:2:5 Removed var htmlPartial = '<p>'; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            125
+                        ],
+                        "begin": 56,
+                        "end": 125,
+                        "line": 3,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "371",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:3:5 Removed htmlPartial += '<span class=\\'someClass\\'>some content <br/></span>'; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            130,
+                            152
+                        ],
+                        "begin": 130,
+                        "end": 152,
+                        "line": 4,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "372",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:4:5 Removed htmlPartial += '</p>'; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            158,
+                            204
+                        ],
+                        "begin": 158,
+                        "end": 204,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "373",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:5 Removed console.log('<div>' + htmlPartial + '</div>'); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            209,
+                            255
+                        ],
+                        "begin": 209,
+                        "end": 255,
+                        "line": 7,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "374",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:7:5 Removed console.log('[CDATA[<table><tr><td>bla</td>'); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            260,
+                            296
+                        ],
+                        "begin": 260,
+                        "end": 296,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "375",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:8:5 Removed console.log('<td/></tr></table>]]'); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            302,
+                            321
+                        ],
+                        "begin": 302,
+                        "end": 321,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "368",
+                        "mutationId": "376",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/html-fragments.js:10:5 Removed return htmlPartial; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            45,
+                            50
+                        ],
+                        "begin": 45,
+                        "end": 50,
+                        "line": 2,
+                        "col": 22,
+                        "parentMutationId": "370",
+                        "mutationId": "377",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "mocha/html-fragments.js:2:23 Replaced '<p>' with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            71,
+                            124
+                        ],
+                        "begin": 71,
+                        "end": 124,
+                        "line": 3,
+                        "col": 19,
+                        "parentMutationId": "371",
+                        "mutationId": "378",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:3:20 Replaced '<span class=\\'someClass\\'>some content <br/></span>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            145,
+                            151
+                        ],
+                        "begin": 145,
+                        "end": 151,
+                        "line": 4,
+                        "col": 19,
+                        "parentMutationId": "372",
+                        "mutationId": "379",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:4:20 Replaced '</p>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            170,
+                            202
+                        ],
+                        "begin": 170,
+                        "end": 202,
+                        "line": 6,
+                        "col": 16,
+                        "parentMutationId": "373",
+                        "mutationId": "380",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:17 Replaced '<div>' + htmlPartial + '</div>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            158,
+                            203
+                        ],
+                        "begin": 158,
+                        "end": 203,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "373",
+                        "mutationId": "381",
+                        "replacement": "'<div>' + htmlPartial + '</div>'"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:5 Replaced console.log('<div>' + htmlPartial + '</div>') with '<div>' + htmlPartial + '</div>' -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            158,
+                            203
+                        ],
+                        "begin": 158,
+                        "end": 203,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "373",
+                        "mutationId": "382",
+                        "replacement": "console"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:5 Replaced console.log('<div>' + htmlPartial + '</div>') with console -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            170,
+                            202
+                        ],
+                        "begin": 191,
+                        "end": 194,
+                        "line": 6,
+                        "col": 37,
+                        "mutationId": "383",
+                        "parentMutationId": "373",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:38 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            170,
+                            191
+                        ],
+                        "begin": 177,
+                        "end": 180,
+                        "line": 6,
+                        "col": 23,
+                        "mutationId": "384",
+                        "parentMutationId": "373",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:24 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            170,
+                            177
+                        ],
+                        "begin": 170,
+                        "end": 177,
+                        "line": 6,
+                        "col": 16,
+                        "parentMutationId": "373",
+                        "mutationId": "385",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:17 Replaced '<div>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            194,
+                            202
+                        ],
+                        "begin": 194,
+                        "end": 202,
+                        "line": 6,
+                        "col": 40,
+                        "parentMutationId": "373",
+                        "mutationId": "386",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:6:41 Replaced '</div>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            221,
+                            253
+                        ],
+                        "begin": 221,
+                        "end": 253,
+                        "line": 7,
+                        "col": 16,
+                        "parentMutationId": "374",
+                        "mutationId": "387",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:7:17 Replaced '[CDATA[<table><tr><td>bla</td>' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            209,
+                            254
+                        ],
+                        "begin": 209,
+                        "end": 254,
+                        "line": 7,
+                        "col": 4,
+                        "parentMutationId": "374",
+                        "mutationId": "388",
+                        "replacement": "'[CDATA[<table><tr><td>bla</td>'"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:7:5 Replaced console.log('[CDATA[<table><tr><td>bla</td>') with '[CDATA[<table><tr><td>bla</td>' -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            209,
+                            254
+                        ],
+                        "begin": 209,
+                        "end": 254,
+                        "line": 7,
+                        "col": 4,
+                        "parentMutationId": "374",
+                        "mutationId": "389",
+                        "replacement": "console"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:7:5 Replaced console.log('[CDATA[<table><tr><td>bla</td>') with console -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            272,
+                            294
+                        ],
+                        "begin": 272,
+                        "end": 294,
+                        "line": 8,
+                        "col": 16,
+                        "parentMutationId": "375",
+                        "mutationId": "390",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:8:17 Replaced '<td/></tr></table>]]' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            260,
+                            295
+                        ],
+                        "begin": 260,
+                        "end": 295,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "375",
+                        "mutationId": "391",
+                        "replacement": "'<td/></tr></table>]]'"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:8:5 Replaced console.log('<td/></tr></table>]]') with '<td/></tr></table>]]' -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            260,
+                            295
+                        ],
+                        "begin": 260,
+                        "end": 295,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "375",
+                        "mutationId": "392",
+                        "replacement": "console"
+                    },
+                    "survived": true,
+                    "message": "mocha/html-fragments.js:8:5 Replaced console.log('<td/></tr></table>]]') with console -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.2,
+                "killed": 0.2,
+                "survived": 0.8,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 25,
+            "killed": 5,
+            "survived": 20,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.2,
+            "killed": 0.2,
+            "survived": 0.8,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 25,
+        "killed": 5,
+        "survived": 20,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.2,
+        "killed": 0.2,
+        "survived": 0.8,
+        "ignored": 0,
+        "untested": 0
+    }
+}

@@ -1,0 +1,188 @@
+{
+    "mocha": {
+        "logicalExpression.js": {
+            "stats": {
+                "all": 8,
+                "killed": 6,
+                "survived": 2,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function getBooleanAnd() {\n    /* @excludeMutations ['LITERAL'] */\n    return true && false;\n}\n\nfunction getBooleanOr() {\n    /* @excludeMutations ['LITERAL'] */\n    return true || false;\n}\n\nexports.getBooleanAnd = getBooleanAnd;\nexports.getBooleanOr = getBooleanOr;\n",
+            "fileName": "mocha/logicalExpression.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            94
+                        ],
+                        "begin": 0,
+                        "end": 94,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "433",
+                        "mutationId": "434",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:1:1 Removed function getBooleanAnd() { /* @excludeMutations ['LITERAL'] */ return true && false; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            96,
+                            189
+                        ],
+                        "begin": 96,
+                        "end": 189,
+                        "line": 6,
+                        "col": 0,
+                        "parentMutationId": "433",
+                        "mutationId": "435",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:6:1 Removed function getBooleanOr() { /* @excludeMutations ['LITERAL'] */ return true || false; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            191,
+                            229
+                        ],
+                        "begin": 191,
+                        "end": 229,
+                        "line": 11,
+                        "col": 0,
+                        "parentMutationId": "433",
+                        "mutationId": "436",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:11:1 Removed exports.getBooleanAnd = getBooleanAnd; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            230,
+                            266
+                        ],
+                        "begin": 230,
+                        "end": 266,
+                        "line": 12,
+                        "col": 0,
+                        "parentMutationId": "433",
+                        "mutationId": "437",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:12:1 Removed exports.getBooleanOr = getBooleanOr; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            71,
+                            92
+                        ],
+                        "begin": 71,
+                        "end": 92,
+                        "line": 3,
+                        "col": 4,
+                        "parentMutationId": "434",
+                        "mutationId": "438",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:3:5 Removed return true && false; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            78,
+                            91
+                        ],
+                        "begin": 82,
+                        "end": 86,
+                        "line": 3,
+                        "col": 15,
+                        "mutationId": "439",
+                        "parentMutationId": "438",
+                        "replacement": "||"
+                    },
+                    "survived": true,
+                    "message": "mocha/logicalExpression.js:3:16 Replaced  &&  with || -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            166,
+                            187
+                        ],
+                        "begin": 166,
+                        "end": 187,
+                        "line": 8,
+                        "col": 4,
+                        "parentMutationId": "435",
+                        "mutationId": "440",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/logicalExpression.js:8:5 Removed return true || false; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            173,
+                            186
+                        ],
+                        "begin": 177,
+                        "end": 181,
+                        "line": 8,
+                        "col": 15,
+                        "mutationId": "441",
+                        "parentMutationId": "440",
+                        "replacement": "&&"
+                    },
+                    "survived": true,
+                    "message": "mocha/logicalExpression.js:8:16 Replaced  ||  with && -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.75,
+                "killed": 0.75,
+                "survived": 0.25,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 8,
+            "killed": 6,
+            "survived": 2,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.75,
+            "killed": 0.75,
+            "survived": 0.25,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 8,
+        "killed": 6,
+        "survived": 2,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.75,
+        "killed": 0.75,
+        "survived": 0.25,
+        "ignored": 0,
+        "untested": 0
+    }
+}

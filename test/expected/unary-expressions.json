@@ -1,0 +1,494 @@
+{
+    "mocha": {
+        "unaryExpression.js": {
+            "stats": {
+                "all": 26,
+                "killed": 18,
+                "survived": 8,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "'use strict';\nfunction getBinaryExpression() {\n    return -(6*7);\n}\n\nfunction getNumber() {\n    return -43;\n}\n\nfunction getBitwiseNotNumber() {\n    return ~43;\n}\n\nfunction getNumberBoolean() {\n    return !!43;\n}\n\nfunction getNegativeBoolean() {\n    return -true;\n}\n\nfunction getBoolean() {\n    return !true;\n}\n\nexports.getNumber = getNumber;\nexports.getBinaryExpression = getBinaryExpression;\nexports.getBoolean = getBoolean;\nexports.getNegativeBoolean = getNegativeBoolean;\nexports.getNumberBoolean = getNumberBoolean;\nexports.getBitwiseNotNumber = getBitwiseNotNumber;\n",
+            "fileName": "mocha/unaryExpression.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            13
+                        ],
+                        "begin": 0,
+                        "end": 13,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "407",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:1:1 Removed 'use strict'; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            14,
+                            67
+                        ],
+                        "begin": 14,
+                        "end": 67,
+                        "line": 2,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "408",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:2:1 Removed function getBinaryExpression() { return -(6*7); } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            69,
+                            109
+                        ],
+                        "begin": 69,
+                        "end": 109,
+                        "line": 6,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "409",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:6:1 Removed function getNumber() { return -43; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            111,
+                            161
+                        ],
+                        "begin": 111,
+                        "end": 161,
+                        "line": 10,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "410",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:10:1 Removed function getBitwiseNotNumber() { return ~43; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            163,
+                            211
+                        ],
+                        "begin": 163,
+                        "end": 211,
+                        "line": 14,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "411",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:14:1 Removed function getNumberBoolean() { return !!43; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            213,
+                            264
+                        ],
+                        "begin": 213,
+                        "end": 264,
+                        "line": 18,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "412",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:18:1 Removed function getNegativeBoolean() { return -true; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            266,
+                            309
+                        ],
+                        "begin": 266,
+                        "end": 309,
+                        "line": 22,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "413",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:22:1 Removed function getBoolean() { return !true; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            311,
+                            341
+                        ],
+                        "begin": 311,
+                        "end": 341,
+                        "line": 26,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "414",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:26:1 Removed exports.getNumber = getNumber; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            342,
+                            392
+                        ],
+                        "begin": 342,
+                        "end": 392,
+                        "line": 27,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "415",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:27:1 Removed exports.getBinaryExpression = getBinaryExpression; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            393,
+                            425
+                        ],
+                        "begin": 393,
+                        "end": 425,
+                        "line": 28,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "416",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:28:1 Removed exports.getBoolean = getBoolean; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            426,
+                            474
+                        ],
+                        "begin": 426,
+                        "end": 474,
+                        "line": 29,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "417",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:29:1 Removed exports.getNegativeBoolean = getNegativeBoolean; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            475,
+                            519
+                        ],
+                        "begin": 475,
+                        "end": 519,
+                        "line": 30,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "418",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:30:1 Removed exports.getNumberBoolean = getNumberBoolean; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            520,
+                            570
+                        ],
+                        "begin": 520,
+                        "end": 570,
+                        "line": 31,
+                        "col": 0,
+                        "parentMutationId": "406",
+                        "mutationId": "419",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:31:1 Removed exports.getBitwiseNotNumber = getBitwiseNotNumber; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            12
+                        ],
+                        "begin": 0,
+                        "end": 12,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "407",
+                        "mutationId": "420",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:1:1 Replaced 'use strict' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            51,
+                            65
+                        ],
+                        "begin": 51,
+                        "end": 65,
+                        "line": 3,
+                        "col": 4,
+                        "parentMutationId": "408",
+                        "mutationId": "421",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:3:5 Removed return -(6*7); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            58,
+                            64
+                        ],
+                        "begin": 58,
+                        "end": 59,
+                        "line": 3,
+                        "col": 17,
+                        "mutationId": "422",
+                        "parentMutationId": "421",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:3:18 Removed - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            96,
+                            107
+                        ],
+                        "begin": 96,
+                        "end": 107,
+                        "line": 7,
+                        "col": 4,
+                        "parentMutationId": "409",
+                        "mutationId": "423",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:7:5 Removed return -43; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            103,
+                            106
+                        ],
+                        "begin": 103,
+                        "end": 104,
+                        "line": 7,
+                        "col": 14,
+                        "mutationId": "424",
+                        "parentMutationId": "423",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:7:15 Removed - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            148,
+                            159
+                        ],
+                        "begin": 148,
+                        "end": 159,
+                        "line": 11,
+                        "col": 4,
+                        "parentMutationId": "410",
+                        "mutationId": "425",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:11:5 Removed return ~43; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            155,
+                            158
+                        ],
+                        "begin": 155,
+                        "end": 156,
+                        "line": 11,
+                        "col": 14,
+                        "mutationId": "426",
+                        "parentMutationId": "425",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:11:15 Removed ~ -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            197,
+                            209
+                        ],
+                        "begin": 197,
+                        "end": 209,
+                        "line": 15,
+                        "col": 4,
+                        "parentMutationId": "411",
+                        "mutationId": "427",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:15:5 Removed return !!43; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            204,
+                            208
+                        ],
+                        "begin": 204,
+                        "end": 205,
+                        "line": 15,
+                        "col": 15,
+                        "mutationId": "428",
+                        "parentMutationId": "427",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:15:16 Removed ! -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            249,
+                            262
+                        ],
+                        "begin": 249,
+                        "end": 262,
+                        "line": 19,
+                        "col": 4,
+                        "parentMutationId": "412",
+                        "mutationId": "429",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:19:5 Removed return -true; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            256,
+                            261
+                        ],
+                        "begin": 256,
+                        "end": 257,
+                        "line": 19,
+                        "col": 16,
+                        "mutationId": "430",
+                        "parentMutationId": "429",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:19:17 Removed - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            294,
+                            307
+                        ],
+                        "begin": 294,
+                        "end": 307,
+                        "line": 23,
+                        "col": 4,
+                        "parentMutationId": "413",
+                        "mutationId": "431",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/unaryExpression.js:23:5 Removed return !true; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            301,
+                            306
+                        ],
+                        "begin": 301,
+                        "end": 302,
+                        "line": 23,
+                        "col": 16,
+                        "mutationId": "432",
+                        "parentMutationId": "431",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/unaryExpression.js:23:17 Removed ! -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.6923076923076923,
+                "killed": 0.6923076923076923,
+                "survived": 0.3076923076923077,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 26,
+            "killed": 18,
+            "survived": 8,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.6923076923076923,
+            "killed": 0.6923076923076923,
+            "survived": 0.3076923076923077,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 26,
+        "killed": 18,
+        "survived": 8,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.6923076923076923,
+        "killed": 0.6923076923076923,
+        "survived": 0.3076923076923077,
+        "ignored": 0,
+        "untested": 0
+    }
+}

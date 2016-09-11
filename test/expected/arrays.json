@@ -1,0 +1,171 @@
+{
+    "mocha": {
+        "array.js": {
+            "stats": {
+                "all": 9,
+                "killed": 4,
+                "survived": 3,
+                "ignored": 2,
+                "untested": 0
+            },
+            "src": "'use strict';\n/** @excludeMutations ['LITERAL'] */\nfunction createArray() {\n    var el = {};\n    return [el, 'string', 123];\n}\n\nexports.createArray = createArray;\n",
+            "fileName": "mocha/array.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            51,
+                            126
+                        ],
+                        "begin": 51,
+                        "end": 126,
+                        "line": 3,
+                        "col": 0,
+                        "parentMutationId": "442",
+                        "mutationId": "444",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/array.js:3:1 Removed function createArray() { var el = {}; return [el, 'string', 123]; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            128,
+                            162
+                        ],
+                        "begin": 128,
+                        "end": 162,
+                        "line": 8,
+                        "col": 0,
+                        "parentMutationId": "442",
+                        "mutationId": "445",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/array.js:8:1 Removed exports.createArray = createArray; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            80,
+                            92
+                        ],
+                        "begin": 80,
+                        "end": 92,
+                        "line": 4,
+                        "col": 4,
+                        "parentMutationId": "444",
+                        "mutationId": "447",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/array.js:4:5 Removed var el = {}; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            97,
+                            124
+                        ],
+                        "begin": 97,
+                        "end": 124,
+                        "line": 5,
+                        "col": 4,
+                        "parentMutationId": "444",
+                        "mutationId": "448",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/array.js:5:5 Removed return [el, 'string', 123]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            105,
+                            107
+                        ],
+                        "begin": 105,
+                        "end": 109,
+                        "line": 5,
+                        "col": 12,
+                        "parentMutationId": "448",
+                        "mutationId": "449",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/array.js:5:13 Removed el,  -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            109,
+                            117
+                        ],
+                        "begin": 109,
+                        "end": 119,
+                        "line": 5,
+                        "col": 16,
+                        "parentMutationId": "448",
+                        "mutationId": "450",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/array.js:5:17 Removed 'string',  -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            119,
+                            122
+                        ],
+                        "begin": 119,
+                        "end": 122,
+                        "line": 5,
+                        "col": 26,
+                        "parentMutationId": "448",
+                        "mutationId": "451",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/array.js:5:27 Removed 123 -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.6666666666666666,
+                "killed": 0.4444444444444444,
+                "survived": 0.3333333333333333,
+                "ignored": 0.2222222222222222,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 9,
+            "killed": 4,
+            "survived": 3,
+            "ignored": 2,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.6666666666666666,
+            "killed": 0.4444444444444444,
+            "survived": 0.3333333333333333,
+            "ignored": 0.2222222222222222,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 9,
+        "killed": 4,
+        "survived": 3,
+        "ignored": 2,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.6666666666666666,
+        "killed": 0.4444444444444444,
+        "survived": 0.3333333333333333,
+        "ignored": 0.2222222222222222,
+        "untested": 0
+    }
+}

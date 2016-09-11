@@ -1,0 +1,511 @@
+{
+    "mocha": {
+        "comparisons.js": {
+            "stats": {
+                "all": 29,
+                "killed": 15,
+                "survived": 12,
+                "ignored": 2,
+                "untested": 0
+            },
+            "src": "'use strict';\n\n// @excludeMutations ['BLOCK_STATEMENT']\nexports.lessThan = function (left, right) {\n    return left < right;\n};\n\nexports.notGreaterThan = function (left, right) {\n    return left <= right;\n};\n\nexports.greaterThan = function (left, right) {\n    return left > right;\n};\n\nexports.notLessThan = function (left, right) {\n    return left >= right;\n};\n\nexports.equalsStrict = function (left, right) {\n    return left === right;\n};\n\nexports.equalsLenient = function (left, right) {\n    return left == right;\n};\n\nexports.unequalsStrict = function (left, right) {\n    return left !== right;\n};\n\nexports.unequalsLenient = function (left, right) {\n    return left != right;\n};\n",
+            "fileName": "mocha/comparisons.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            127
+                        ],
+                        "begin": 56,
+                        "end": 127,
+                        "line": 4,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "301",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:4:1 Removed exports.lessThan = function (left, right) { return left < right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            129,
+                            207
+                        ],
+                        "begin": 129,
+                        "end": 207,
+                        "line": 8,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "302",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:8:1 Removed exports.notGreaterThan = function (left, right) { return left <= right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            209,
+                            283
+                        ],
+                        "begin": 209,
+                        "end": 283,
+                        "line": 12,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "303",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:12:1 Removed exports.greaterThan = function (left, right) { return left > right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            285,
+                            360
+                        ],
+                        "begin": 285,
+                        "end": 360,
+                        "line": 16,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "304",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:16:1 Removed exports.notLessThan = function (left, right) { return left >= right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            362,
+                            439
+                        ],
+                        "begin": 362,
+                        "end": 439,
+                        "line": 20,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "305",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:20:1 Removed exports.equalsStrict = function (left, right) { return left === right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            441,
+                            518
+                        ],
+                        "begin": 441,
+                        "end": 518,
+                        "line": 24,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "306",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:24:1 Removed exports.equalsLenient = function (left, right) { return left == right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            520,
+                            599
+                        ],
+                        "begin": 520,
+                        "end": 599,
+                        "line": 28,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "307",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:28:1 Removed exports.unequalsStrict = function (left, right) { return left !== right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            601,
+                            680
+                        ],
+                        "begin": 601,
+                        "end": 680,
+                        "line": 32,
+                        "col": 0,
+                        "parentMutationId": "299",
+                        "mutationId": "308",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:32:1 Removed exports.unequalsLenient = function (left, right) { return left != right; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            111,
+                            123
+                        ],
+                        "begin": 115,
+                        "end": 118,
+                        "line": 5,
+                        "col": 15,
+                        "mutationId": "310",
+                        "parentMutationId": "301",
+                        "replacement": "<="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:5:16 Replaced  <  with <= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            111,
+                            123
+                        ],
+                        "begin": 115,
+                        "end": 118,
+                        "line": 5,
+                        "col": 15,
+                        "mutationId": "311",
+                        "parentMutationId": "301",
+                        "replacement": ">="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:5:16 Replaced  <  with >= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            183,
+                            204
+                        ],
+                        "begin": 183,
+                        "end": 204,
+                        "line": 9,
+                        "col": 4,
+                        "parentMutationId": "302",
+                        "mutationId": "312",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:9:5 Removed return left <= right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            190,
+                            203
+                        ],
+                        "begin": 194,
+                        "end": 198,
+                        "line": 9,
+                        "col": 15,
+                        "mutationId": "313",
+                        "parentMutationId": "312",
+                        "replacement": "<"
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:9:16 Replaced  <=  with < -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            190,
+                            203
+                        ],
+                        "begin": 194,
+                        "end": 198,
+                        "line": 9,
+                        "col": 15,
+                        "mutationId": "314",
+                        "parentMutationId": "312",
+                        "replacement": ">"
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:9:16 Replaced  <=  with > -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            260,
+                            280
+                        ],
+                        "begin": 260,
+                        "end": 280,
+                        "line": 13,
+                        "col": 4,
+                        "parentMutationId": "303",
+                        "mutationId": "315",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:13:5 Removed return left > right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            267,
+                            279
+                        ],
+                        "begin": 271,
+                        "end": 274,
+                        "line": 13,
+                        "col": 15,
+                        "mutationId": "316",
+                        "parentMutationId": "315",
+                        "replacement": ">="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:13:16 Replaced  >  with >= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            267,
+                            279
+                        ],
+                        "begin": 271,
+                        "end": 274,
+                        "line": 13,
+                        "col": 15,
+                        "mutationId": "317",
+                        "parentMutationId": "315",
+                        "replacement": "<="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:13:16 Replaced  >  with <= -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            336,
+                            357
+                        ],
+                        "begin": 336,
+                        "end": 357,
+                        "line": 17,
+                        "col": 4,
+                        "parentMutationId": "304",
+                        "mutationId": "318",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:17:5 Removed return left >= right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            343,
+                            356
+                        ],
+                        "begin": 347,
+                        "end": 351,
+                        "line": 17,
+                        "col": 15,
+                        "mutationId": "319",
+                        "parentMutationId": "318",
+                        "replacement": ">"
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:17:16 Replaced  >=  with > -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            343,
+                            356
+                        ],
+                        "begin": 347,
+                        "end": 351,
+                        "line": 17,
+                        "col": 15,
+                        "mutationId": "320",
+                        "parentMutationId": "318",
+                        "replacement": "<"
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:17:16 Replaced  >=  with < -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            414,
+                            436
+                        ],
+                        "begin": 414,
+                        "end": 436,
+                        "line": 21,
+                        "col": 4,
+                        "parentMutationId": "305",
+                        "mutationId": "321",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:21:5 Removed return left === right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            421,
+                            435
+                        ],
+                        "begin": 425,
+                        "end": 430,
+                        "line": 21,
+                        "col": 15,
+                        "mutationId": "322",
+                        "parentMutationId": "321",
+                        "replacement": "!=="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:21:16 Replaced  ===  with !== -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            494,
+                            515
+                        ],
+                        "begin": 494,
+                        "end": 515,
+                        "line": 25,
+                        "col": 4,
+                        "parentMutationId": "306",
+                        "mutationId": "323",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:25:5 Removed return left == right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            501,
+                            514
+                        ],
+                        "begin": 505,
+                        "end": 509,
+                        "line": 25,
+                        "col": 15,
+                        "mutationId": "324",
+                        "parentMutationId": "323",
+                        "replacement": "!="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:25:16 Replaced  ==  with != -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            574,
+                            596
+                        ],
+                        "begin": 574,
+                        "end": 596,
+                        "line": 29,
+                        "col": 4,
+                        "parentMutationId": "307",
+                        "mutationId": "325",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:29:5 Removed return left !== right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            581,
+                            595
+                        ],
+                        "begin": 585,
+                        "end": 590,
+                        "line": 29,
+                        "col": 15,
+                        "mutationId": "326",
+                        "parentMutationId": "325",
+                        "replacement": "==="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:29:16 Replaced  !==  with === -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            656,
+                            677
+                        ],
+                        "begin": 656,
+                        "end": 677,
+                        "line": 33,
+                        "col": 4,
+                        "parentMutationId": "308",
+                        "mutationId": "327",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/comparisons.js:33:5 Removed return left != right; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            663,
+                            676
+                        ],
+                        "begin": 667,
+                        "end": 671,
+                        "line": 33,
+                        "col": 15,
+                        "mutationId": "328",
+                        "parentMutationId": "327",
+                        "replacement": "=="
+                    },
+                    "survived": true,
+                    "message": "mocha/comparisons.js:33:16 Replaced  !=  with == -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.5862068965517241,
+                "killed": 0.5172413793103449,
+                "survived": 0.41379310344827586,
+                "ignored": 0.06896551724137931,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 29,
+            "killed": 15,
+            "survived": 12,
+            "ignored": 2,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.5862068965517241,
+            "killed": 0.5172413793103449,
+            "survived": 0.41379310344827586,
+            "ignored": 0.06896551724137931,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 29,
+        "killed": 15,
+        "survived": 12,
+        "ignored": 2,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.5862068965517241,
+        "killed": 0.5172413793103449,
+        "survived": 0.41379310344827586,
+        "ignored": 0.06896551724137931,
+        "untested": 0
+    }
+}

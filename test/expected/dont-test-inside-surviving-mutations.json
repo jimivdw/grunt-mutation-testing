@@ -1,0 +1,633 @@
+{
+    "mocha": {
+        "script1.js": {
+            "stats": {
+                "all": 27,
+                "killed": 19,
+                "survived": 3,
+                "ignored": 0,
+                "untested": 5
+            },
+            "src": "function add(array) {\n    var sum = 0;\n    for (var i = 0; i < array.length; i = i + 1) {\n        sum += array[i];\n    }\n    return sum;\n}\n\nfunction sub(array) {\n    var x = array[0];\n    var y = array[1];\n    var sum = x - y;\n    sum = sum + 0;\n    console.log(sum);\n    return sum;\n}\n\n/**\n * multiplies some stuff\n * @excludeMutations\n * @param array\n * @returns {number}\n */\nfunction mul(array) {\n    var x = array[0];\n    var y = array[1];\n    var sum = x * y;\n    if (sum > 9){\n        console.log(sum);\n    }\n    return sum;\n}\n\nexports.add = add;\nexports.sub = sub;\n\n//@excludeMutations\nexports.mul = mul;\n\nconsole.log = function() {\n    // Mock console log to prevent output from leaking to mutation test console\n};\n",
+            "fileName": "mocha/script1.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            138
+                        ],
+                        "begin": 0,
+                        "end": 138,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "197",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:1:1 Removed function add(array) { var sum = 0; for (var i = 0; i < array.length; i = i + 1) { sum += array[i]; } return sum; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            140,
+                            285
+                        ],
+                        "begin": 140,
+                        "end": 285,
+                        "line": 9,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "198",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:9:1 Removed function sub(array) { var x = array[0]; var y = array[1]; var sum = x - y; sum = sum + 0; console.log(sum); return sum; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            378,
+                            532
+                        ],
+                        "begin": 378,
+                        "end": 532,
+                        "line": 24,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "199",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:24:1 Removed function mul(array) { var x = array[0]; var y = array[1]; var sum = x * y; if (sum > 9){ console.log(sum); } return sum; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            534,
+                            552
+                        ],
+                        "begin": 534,
+                        "end": 552,
+                        "line": 34,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "200",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:34:1 Removed exports.add = add; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            553,
+                            571
+                        ],
+                        "begin": 553,
+                        "end": 571,
+                        "line": 35,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "201",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:35:1 Removed exports.sub = sub; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            593,
+                            611
+                        ],
+                        "begin": 593,
+                        "end": 611,
+                        "line": 38,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "202",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:38:1 Removed exports.mul = mul; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            613,
+                            722
+                        ],
+                        "begin": 613,
+                        "end": 722,
+                        "line": 40,
+                        "col": 0,
+                        "parentMutationId": "196",
+                        "mutationId": "203",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/script1.js:40:1 Removed console.log = function() { // Mock console log to prevent output from leaking to mutation test console }; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            26,
+                            38
+                        ],
+                        "begin": 26,
+                        "end": 38,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "197",
+                        "mutationId": "204",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:2:5 Removed var sum = 0; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            43,
+                            120
+                        ],
+                        "begin": 43,
+                        "end": 120,
+                        "line": 3,
+                        "col": 4,
+                        "parentMutationId": "197",
+                        "mutationId": "205",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:3:5 Removed for (var i = 0; i < array.length; i = i + 1) { sum += array[i]; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            125,
+                            136
+                        ],
+                        "begin": 125,
+                        "end": 136,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "197",
+                        "mutationId": "206",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:6:5 Removed return sum; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            36,
+                            37
+                        ],
+                        "begin": 36,
+                        "end": 37,
+                        "line": 2,
+                        "col": 14,
+                        "parentMutationId": "204",
+                        "mutationId": "207",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:2:15 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            57
+                        ],
+                        "begin": 56,
+                        "end": 57,
+                        "line": 3,
+                        "col": 17,
+                        "parentMutationId": "205",
+                        "mutationId": "208",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:3:18 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            98,
+                            114
+                        ],
+                        "begin": 98,
+                        "end": 114,
+                        "line": 4,
+                        "col": 8,
+                        "parentMutationId": "205",
+                        "mutationId": "209",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:4:9 Removed sum += array[i]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            166,
+                            183
+                        ],
+                        "begin": 166,
+                        "end": 183,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "210",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:10:5 Removed var x = array[0]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            188,
+                            205
+                        ],
+                        "begin": 188,
+                        "end": 205,
+                        "line": 11,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "211",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:11:5 Removed var y = array[1]; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            210,
+                            226
+                        ],
+                        "begin": 210,
+                        "end": 226,
+                        "line": 12,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "212",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:12:5 Removed var sum = x - y; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            231,
+                            245
+                        ],
+                        "begin": 231,
+                        "end": 245,
+                        "line": 13,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "213",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/script1.js:13:5 Removed sum = sum + 0; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            250,
+                            267
+                        ],
+                        "begin": 250,
+                        "end": 267,
+                        "line": 14,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "214",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/script1.js:14:5 Removed console.log(sum); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            272,
+                            283
+                        ],
+                        "begin": 272,
+                        "end": 283,
+                        "line": 15,
+                        "col": 4,
+                        "parentMutationId": "198",
+                        "mutationId": "215",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:15:5 Removed return sum; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            180,
+                            181
+                        ],
+                        "begin": 180,
+                        "end": 181,
+                        "line": 10,
+                        "col": 18,
+                        "parentMutationId": "210",
+                        "mutationId": "216",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:10:19 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            202,
+                            203
+                        ],
+                        "begin": 202,
+                        "end": 203,
+                        "line": 11,
+                        "col": 18,
+                        "parentMutationId": "211",
+                        "mutationId": "217",
+                        "replacement": "2"
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:11:19 Replaced 1 with 2 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            220,
+                            225
+                        ],
+                        "begin": 221,
+                        "end": 224,
+                        "line": 12,
+                        "col": 15,
+                        "mutationId": "218",
+                        "parentMutationId": "212",
+                        "replacement": "+"
+                    },
+                    "survived": false,
+                    "message": "mocha/script1.js:12:16 Replaced  -  with + -> KILLED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.8888888888888888,
+                "killed": 0.7037037037037037,
+                "survived": 0.1111111111111111,
+                "ignored": 0,
+                "untested": 0.18518518518518517
+            }
+        },
+        "script2.js": {
+            "stats": {
+                "all": 13,
+                "killed": 9,
+                "survived": 2,
+                "ignored": 0,
+                "untested": 2
+            },
+            "src": "function log() {\n}\n\nfunction mul(array) {\n    array = array;\n    log(array);\n    return array.reduce(function (x, y) {\n        return x * y;\n    });\n}\n\nexports.mul = mul;\n",
+            "fileName": "mocha/script2.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            18
+                        ],
+                        "begin": 0,
+                        "end": 18,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "224",
+                        "mutationId": "225",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:1:1 Removed function log() { } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            20,
+                            150
+                        ],
+                        "begin": 20,
+                        "end": 150,
+                        "line": 4,
+                        "col": 0,
+                        "parentMutationId": "224",
+                        "mutationId": "226",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:4:1 Removed function mul(array) { array = array; log(array); return array.reduce(function (x, y) { return x * y; }); } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            152,
+                            170
+                        ],
+                        "begin": 152,
+                        "end": 170,
+                        "line": 12,
+                        "col": 0,
+                        "parentMutationId": "224",
+                        "mutationId": "227",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:12:1 Removed exports.mul = mul; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            46,
+                            60
+                        ],
+                        "begin": 46,
+                        "end": 60,
+                        "line": 5,
+                        "col": 4,
+                        "parentMutationId": "226",
+                        "mutationId": "228",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/script2.js:5:5 Removed array = array; -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            65,
+                            76
+                        ],
+                        "begin": 65,
+                        "end": 76,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "226",
+                        "mutationId": "229",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/script2.js:6:5 Removed log(array); -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            81,
+                            148
+                        ],
+                        "begin": 81,
+                        "end": 148,
+                        "line": 7,
+                        "col": 4,
+                        "parentMutationId": "226",
+                        "mutationId": "230",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:7:5 Removed return array.reduce(function (x, y) { return x * y; }); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            101,
+                            146
+                        ],
+                        "begin": 101,
+                        "end": 146,
+                        "line": 7,
+                        "col": 24,
+                        "parentMutationId": "230",
+                        "mutationId": "233",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:7:25 Replaced function (x, y) { return x * y; } with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            88,
+                            147
+                        ],
+                        "begin": 88,
+                        "end": 147,
+                        "line": 7,
+                        "col": 11,
+                        "parentMutationId": "230",
+                        "mutationId": "234",
+                        "replacement": "function (x, y) {\n        return x * y;\n    }"
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with function (x, y) { return x * y; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            88,
+                            147
+                        ],
+                        "begin": 88,
+                        "end": 147,
+                        "line": 7,
+                        "col": 11,
+                        "parentMutationId": "230",
+                        "mutationId": "235",
+                        "replacement": "array"
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:7:12 Replaced array.reduce(function (x, y) { return x * y; }) with array -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            127,
+                            140
+                        ],
+                        "begin": 127,
+                        "end": 140,
+                        "line": 8,
+                        "col": 8,
+                        "parentMutationId": "230",
+                        "mutationId": "236",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:8:9 Removed return x * y; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            134,
+                            139
+                        ],
+                        "begin": 135,
+                        "end": 138,
+                        "line": 8,
+                        "col": 16,
+                        "mutationId": "237",
+                        "parentMutationId": "236",
+                        "replacement": "/"
+                    },
+                    "survived": false,
+                    "message": "mocha/script2.js:8:17 Replaced  *  with / -> KILLED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.8461538461538461,
+                "killed": 0.6923076923076923,
+                "survived": 0.15384615384615385,
+                "ignored": 0,
+                "untested": 0.15384615384615385
+            }
+        },
+        "stats": {
+            "all": 40,
+            "killed": 28,
+            "survived": 5,
+            "ignored": 0,
+            "untested": 7
+        },
+        "mutationScore": {
+            "total": 0.875,
+            "killed": 0.7,
+            "survived": 0.125,
+            "ignored": 0,
+            "untested": 0.175
+        }
+    },
+    "stats": {
+        "all": 40,
+        "killed": 28,
+        "survived": 5,
+        "ignored": 0,
+        "untested": 7
+    },
+    "mutationScore": {
+        "total": 0.875,
+        "killed": 0.7,
+        "survived": 0.125,
+        "ignored": 0,
+        "untested": 0.175
+    }
+}

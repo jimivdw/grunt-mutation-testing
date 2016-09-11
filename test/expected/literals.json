@@ -1,0 +1,256 @@
+{
+    "mocha": {
+        "literals.js": {
+            "stats": {
+                "all": 12,
+                "killed": 9,
+                "survived": 3,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function getString() {\n    return 'string';\n}\n\nfunction getNumber() {\n    return 42;\n}\n\nfunction getBoolean() {\n    return true;\n}\n\nexports.getString = getString;\nexports.getNumber = getNumber;\nexports.getBoolean = getBoolean;\n",
+            "fileName": "mocha/literals.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            45
+                        ],
+                        "begin": 0,
+                        "end": 45,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "394",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:1:1 Removed function getString() { return 'string'; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            47,
+                            86
+                        ],
+                        "begin": 47,
+                        "end": 86,
+                        "line": 5,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "395",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:5:1 Removed function getNumber() { return 42; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            88,
+                            130
+                        ],
+                        "begin": 88,
+                        "end": 130,
+                        "line": 9,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "396",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:9:1 Removed function getBoolean() { return true; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            132,
+                            162
+                        ],
+                        "begin": 132,
+                        "end": 162,
+                        "line": 13,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "397",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:13:1 Removed exports.getString = getString; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            163,
+                            193
+                        ],
+                        "begin": 163,
+                        "end": 193,
+                        "line": 14,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "398",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:14:1 Removed exports.getNumber = getNumber; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            194,
+                            226
+                        ],
+                        "begin": 194,
+                        "end": 226,
+                        "line": 15,
+                        "col": 0,
+                        "parentMutationId": "393",
+                        "mutationId": "399",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:15:1 Removed exports.getBoolean = getBoolean; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            27,
+                            43
+                        ],
+                        "begin": 27,
+                        "end": 43,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "394",
+                        "mutationId": "400",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:2:5 Removed return 'string'; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            34,
+                            42
+                        ],
+                        "begin": 34,
+                        "end": 42,
+                        "line": 2,
+                        "col": 11,
+                        "parentMutationId": "400",
+                        "mutationId": "401",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": true,
+                    "message": "mocha/literals.js:2:12 Replaced 'string' with \"MUTATION!\" -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            74,
+                            84
+                        ],
+                        "begin": 74,
+                        "end": 84,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "395",
+                        "mutationId": "402",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:6:5 Removed return 42; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            81,
+                            83
+                        ],
+                        "begin": 81,
+                        "end": 83,
+                        "line": 6,
+                        "col": 11,
+                        "parentMutationId": "402",
+                        "mutationId": "403",
+                        "replacement": "43"
+                    },
+                    "survived": true,
+                    "message": "mocha/literals.js:6:12 Replaced 42 with 43 -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            116,
+                            128
+                        ],
+                        "begin": 116,
+                        "end": 128,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "396",
+                        "mutationId": "404",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/literals.js:10:5 Removed return true; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            123,
+                            127
+                        ],
+                        "begin": 123,
+                        "end": 127,
+                        "line": 10,
+                        "col": 11,
+                        "parentMutationId": "404",
+                        "mutationId": "405",
+                        "replacement": "false"
+                    },
+                    "survived": true,
+                    "message": "mocha/literals.js:10:12 Replaced true with false -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.75,
+                "killed": 0.75,
+                "survived": 0.25,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 12,
+            "killed": 9,
+            "survived": 3,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.75,
+            "killed": 0.75,
+            "survived": 0.25,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 12,
+        "killed": 9,
+        "survived": 3,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.75,
+        "killed": 0.75,
+        "survived": 0.25,
+        "ignored": 0,
+        "untested": 0
+    }
+}

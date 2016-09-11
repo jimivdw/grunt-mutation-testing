@@ -50,14 +50,12 @@ module.exports = function (grunt) {
                 maxReportedMutationLength: 0,
                 reporters: {
                     html: {
-                        dir: 'reports/mutation-test',
                         successThreshold: 70
                     },
                     text: {
-                        dir: 'tmp'
+                        file: 'mutations.txt'
                     },
                     json: {
-                        dir: 'reports/mutation-test',
                         file: 'mutations.json'
                     }
                 }
@@ -71,8 +69,14 @@ module.exports = function (grunt) {
                     },
 
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/flag-all-mutations'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/flag-all-mutations'
+                        },
                         text: {
-                            file: 'flag-all-mutations.txt'
+                            dir: 'reports/mutation-test/flag-all-mutations'
                         }
                     }
                 }
@@ -89,8 +93,14 @@ module.exports = function (grunt) {
                     },
 
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/ignore'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/ignore'
+                        },
                         text: {
-                            file: 'ignore.txt'
+                            dir: 'reports/mutation-test/ignore'
                         }
                     }
                 }
@@ -103,8 +113,14 @@ module.exports = function (grunt) {
                     },
 
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/test-is-failing-without-mutation'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/test-is-failing-without-mutation'
+                        },
                         text: {
-                            file: 'test-is-failing-without-mutation.txt'
+                            dir: 'reports/mutation-test/test-is-failing-without-mutation'
                         }
                     }
                 }
@@ -117,8 +133,14 @@ module.exports = function (grunt) {
                     },
 
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/flag-all-mutations-default'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/flag-all-mutations-default'
+                        },
                         text: {
-                            file: 'flag-all-mutations-default.txt'
+                            dir: 'reports/mutation-test/flag-all-mutations-default'
                         }
                     }
                 }
@@ -129,7 +151,7 @@ module.exports = function (grunt) {
                     test: 'grunt mochaTest:fixtures',
                     reporters: {
                         text: {
-                            file: 'grunt.txt'
+                            dir: 'reports/mutation-test/grunt'
                         }
                     }
                 }
@@ -142,8 +164,14 @@ module.exports = function (grunt) {
                     ignore: /^\s*log\(/,
                     ignoreReplacement: [/^console$/],
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/mocha'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/mocha'
+                        },
                         text: {
-                            file: 'mocha.txt'
+                            dir: 'reports/mutation-test/mocha'
                         }
                     }
                 }
@@ -159,10 +187,16 @@ module.exports = function (grunt) {
                         frameworks: ['mocha', 'chai'],
                         browsers: ['PhantomJS']
                     },
-                    logLevel: 'DEBUG',
+                    logLevel: 'INFO',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/karma'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/karma'
+                        },
                         text: {
-                            file: 'karma.txt'
+                            dir: 'reports/mutation-test/karma'
                         }
                     }
                 }
@@ -174,33 +208,51 @@ module.exports = function (grunt) {
                     specs: 'mocha/attribute-test.js',
                     mutate: 'mocha/attribute.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/attributes'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/attributes'
+                        },
                         text: {
-                            file: 'attributes.txt'
+                            dir: 'reports/mutation-test/attributes'
                         }
                     }
                 }
             },
-            args: {
+            arguments: {
                 options: {
                     code: ['mocha/arguments.js', '../../node_modules/lodash/**/*', chaiCode],
                     specs: 'mocha/arguments-test.js',
                     mutate: 'mocha/arguments.js',
                     ignoreReplacement: /^_$/,
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/arguments'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/arguments'
+                        },
                         text: {
-                            file: 'arguments.txt'
+                            dir: 'reports/mutation-test/arguments'
                         }
                     }
                 }
             },
-            array: {
+            arrays: {
                 options: {
                     code: ['mocha/array.js', chaiCode],
                     specs: 'mocha/array-test.js',
                     mutate: 'mocha/array.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/arrays'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/arrays'
+                        },
                         text: {
-                            file: 'array.txt'
+                            dir: 'reports/mutation-test/arrays'
                         }
                     }
                 }
@@ -211,8 +263,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/comparisons-test.js',
                     mutate: 'mocha/comparisons.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/comparisons'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/comparisons'
+                        },
                         text: {
-                            file: 'comparisons.txt'
+                            dir: 'reports/mutation-test/comparisons'
                         }
                     }
                 }
@@ -223,8 +281,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/function-calls-test.js',
                     mutate: 'mocha/function-calls.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/function-calls'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/function-calls'
+                        },
                         text: {
-                            file: 'function-calls.txt'
+                            dir: 'reports/mutation-test/function-calls'
                         }
                     }
                 }
@@ -235,33 +299,51 @@ module.exports = function (grunt) {
                     specs: 'mocha/literals-test.js',
                     mutate: 'mocha/literals.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/literals'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/literals'
+                        },
                         text: {
-                            file: 'literals.txt'
+                            dir: 'reports/mutation-test/literals'
                         }
                     }
                 }
             },
-            unaryExpression: {
+            unaryExpressions: {
                 options: {
                     code: ['mocha/unaryExpression.js', chaiCode],
                     specs: 'mocha/unaryExpression-test.js',
                     mutate: 'mocha/unaryExpression.js',
                     discardDefaultIgnore: true,
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/unary-expressions'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/unary-expressions'
+                        },
                         text: {
-                            file: 'unaryExpression.txt'
+                            dir: 'reports/mutation-test/unary-expressions'
                         }
                     }
                 }
             },
-            logicalExpression: {
+            logicalExpressions: {
                 options: {
                     code: ['mocha/logicalExpression.js', chaiCode],
                     specs: 'mocha/logicalExpression-test.js',
                     mutate: 'mocha/logicalExpression.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/logical-expressions'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/logical-expressions'
+                        },
                         text: {
-                            file: 'logicalExpression.txt'
+                            dir: 'reports/mutation-test/logical-expressions'
                         }
                     }
                 }
@@ -272,8 +354,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/mathoperators-test.js',
                     mutate: 'mocha/mathoperators.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/math-operators'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/math-operators'
+                        },
                         text: {
-                            file: 'mathoperators.txt'
+                            dir: 'reports/mutation-test/math-operators'
                         }
                     }
                 }
@@ -284,8 +372,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/update-expressions-test.js',
                     mutate: 'mocha/update-expressions.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/update-expressions'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/update-expressions'
+                        },
                         text: {
-                            file: 'update-expressions.txt'
+                            dir: 'reports/mutation-test/update-expressions'
                         }
                     }
                 }
@@ -296,8 +390,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/html-fragments-test.js',
                     mutate: 'mocha/html-fragments.js',
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/html-fragments'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/html-fragments'
+                        },
                         text: {
-                            file: 'html-fragments.txt'
+                            dir: 'reports/mutation-test/html-fragments'
                         }
                     }
                 }
@@ -308,8 +408,14 @@ module.exports = function (grunt) {
                     specs: 'mocha/mocha-test*.js',
                     dontTestInsideNotFailingMutations: true,
                     reporters: {
+                        html: {
+                            dir: 'reports/mutation-test/dont-test-inside-surviving-mutations'
+                        },
+                        json: {
+                            dir: 'reports/mutation-test/dont-test-inside-surviving-mutations'
+                        },
                         text: {
-                            file: 'dont-test-inside-surviving-mutations.txt'
+                            dir: 'reports/mutation-test/dont-test-inside-surviving-mutations'
                         }
                     }
                 }
@@ -372,15 +478,15 @@ module.exports = function (grunt) {
         'mutationTest:dontTestInsideNotFailingMutations',
         'mutationTest:mocha',
         'mutationTest:attributes',
-        'mutationTest:args',
+        'mutationTest:arguments',
         'mutationTest:comparisons',
         'mutationTest:mathoperators',
         'mutationTest:updateExpressions',
         'mutationTest:htmlFragments',
         'mutationTest:literals',
-        'mutationTest:unaryExpression',
-        'mutationTest:logicalExpression',
-        'mutationTest:array',
+        'mutationTest:unaryExpressions',
+        'mutationTest:logicalExpressions',
+        'mutationTest:arrays',
         'mutationTest:functionCalls',
         'mutationTest:karma',
         'mochaTest:iTest'
@@ -397,16 +503,16 @@ module.exports = function (grunt) {
         'mutationTest:testIsFailingWithoutMutation',
         'mutationTest:mocha',
         'mutationTest:attributes',
-        'mutationTest:array',
+        'mutationTest:arrays',
         'mutationTest:functionCalls',
-        'mutationTest:args',
+        'mutationTest:arguments',
         'mutationTest:comparisons',
         'mutationTest:mathoperators',
         'mutationTest:updateExpressions',
         'mutationTest:htmlFragments',
         'mutationTest:literals',
-        'mutationTest:unaryExpression',
-        'mutationTest:logicalExpression',
+        'mutationTest:unaryExpressions',
+        'mutationTest:logicalExpressions',
         'mutationTest:dontTestInsideNotFailingMutations',
         'mutationTest:grunt',
         'mutationTest:karma',

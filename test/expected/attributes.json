@@ -1,0 +1,137 @@
+{
+    "mocha": {
+        "attribute.js": {
+            "stats": {
+                "all": 5,
+                "killed": 3,
+                "survived": 2,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "function createPerson(name, age) {\n    return {\n        name: name,\n        age: age\n    }\n}\n\nexports.createPerson = createPerson;\n",
+            "fileName": "mocha/attribute.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            92
+                        ],
+                        "begin": 0,
+                        "end": 92,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "280",
+                        "mutationId": "281",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/attribute.js:1:1 Removed function createPerson(name, age) { return { name: name, age: age } } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            94,
+                            130
+                        ],
+                        "begin": 94,
+                        "end": 130,
+                        "line": 8,
+                        "col": 0,
+                        "parentMutationId": "280",
+                        "mutationId": "282",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/attribute.js:8:1 Removed exports.createPerson = createPerson; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            39,
+                            90
+                        ],
+                        "begin": 39,
+                        "end": 90,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "281",
+                        "mutationId": "283",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/attribute.js:2:5 Removed return { name: name, age: age } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            56,
+                            66
+                        ],
+                        "begin": 56,
+                        "end": 76,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "283",
+                        "mutationId": "284",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/attribute.js:3:9 Removed name: name,  -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            76,
+                            84
+                        ],
+                        "begin": 76,
+                        "end": 84,
+                        "line": 4,
+                        "col": 8,
+                        "parentMutationId": "283",
+                        "mutationId": "285",
+                        "replacement": ""
+                    },
+                    "survived": true,
+                    "message": "mocha/attribute.js:4:9 Removed age: age -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.6,
+                "killed": 0.6,
+                "survived": 0.4,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 5,
+            "killed": 3,
+            "survived": 2,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.6,
+            "killed": 0.6,
+            "survived": 0.4,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 5,
+        "killed": 3,
+        "survived": 2,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.6,
+        "killed": 0.6,
+        "survived": 0.4,
+        "ignored": 0,
+        "untested": 0
+    }
+}

@@ -1,0 +1,494 @@
+{
+    "mocha": {
+        "mathoperators.js": {
+            "stats": {
+                "all": 26,
+                "killed": 19,
+                "survived": 7,
+                "ignored": 0,
+                "untested": 0
+            },
+            "src": "(function(exports) {\n    exports.addOperator = function (a, b) {\n        return a + b + b;\n    };\n\n    exports.subtractOperator = function (a, b) {\n        return a - (b + b);\n    };\n\n    exports.multiplyOperator = function (a, b) {\n        return a * b;\n    };\n\n    exports.divideOperator = function (a, b) {\n        if (b > 0) {\n            return a / b;\n        }\n        return 0;\n    };\n\n    /* some blabla */\n    exports.modulusOperator = function (a, b) {\n        return a % b;\n    };\n})(exports);\n",
+            "fileName": "mocha/mathoperators.js",
+            "mutationResults": [
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            504
+                        ],
+                        "begin": 0,
+                        "end": 504,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "329",
+                        "mutationId": "330",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:1:1 Removed (function(exports) { exports.addOperator = function (a, b) { return a + b + b; }; exports.subtractOperator = function (a, b) { return a - (b + b); }; exports.multiplyOperator = function (a, b) { return a * b; }; exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; /* some blabla */ exports.modulusOperator = function (a, b) { return a % b; }; })(exports); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            495,
+                            502
+                        ],
+                        "begin": 495,
+                        "end": 502,
+                        "line": 25,
+                        "col": 3,
+                        "parentMutationId": "330",
+                        "mutationId": "331",
+                        "replacement": "\"MUTATION!\""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:25:4 Replaced exports with \"MUTATION!\" -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            0,
+                            503
+                        ],
+                        "begin": 0,
+                        "end": 503,
+                        "line": 1,
+                        "col": 0,
+                        "parentMutationId": "330",
+                        "mutationId": "332",
+                        "replacement": "exports"
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:1:1 Replaced (function(exports) { exports.addOperator = function (a, b) { return a + b + b; }; exports.subtractOperator = function (a, b) { return a - (b + b); }; exports.multiplyOperator = function (a, b) { return a * b; }; exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; /* some blabla */ exports.modulusOperator = function (a, b) { return a % b; }; })(exports) with exports -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            25,
+                            97
+                        ],
+                        "begin": 25,
+                        "end": 97,
+                        "line": 2,
+                        "col": 4,
+                        "parentMutationId": "330",
+                        "mutationId": "333",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:2:5 Removed exports.addOperator = function (a, b) { return a + b + b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            103,
+                            182
+                        ],
+                        "begin": 103,
+                        "end": 182,
+                        "line": 6,
+                        "col": 4,
+                        "parentMutationId": "330",
+                        "mutationId": "334",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:6:5 Removed exports.subtractOperator = function (a, b) { return a - (b + b); }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            188,
+                            261
+                        ],
+                        "begin": 188,
+                        "end": 261,
+                        "line": 10,
+                        "col": 4,
+                        "parentMutationId": "330",
+                        "mutationId": "335",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:10:5 Removed exports.multiplyOperator = function (a, b) { return a * b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            267,
+                            391
+                        ],
+                        "begin": 267,
+                        "end": 391,
+                        "line": 14,
+                        "col": 4,
+                        "parentMutationId": "330",
+                        "mutationId": "336",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:14:5 Removed exports.divideOperator = function (a, b) { if (b > 0) { return a / b; } return 0; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            419,
+                            491
+                        ],
+                        "begin": 419,
+                        "end": 491,
+                        "line": 22,
+                        "col": 4,
+                        "parentMutationId": "330",
+                        "mutationId": "337",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:22:5 Removed exports.modulusOperator = function (a, b) { return a % b; }; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            73,
+                            90
+                        ],
+                        "begin": 73,
+                        "end": 90,
+                        "line": 3,
+                        "col": 8,
+                        "parentMutationId": "333",
+                        "mutationId": "338",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:3:9 Removed return a + b + b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            80,
+                            89
+                        ],
+                        "begin": 85,
+                        "end": 88,
+                        "line": 3,
+                        "col": 20,
+                        "mutationId": "339",
+                        "parentMutationId": "338",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:3:21 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            80,
+                            85
+                        ],
+                        "begin": 81,
+                        "end": 84,
+                        "line": 3,
+                        "col": 16,
+                        "mutationId": "340",
+                        "parentMutationId": "338",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:3:17 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            156,
+                            175
+                        ],
+                        "begin": 156,
+                        "end": 175,
+                        "line": 7,
+                        "col": 8,
+                        "parentMutationId": "334",
+                        "mutationId": "341",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:7:9 Removed return a - (b + b); -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            163,
+                            174
+                        ],
+                        "begin": 164,
+                        "end": 167,
+                        "line": 7,
+                        "col": 16,
+                        "mutationId": "342",
+                        "parentMutationId": "341",
+                        "replacement": "+"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:7:17 Replaced  -  with + -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            168,
+                            173
+                        ],
+                        "begin": 169,
+                        "end": 172,
+                        "line": 7,
+                        "col": 21,
+                        "mutationId": "343",
+                        "parentMutationId": "341",
+                        "replacement": "-"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:7:22 Replaced  +  with - -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            241,
+                            254
+                        ],
+                        "begin": 241,
+                        "end": 254,
+                        "line": 11,
+                        "col": 8,
+                        "parentMutationId": "335",
+                        "mutationId": "344",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:11:9 Removed return a * b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            248,
+                            253
+                        ],
+                        "begin": 249,
+                        "end": 252,
+                        "line": 11,
+                        "col": 16,
+                        "mutationId": "345",
+                        "parentMutationId": "344",
+                        "replacement": "/"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:11:17 Replaced  *  with / -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            318,
+                            366
+                        ],
+                        "begin": 318,
+                        "end": 366,
+                        "line": 15,
+                        "col": 8,
+                        "parentMutationId": "336",
+                        "mutationId": "346",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:15:9 Removed if (b > 0) { return a / b; } -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            375,
+                            384
+                        ],
+                        "begin": 375,
+                        "end": 384,
+                        "line": 18,
+                        "col": 8,
+                        "parentMutationId": "336",
+                        "mutationId": "347",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:18:9 Removed return 0; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            322,
+                            327
+                        ],
+                        "begin": 323,
+                        "end": 326,
+                        "line": 15,
+                        "col": 13,
+                        "mutationId": "348",
+                        "parentMutationId": "346",
+                        "replacement": ">="
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:15:14 Replaced  >  with >= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            322,
+                            327
+                        ],
+                        "begin": 323,
+                        "end": 326,
+                        "line": 15,
+                        "col": 13,
+                        "mutationId": "349",
+                        "parentMutationId": "346",
+                        "replacement": "<="
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:15:14 Replaced  >  with <= -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            326,
+                            327
+                        ],
+                        "begin": 326,
+                        "end": 327,
+                        "line": 15,
+                        "col": 16,
+                        "parentMutationId": "346",
+                        "mutationId": "350",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:15:17 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            343,
+                            356
+                        ],
+                        "begin": 343,
+                        "end": 356,
+                        "line": 16,
+                        "col": 12,
+                        "parentMutationId": "346",
+                        "mutationId": "351",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:16:13 Removed return a / b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            350,
+                            355
+                        ],
+                        "begin": 351,
+                        "end": 354,
+                        "line": 16,
+                        "col": 20,
+                        "mutationId": "352",
+                        "parentMutationId": "351",
+                        "replacement": "*"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:16:21 Replaced  /  with * -> SURVIVED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            382,
+                            383
+                        ],
+                        "begin": 382,
+                        "end": 383,
+                        "line": 18,
+                        "col": 15,
+                        "parentMutationId": "347",
+                        "mutationId": "353",
+                        "replacement": "1"
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:18:16 Replaced 0 with 1 -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            471,
+                            484
+                        ],
+                        "begin": 471,
+                        "end": 484,
+                        "line": 23,
+                        "col": 8,
+                        "parentMutationId": "337",
+                        "mutationId": "354",
+                        "replacement": ""
+                    },
+                    "survived": false,
+                    "message": "mocha/mathoperators.js:23:9 Removed return a % b; -> KILLED"
+                },
+                {
+                    "mutation": {
+                        "range": [
+                            478,
+                            483
+                        ],
+                        "begin": 479,
+                        "end": 482,
+                        "line": 23,
+                        "col": 16,
+                        "mutationId": "355",
+                        "parentMutationId": "354",
+                        "replacement": "*"
+                    },
+                    "survived": true,
+                    "message": "mocha/mathoperators.js:23:17 Replaced  %  with * -> SURVIVED"
+                }
+            ],
+            "mutationScore": {
+                "total": 0.7307692307692307,
+                "killed": 0.7307692307692307,
+                "survived": 0.2692307692307692,
+                "ignored": 0,
+                "untested": 0
+            }
+        },
+        "stats": {
+            "all": 26,
+            "killed": 19,
+            "survived": 7,
+            "ignored": 0,
+            "untested": 0
+        },
+        "mutationScore": {
+            "total": 0.7307692307692307,
+            "killed": 0.7307692307692307,
+            "survived": 0.2692307692307692,
+            "ignored": 0,
+            "untested": 0
+        }
+    },
+    "stats": {
+        "all": 26,
+        "killed": 19,
+        "survived": 7,
+        "ignored": 0,
+        "untested": 0
+    },
+    "mutationScore": {
+        "total": 0.7307692307692307,
+        "killed": 0.7307692307692307,
+        "survived": 0.2692307692307692,
+        "ignored": 0,
+        "untested": 0
+    }
+}
