@@ -245,7 +245,7 @@ function mutationTest(grunt, task, opts) {
     }
 
     function createMutationReports(results) {
-        reportGenerator.generate(opts.reporters, results);
+        return reportGenerator.generate(opts.reporters, results);
     }
 
     function runTests() {
@@ -331,10 +331,13 @@ function mutationTest(grunt, task, opts) {
             }
         });
 
-        mutationTestPromise.then(function() {
+        mutationTestPromise = mutationTestPromise.then(function() {
+            return createMutationReports(totalResults);
+        });
+
+        mutationTestPromise = mutationTestPromise.then(function() {
             var dfd = Q.defer();
 
-            createMutationReports(totalResults);
             opts.after(function () {
                 dfd.resolve();
             });
