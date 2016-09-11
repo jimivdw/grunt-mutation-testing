@@ -162,7 +162,8 @@ exports.init = function(grunt, opts) {
         done();
     };
 
-    opts.after = function() {
+    opts.after = function(done) {
         stopServers();
+        done();
     };
 };

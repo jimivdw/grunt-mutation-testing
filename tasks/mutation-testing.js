@@ -338,7 +338,7 @@ function mutationTest(grunt, task, opts) {
         mutationTestPromise = mutationTestPromise.then(function() {
             var dfd = Q.defer();
 
-            opts.after(function () {
+            opts.after(function() {
                 dfd.resolve();
             });
 
